@@ -1,22 +1,41 @@
 $(document).ready(function(){
 	
-	$('#events .attributes dl di').bind('mouseover', function() {
-		$(this).addClass('selected')
-	});
+	if(window.location.protocol != 'file:') {
+		//Can't do this AJAX stuff if we're running from the local filesystem
+	
+		$('.binding_tooltip').each(function(){
+			if($(this).attr('name')) {
+				theUrl = "../summaries/"+$(this).attr('name')+".html";
+			}
+			else {
+				theUrl = "../summaries/"+$(this).parent().attr('title')+".html";
+			}
+			$(this).qtip({
+				content : {
+					url: theUrl
+				},
+				show: 'mouseover',
+				hide: 'mouseout',
+				style: {
+					tip: 'bottomLeft',
+			      	border: {
+				         width: 3,
+				         radius: 8
+				      }
+				},   
+				position: {
+					corner: {
+			       		target: 'topRight',
+			        	tooltip: 'bottomLeft'
+			      	}
+			   }
+			});
+		});
+	}
 	
 	$('#events .attributes dl di').bind('mouseout', function() {
 		$(this).removeClass('selected')		
 	});
-	
-	// Make the menu frame slide in and out
-	// $('#menu-frame .handle').toggle(function() {
-	// 	$('#menu-frame .content').fadeOut();
-	// 	return false;
-	// },
-	// function(){
-	// 	$('#menu-frame .content').fadeIn();
-	// 	return false;
-	// });
 	
 	$('.togglable').hide();
 	

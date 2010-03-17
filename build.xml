@@ -36,6 +36,7 @@
 		
 		<!-- XSLT each binding -->
 		<xslt basedir="${tmp.dir}" destdir="${output.dir}/bindings" style="${styles.dir}/client-binding.xsl" />
+		<xslt basedir="${tmp.dir}" destdir="${output.dir}/summaries" style="${styles.dir}/client-binding-summary.xsl" />
 	</target>
 	
 	<target name="define-ant-tasks">
