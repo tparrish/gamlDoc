@@ -1,0 +1,31 @@
+h1. GamlDoc
+
+GAMLDoc is a tool to generate HTML documentation from GAML binding files
+
+h2. Usage
+
+To generate documentation all you need to do is invoke the default ant task. like so:
+
+<pre>
+ant
+</pre>
+
+This will look for the bindings file in the root of the project in a file called bindings.xml. If you want to generate documentation for a file elsewhere on your computer pass in an additional argument called <code>bindings.input.file</code>:
+
+<pre>
+ant -Dbindings.input.file=/home/cnorris/dubitPlatform/conf/bindings.xml
+</pre>
+
+HTML documentation will be spat out into the dist/ directory in both cases, and from there you're entry point is index.html
+
+h2. Compiling the ant tasks
+
+If you want to make alterations to the ant tasks you need to call the following:
+
+<pre>
+ant compile-tasks
+</pre>
+
+This will compile all the code in the src/ directory and bundle it up into a jar which will replace the one in the root. If you want to define more tasks there's a target in the build file called define-ant-tasks, add your new definitions in there.
+
+Dependency management is taken care of through Apache Ivy so please put any dependencies you have in that rather than in the repository.
