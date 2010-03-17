@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<project name="bindings" default="create-gamldocs" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<property name="libs.dir" value="libs" />
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="tmp.dir" value="tmp" />
+	<property name="output.dir" value="dist" />
+	<property name="styles.dir" value="etc/styles" />
+	
+	<property name="jar.name" value="platform-ant-tasks.jar" />
+	
+	<property name="bindings.input.file" value="./bindings.xml" />
+	<property name="bindings.menu.file" value="${output.dir}/menu.html" />
+	<property name="bindings.default.file" value="${output.dir}/default.html" />
+
+	<!-- GAMLdoc targets -->
+	<target name="create-gamldocs" depends="clean, init, define-ant-tasks">
+		
+		<DecomposeBindings bindings="${bindings.input.file}" output="${tmp.dir}" />
+		
+		<!-- Copy index frames -->
+		<copy file="etc/templates/client-index.html" tofile="${output.dir}/index.html" />
+		<copy todir="${output.dir}">
+			<fileset dir="etc/templates">
+				<include name="**/*.js" />
+				<include name="**/*.css" />
+			</fileset>
+		</copy>
+		
+		<!-- Create menu -->
+		<xslt in="${bindings.input.file}" out="${bindings.menu.file}" style="${styles.dir}/client-menu.xsl" />
+		
+		<!-- Create default page -->
+		<xslt in="${bindings.input.file}" out="${bindings.default.file}" style="${styles.dir}/client-default.xsl" />
+		
+		<!-- XSLT each binding -->
+		<xslt basedir="${tmp.dir}" destdir="${output.dir}/bindings" style="${styles.dir}/client-binding.xsl" />
+	</target>
+	
+	<target name="define-ant-tasks">
+		<path id="ant.tasks.path">
+			<fileset dir="." includes="*.jar" />
+	    </path>
+
+	   	<taskdef name="DecomposeBindings" classname="uk.co.dubit.gaml.doc.BindingsDecomposer" classpathref="ant.tasks.path" />
+	</target>
+	
+	
+	<!-- Compile tasks targets -->
+	<target name="compile-tasks" depends="clean, init, fetch-libs">
+		<javac debug="yes" destdir="${build.dir}" target="1.5" source="1.5">
+            <src path="${src.dir}" />
+			<classpath>
+				<fileset dir="${libs.dir}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+        </javac>
+		
+		<jar destfile="${jar.name}" basedir="${build.dir}" manifest="etc/jar/MANIFEST.MF" />
+	</target>
+	
+	<target name="fetch-libs">
+		<ivy:retrieve file="ivy.xml" pattern="${libs.dir}/[artifact].[ext]" type="jar" transitive="false" />
+	</target>
+	
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${tmp.dir}" />
+		<delete dir="${output.dir}" />
+	</target>
+	
+	<target name="init">
+		<mkdir dir="${libs.dir}" />
+		<mkdir dir="${src.dir}" />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${tmp.dir}" />
+	</target>
+	
+	<property name="ivy.install.version" value="2.1.0" />
+    <property name="ivy.home" value="${user.home}/.ant" />
+    <property name="ivy.jar.dir" value="${ivy.home}/lib" />
+    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+    
+	<condition property="ivy.home" value="${env.IVY_HOME}">
+      <isset property="env.IVY_HOME" />
+    </condition>
+	<condition property="ivy.is.installed">
+		<length file="${ivy.jar.file}" when="greater" length="0" />
+	</condition>
+
+    <target name="download-ivy" unless="ivy.is.installed">
+
+        <mkdir dir="${ivy.jar.dir}"/>
+        <!-- download Ivy from web site so that it can be used even without any special installation -->
+        <get src="http://repo2.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" 
+				dest="${ivy.jar.file}"
+				usetimestamp="true"/>
+    </target>
+
+    <target name="init-ivy" depends="download-ivy">
+      <!-- try to load ivy here from ivy home, in case the user has not already dropped
+              it into ant's lib dir (note that the latter copy will always take precedence).
+              We will not fail as long as local lib dir exists (it may be empty) and
+              ivy is in at least one of ant's lib dir or the local lib dir. -->
+
+	    <path id="ivy.lib.path">
+	        <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+	    </path>
+
+	   	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+
+    </target>
+</project>

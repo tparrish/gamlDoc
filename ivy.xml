@@ -1,0 +1,7 @@
+<ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
+    <info organisation="dubit" module="platformAntTasks"/>
+    <dependencies>
+    	<dependency org="org.apache.ant" name="ant" rev="1.7.1"/>
+    	<dependency org="xerces" name="xercesImpl" rev="2.9.1"/>
+    </dependencies>
+</ivy-module>

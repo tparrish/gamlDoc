@@ -1,0 +1,105 @@
+body {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	background-color: white;
+}
+
+a,
+a:active,
+a:hover,
+a:visited {
+
+}
+
+pre {
+	border: 1px dotted grey;
+	background-color: #F2F3D4;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: #06132B;
+}
+
+#menu-frame {
+	position:absolute;
+	top: 0;
+	right: 50px;
+	width:300px;
+	height:200px;
+	z-index:100
+}
+
+#menu-frame a.handle {
+	
+}
+
+
+#menu h1 {
+	font-size: 20px;
+}
+
+#menu h2 {
+	font-size: 15px;
+}
+
+#menu ul li a,
+#menu ul li a,
+#menu ul li a {
+	
+}
+
+/*Styles for client-default.xsl*/
+
+#default h2 {
+	font-size: 45px;
+	margin-bottom: 5px;
+}
+
+#default li {
+	list-style-type: none;
+	font-size: 40px;
+}
+
+#default li.package {
+	background-color: grey;
+}
+
+#default li a,
+#default li a:hover,
+#default li a:active {
+	text-decoration: none;
+}
+
+/*Styles for client-binding.xsl*/
+
+#binding h1 .seperator {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#binding table {
+	border: 1px dotted grey;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#binding table thead {
+	background-color: #2479C9;
+}
+
+#binding table td {
+	border-left: 1px dotted grey;
+	text-align: center;
+}
+
+#events .attributes dl dt {
+	font-weight: bold;
+	display:inline;
+}
+
+#events .attributes dl dd {
+	display: inline;
+}
+
+#events .attributes dl di.selected {
+	background-color: #500;
+}
