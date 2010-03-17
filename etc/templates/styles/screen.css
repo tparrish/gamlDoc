@@ -19,32 +19,35 @@ h1, h2, h3, h4, h5, h6 {
 	color: #06132B;
 }
 
-#menu-frame {
-	position:absolute;
-	top: 0;
-	right: 50px;
-	width:300px;
-	height:200px;
-	z-index:100
-}
-
-#menu-frame a.handle {
-	
-}
-
+/*Styles for client-menu.xsl*/
 
 #menu h1 {
 	font-size: 20px;
 }
 
-#menu h2 {
-	font-size: 15px;
+#menu h1 a,
+#menu h1 a:hover,
+#menu h1 a:active,
+#menu h1 a:visited {
+	color: #06132B;
+	text-decoration: none;
 }
 
-#menu ul li a,
-#menu ul li a,
-#menu ul li a {
-	
+#menu h2 {
+	font-size: 15px;
+	margin-bottom: 1px;
+}
+
+#menu ul {
+	padding-left: 2px;
+}
+
+#menu ul.package {
+	padding-left: 10px;
+}
+
+#menu li {
+	list-style-type: none;
 }
 
 /*Styles for client-default.xsl*/
@@ -57,10 +60,6 @@ h1, h2, h3, h4, h5, h6 {
 #default li {
 	list-style-type: none;
 	font-size: 40px;
-}
-
-#default li.package {
-	background-color: grey;
 }
 
 #default li a,
@@ -91,6 +90,11 @@ h1, h2, h3, h4, h5, h6 {
 	text-align: center;
 }
 
+#binding table td.attributes {
+	border-top: 1px solid grey;
+	border-bottom: 1px solid grey;
+}
+
 #events .attributes dl dt {
 	font-weight: bold;
 	display:inline;
@@ -100,6 +104,14 @@ h1, h2, h3, h4, h5, h6 {
 	display: inline;
 }
 
-#events .attributes dl di.selected {
-	background-color: #500;
+/*Styles for client-binding-summary.xsl*/
+.summary span.default {
+	font-style: italic;
+	font-color: grey;
+}
+
+.summary span.required {
+	font-weight: bold;
+	padding-left: 2px;
+	color: red;
 }
