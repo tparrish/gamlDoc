@@ -16,9 +16,9 @@
 				<script type="text/javascript" src="scripts/application.js"></script>
 				<script type="text/javascript" src="scripts/shCore.js"></script>
 				<script type="text/javascript" src="scripts/brushes/shBrushXml.js"></script>
+				<base target="content" />
 			</head>
 			<body id="menu">
-				<base target="content" />
 				<h1><a href="default.html">Gaml Nodes</a></h1>
 				<ul>
 					<xsl:apply-templates select="Package" />
@@ -31,7 +31,7 @@
 	<xsl:template match="Package">
 		<li>
 			<h2><xsl:value-of select="@name" /></h2>
-			<ul>
+			<ul class="package">
 				<xsl:apply-templates select="Binding" />
 			</ul>
 		</li>

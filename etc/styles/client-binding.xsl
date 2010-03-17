@@ -8,18 +8,18 @@
 				<link href="../styles/shCore.css" rel="stylesheet" type="text/css" />
 				<link href="../styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
 				
-				<script type="text/javascript" src="../scripts/jquery-1.4.2.min.js"></script>
+				<script type="text/javascript" src="../scripts/jquery-1.3.2.min.js"></script>
+				<script type="text/javascript" src="../scripts/jquery.qtip.1.0.0-rc3052631.min.js"></script>
 				<script type="text/javascript" src="../scripts/application.js"></script>
 				<script type="text/javascript" src="../scripts/shCore.js"></script>
 				<script type="text/javascript" src="../scripts/brushes/shBrushXml.js"></script>
+				<script type="text/javascript" src="../scripts/brushes/shBrushJScript.js"></script>
+				<script type="text/javascript">
+				     SyntaxHighlighter.all();
+				</script>
 				<title>GAMLDoc</title>
 			</head>
 			<body id="binding">
-				<!-- <div id="menu-frame">
-					<a href="menu.html" class="handle">Menu</a>
-					<iframe width="300" height="200" src="../menu.html" class="content" />
-				</div> -->
-				
 				<h1>
 					<xsl:if test="@package">
 						<xsl:value-of select="@package" /><span class="seperator">/</span>
@@ -127,7 +127,7 @@
 	
 	<xsl:template match="Children/*">
 		<tr>
-			<td><a href="{@name}.html"><xsl:value-of select="@name" /></a></td>
+			<td><a href="{@name}.html" name="{@name}" class="binding_tooltip"><xsl:value-of select="@name" /></a></td>
 			<td>
 				<xsl:choose>
 					<xsl:when test="@required = true">Yes</xsl:when>
@@ -150,7 +150,7 @@
 		</tr>
 		<xsl:if test="count(Attribute) > 0">
 			<tr>
-				<td colspan="2" class="attributes togglable" id="event-{@name}">
+				<td colspan="3" class="attributes togglable" id="event-{@name}">
 					<dl>
 						<xsl:apply-templates select="Attribute" />
 					</dl>
@@ -160,12 +160,13 @@
 	</xsl:template>
 	
 	<xsl:template match="Events/*/Attribute">
-		<di>
-			<dt><xsl:value-of select="@name" />:<a href="{@type}.html"><xsl:value-of select="@type" /></a></dt>
-			<dd>
-				<xsl:value-of select="@description" />
-			</dd>
-		</di>
+		<dt title="{@type}">
+			<span class="binding_tooltip"><xsl:value-of select="@name" /></span>:
+			<a class="binding_tooltip" href="{@type}.html"><xsl:value-of select="@type" /></a>
+		</dt>
+		<dd>
+			<xsl:value-of select="@description" />
+		</dd>
 	</xsl:template>
 	
 	<xsl:template match="Attribute">
@@ -191,11 +192,9 @@
 	
 	<xsl:template match="Example">
 		<a href="#example" class="togglable_control">Expand example</a>
-		<div id="example">
-			<script type="syntaxhighlighter" class="example brush: xml">
-				<![CDATA[
-					<xsl:value-of select="text()" />
-				]]>
+		<div id="example" class="togglable">
+			<script type="syntaxhighlighter" class="brush: xml">
+				<xsl:value-of select="text()" />
 			</script>
 		</div>
 	</xsl:template>

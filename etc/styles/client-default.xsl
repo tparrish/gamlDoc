@@ -14,10 +14,6 @@
 			<title>GAMLDoc</title>
 		</head>
 		<body id="default">
-			<!-- <div id="menu-frame">
-				<a href="menu.html" class="handle">Menu</a>
-				<iframe width="150" height="200" src="menu.html" class="content" />
-			</div> -->
 			<h1>Dubit GAML Library</h1>			
 			<ul>
 				<xsl:apply-templates select="Package" />
