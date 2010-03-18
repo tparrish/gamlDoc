@@ -25,8 +25,6 @@
 	<xsl:template match="Attribute">
 		<li>
 			<xsl:value-of select="@name" />
-			<xsl:if test="@defaultValue"><span class="default"> = <xsl:value-of select="@defaultValue" /></span></xsl:if>
-			<xsl:if test="@required"><span class="required">required</span></xsl:if>
 		</li>
 	</xsl:template>
 	

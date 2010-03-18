@@ -4,6 +4,7 @@
 	<xsl:template match="/Binding">
 		<html>
 			<head>
+				<link rel="stylesheet" type="text/css" href="styles/reset.css" media="screen" />
 				<link rel="stylesheet" type="text/css" href="../styles/screen.css" media="screen" />
 				<link href="../styles/shCore.css" rel="stylesheet" type="text/css" />
 				<link href="../styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
@@ -64,7 +65,7 @@
 								<tr>
 									<th>Event</th>
 									<th>Description</th>
-									<th>Expand</th>
+									<th>Attributes</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -144,29 +145,22 @@
 			<td><xsl:value-of select="@description" /></td>
 			<td>
 				<xsl:if test="count(Attribute) > 0">
-					<a href="#event-{@name}" class="togglable_control">Attributes</a>
+					<ul class="attributes">
+						<xsl:apply-templates select="Attribute" />
+					</ul>
 				</xsl:if>
 			</td>
 		</tr>
-		<xsl:if test="count(Attribute) > 0">
-			<tr>
-				<td colspan="3" class="attributes togglable" id="event-{@name}">
-					<dl>
-						<xsl:apply-templates select="Attribute" />
-					</dl>
-				</td>
-			</tr>
-		</xsl:if>
 	</xsl:template>
 	
 	<xsl:template match="Events/*/Attribute">
-		<dt title="{@type}">
-			<span class="binding_tooltip"><xsl:value-of select="@name" /></span>:
-			<a class="binding_tooltip" href="{@type}.html"><xsl:value-of select="@type" /></a>
-		</dt>
-		<dd>
-			<xsl:value-of select="@description" />
-		</dd>
+		<li>
+			<span><xsl:value-of select="@name" /></span>:
+			<a name="{@type}" class="binding_tooltip" href="{@type}.html">
+				<xsl:value-of select="@type" />
+			</a>
+			<span class="description"><xsl:value-of select="@description" /></span>
+		</li>
 	</xsl:template>
 	
 	<xsl:template match="Attribute">
@@ -193,9 +187,7 @@
 	<xsl:template match="Example">
 		<a href="#example" class="togglable_control">Expand example</a>
 		<div id="example" class="togglable">
-			<script type="syntaxhighlighter" class="brush: xml">
-				<xsl:value-of select="text()" />
-			</script>
+			<pre><xsl:value-of select="text()" /></pre>
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

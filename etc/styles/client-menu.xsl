@@ -8,6 +8,7 @@
 	<xsl:template match="/Bindings">
 		<html>
 			<head>
+				<link rel="stylesheet" type="text/css" href="styles/reset.css" media="screen" />
 				<link rel="stylesheet" type="text/css" href="styles/screen.css" media="screen" />
 				<link href="styles/shCore.css" rel="stylesheet" type="text/css" />
 				<link href="styles/shThemeDefault.css" rel="stylesheet" type="text/css" />

@@ -3,13 +3,6 @@ body {
 	background-color: white;
 }
 
-a,
-a:active,
-a:hover,
-a:visited {
-
-}
-
 pre {
 	border: 1px dotted grey;
 	background-color: #F2F3D4;
@@ -77,12 +70,12 @@ h1, h2, h3, h4, h5, h6 {
 
 #binding table {
 	border: 1px dotted grey;
-	width: 100%;
+	width: 800px;
 	border-collapse: collapse;
 }
 
 #binding table thead {
-	background-color: #2479C9;
+	border-bottom: 1px solid black;
 }
 
 #binding table td {
@@ -90,24 +83,24 @@ h1, h2, h3, h4, h5, h6 {
 	text-align: center;
 }
 
-#binding table td.attributes {
-	border-top: 1px solid grey;
-	border-bottom: 1px solid grey;
-}
-
-#events .attributes dl dt {
-	font-weight: bold;
-	display:inline;
-}
-
-#events .attributes dl dd {
-	display: inline;
+#events ul.attributes {
+	list-style-type: none;
+	padding: 0;
 }
 
 /*Styles for client-binding-summary.xsl*/
 .summary span.default {
 	font-style: italic;
 	font-color: grey;
+}
+
+.summary h3 {
+	margin: 0;
+	padding: 0;
+}
+
+.summary ul {
+	padding: 0;
 }
 
 .summary span.required {
