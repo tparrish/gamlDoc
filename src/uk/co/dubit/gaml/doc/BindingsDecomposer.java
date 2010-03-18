@@ -42,19 +42,27 @@ public class BindingsDecomposer extends Task {
 			final NodeList bindingList = rootElement.getElementsByTagName("Binding");
 			final List<Node> bindings = new ArrayList<Node>(bindingList.getLength());
 			for(int i = 0; i< bindingList.getLength(); i++) {
-				bindings.add(bindingList.item(i));
+				final Element binding = (Element)bindingList.item(i);
+				
+				if(binding.getAttribute("nodoc") == "")
+					bindings.add(binding);
 			}
 			
 			//Get the package names and
 			final NodeList packageList = rootElement.getElementsByTagName("Package");
 			for(int i = 0; i< packageList.getLength(); i++) {
 				final Element thisPackage = (Element) packageList.item(i);
+				
+				if(thisPackage.getAttribute("nodoc") != "")
+					continue;
+				
 				final NodeList packageBindings = thisPackage.getElementsByTagName("Binding");
 				for(int j = 0; j< packageBindings.getLength(); j++) {
 					final Element packageBinding = (Element)packageBindings.item(j);
 					packageBinding.setAttribute("package", thisPackage.getAttribute("name"));
 					
-					bindings.add(packageBinding);
+					if(packageBinding.getAttribute("nodoc") == "")
+						bindings.add(packageBinding);
 				}
 			}
 			

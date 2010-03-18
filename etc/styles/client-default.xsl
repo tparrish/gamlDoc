@@ -16,29 +16,33 @@
 		<body id="default">
 			<h1>Dubit GAML Library</h1>			
 			<ul>
-				<xsl:apply-templates select="Package" />
-				<xsl:apply-templates select="Binding" />
+				<xsl:apply-templates select="Package|Binding">
+					<xsl:sort select="@name" data-type="text"></xsl:sort>
+				</xsl:apply-templates>
 			</ul>
 		</body>
 	</html>
   </xsl:template>
 
 	<xsl:template match="Package">
-		<li class="package">
-			<h2><xsl:value-of select="@name" /></h2>
-			<ul>
-				<xsl:apply-templates select="Binding" />
-			</ul>
-		</li>
+		<xsl:if test="not(@nodoc)">
+			<li class="package">
+				<h2><xsl:value-of select="@name" /></h2>
+				<ul>
+					<xsl:apply-templates select="Binding" />
+				</ul>
+			</li>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="Binding">
-		
-		  <li>
-			<a href="bindings/{@name}.html"><xsl:value-of select="@name" /></a>
-			<xsl:if test="@description">
-				<xsl:value-of select="@description" />
-			</xsl:if>
-		</li>
+		<xsl:if test="not(@nodoc)">
+			<li>
+				<a href="bindings/{@name}.html"><xsl:value-of select="@name" /></a>
+				<xsl:if test="@description">
+					<xsl:value-of select="@description" />
+				</xsl:if>
+			</li>
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

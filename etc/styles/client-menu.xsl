@@ -21,24 +21,29 @@
 			<body id="menu">
 				<h1><a href="default.html">Gaml Nodes</a></h1>
 				<ul>
-					<xsl:apply-templates select="Package" />
-					<xsl:apply-templates select="Binding" />
+					<xsl:apply-templates select="Binding|Package">
+						<xsl:sort select="@name" data-type="text" />
+					</xsl:apply-templates>
 				</ul>
 			</body>
 		</html>
 	</xsl:template>
 	
 	<xsl:template match="Package">
-		<li>
-			<h2><xsl:value-of select="@name" /></h2>
-			<ul class="package">
-				<xsl:apply-templates select="Binding" />
-			</ul>
-		</li>
+		<xsl:if test="not(@nodoc)">
+			<li>
+				<h2><xsl:value-of select="@name" /></h2>
+				<ul class="package">
+					<xsl:apply-templates select="Binding" />
+				</ul>
+			</li>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="Binding">
-		  <li><a href="bindings/{@name}.html"><xsl:value-of select="@name" /></a></li>
+		<xsl:if test="not(@nodoc)">
+  			<li><a href="bindings/{@name}.html"><xsl:value-of select="@name" /></a></li>
+		</xsl:if>
 	</xsl:template>
 
 </xsl:stylesheet>
