@@ -1,6 +1,9 @@
 body {
 	font-family: Arial, "MS Trebuchet", sans-serif;
 	background-color: white;
+	font-size: 15px;
+	margin-left: 20px;
+	margin-top: 20px;
 }
 
 pre {
@@ -9,21 +12,36 @@ pre {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	color: #06132B;
+	color: #2E446D;
+}
+
+a,
+a:active,
+a:visited {
+	color: #00113B;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #7A3838;
 }
 
 /*Styles for client-menu.xsl*/
 
+#menu {
+	background-color: #F1F1F1;
+}
+
 #menu h1 {
 	font-size: 20px;
+	margin-bottom: 20px;
 }
 
 #menu h1 a,
 #menu h1 a:hover,
 #menu h1 a:active,
 #menu h1 a:visited {
-	color: #06132B;
-	text-decoration: none;
+	color: #2E446D;
 }
 
 #menu h2 {
@@ -35,7 +53,8 @@ h1, h2, h3, h4, h5, h6 {
 	padding-left: 2px;
 }
 
-#menu ul.package {
+#menu li.package ul,
+#menu li.core ul {
 	padding-left: 10px;
 }
 
@@ -45,23 +64,33 @@ h1, h2, h3, h4, h5, h6 {
 
 /*Styles for client-default.xsl*/
 
+#default h1 {
+	font-size: 30px;
+	margin-bottom: 30px;
+}
+
 #default h2 {
-	font-size: 45px;
-	margin-bottom: 5px;
+	font-size: 19px;
 }
 
-#default li {
+#default ul {
 	list-style-type: none;
-	font-size: 40px;
+	margin: 0;
+	padding: 0;
 }
 
-#default li a,
-#default li a:hover,
-#default li a:active {
-	text-decoration: none;
+#default .package ul,
+#default .core ul {
+	margin-left: 25px;
+	margin-bottom: 25px;
 }
 
 /*Styles for client-binding.xsl*/
+
+#binding h1 {
+	padding: 0;
+	margin: 0;
+}
 
 #binding h1 .seperator {
 	padding-left: 5px;
@@ -75,17 +104,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #binding table thead {
-	border-bottom: 1px solid black;
+	border-bottom: 1px dotted grey;
+	background-color: #D2DFE7;
 }
 
 #binding table td {
 	border-left: 1px dotted grey;
-	text-align: center;
+	border-bottom: 1px dotted grey;
+	background-color: #F1F1F1;
 }
 
 #events ul.attributes {
 	list-style-type: none;
 	padding: 0;
+	margin: 3px 0 0 3px;
 }
 
 /*Styles for client-binding-summary.xsl*/
