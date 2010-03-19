@@ -114,7 +114,7 @@ a:hover {
 	background-color: #F1F1F1;
 }
 
-#events ul.attributes {
+#binding ul.attributes {
 	list-style-type: none;
 	padding: 0;
 	margin: 3px 0 0 3px;
@@ -133,6 +133,7 @@ a:hover {
 
 .summary ul {
 	padding: 0;
+	list-style-type: circle;
 }
 
 .summary span.required {

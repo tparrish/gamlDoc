@@ -3,12 +3,6 @@
 	
 	<xsl:template match="/Binding">
 		<div class="summary">
-			<h3>
-				<xsl:if test="@package">
-					<xsl:value-of select="@package" /><span class="seperator">/</span>
-				</xsl:if>
-				<xsl:value-of select="@name" />
-			</h3>
 			<xsl:choose>
 				<xsl:when test="count(Attribute) = 0">
 					<span class="message">No attributes defined</span>

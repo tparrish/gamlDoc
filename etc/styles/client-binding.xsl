@@ -107,6 +107,7 @@
 								<tr>
 									<th>Name</th>
 									<th>Description</th>
+									<th>Attributes</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -117,13 +118,6 @@
 				</xsl:choose>
 			</body>
 		</html>
-	</xsl:template>
-	
-	<xsl:template match="Branches/*">
-		<tr>
-			<td><xsl:value-of select="@name" /></td>
-			<td><xsl:value-of select="@description" /></td>
-		</tr>
 	</xsl:template>
 	
 	<xsl:template match="Children/*">
@@ -139,7 +133,7 @@
 		</tr>
 	</xsl:template>
 	
-	<xsl:template match="Events/*">
+	<xsl:template match="Events/*|Branches/*">
 		<tr>
 			<td><xsl:value-of select="@name" /></td>
 			<td><xsl:value-of select="@description" /></td>
@@ -153,7 +147,7 @@
 		</tr>
 	</xsl:template>
 	
-	<xsl:template match="Events/*/Attribute">
+	<xsl:template match="Events/*/Attribute|Branches/*/Attribute">
 		<li>
 			<span><xsl:value-of select="@name" /></span>:
 			<a name="{@type}" class="binding_tooltip" href="{@type}.html">
@@ -166,7 +160,6 @@
 	<xsl:template match="Attribute">
 		<tr>
 			<td><xsl:value-of select="@name" /></td>
-
 			<td>
 				<xsl:choose>
 					<xsl:when test="@required = true">Yes</xsl:when>

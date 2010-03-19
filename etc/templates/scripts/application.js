@@ -1,31 +1,37 @@
 $(document).ready(function(){
-	
-	if(window.location.protocol != 'file:') {
 		//Can't do this AJAX stuff if we're running from the local filesystem
 	
-		// Hide all the descriptions that are on the page
-		$('.binding_tooltip + span.description').hide();
-	
-		$('.binding_tooltip').each(function(){
+	// Hide all the descriptions that are on the page
+	$('.binding_tooltip + span.description').hide();
+
+	$('.binding_tooltip').each(function(){
+		
+		if($(this).next('span.description').html()) {
+			description = $(this).next('span.description').html();
+		}
+		else {
+			description = undefined;
+		}
+		
+		if(window.location.protocol == 'file:') {
+			content = description;			
+		}
+		else {
 			if($(this).attr('name')) {
 				theUrl = "../summaries/"+$(this).attr('name')+".html";
 			}
 			else {
 				theUrl = "../summaries/"+$(this).parent().attr('title')+".html";
 			}
-			
-			if($(this).next('span.description').html()) {
-				description = $(this).next('span.description').html();
+			content = {
+				title: description,
+				url: theUrl
 			}
-			else {
-				description = undefined;
-			}
-				
+		}		
+		
+		if(content) {
 			$(this).qtip({
-				content : {
-					title : description,
-					url: theUrl
-				},
+				content : content,
 				show: 'mouseover',
 				hide: 'mouseout',
 				style: {
@@ -33,7 +39,11 @@ $(document).ready(function(){
 			      	border: {
 				         width: 3,
 				         radius: 8
-				      }
+				    },
+					title: {
+						'background-color': 'white',
+						'font-weight': 'normal'
+					}
 				},   
 				position: {
 					corner: {
@@ -42,8 +52,8 @@ $(document).ready(function(){
 			      	}
 			   }
 			});
-		});
-	}
+		}
+	});
 	
 	// Do some shit to allow code examples to degrade gracefully
 	$('#example pre').each(function() {
