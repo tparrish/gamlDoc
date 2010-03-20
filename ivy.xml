@@ -3,5 +3,7 @@
     <dependencies>
     	<dependency org="org.apache.ant" name="ant" rev="1.7.1"/>
     	<dependency org="xerces" name="xercesImpl" rev="2.9.1"/>
+    	<dependency org="xalan" name="xalan" rev="2.7.1"/>
+    	<dependency org="net.java" name="textile-j" rev="2.2"/>
     </dependencies>
 </ivy-module>

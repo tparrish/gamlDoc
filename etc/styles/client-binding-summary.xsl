@@ -17,9 +17,11 @@
 	</xsl:template>
 
 	<xsl:template match="Attribute">
-		<li>
-			<xsl:value-of select="@name" />
-		</li>
+		<xsl:if test="not(@nodoc)">
+			<li>
+				<xsl:value-of select="@name" />
+			</li>
+		</xsl:if>
 	</xsl:template>
 	
 </xsl:stylesheet>

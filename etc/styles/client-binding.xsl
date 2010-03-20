@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="1.1" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.1" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:textile="java:uk.co.dubit.gaml.doc.TextileHandler">
 	
 	<xsl:template match="/Binding">
 		<html>
@@ -30,7 +30,6 @@
 				<div class="description">
 					<xsl:apply-templates select="Description" />
 				</div>
-				<xsl:apply-templates select="Example" />
 				
 				<h2>Attributes</h2>
 				<xsl:choose>
@@ -116,6 +115,9 @@
 						</table>
 					</xsl:otherwise>
 				</xsl:choose>
+				
+				<h2>Example</h2>
+				<xsl:apply-templates select="Example" />
 			</body>
 		</html>
 	</xsl:template>
@@ -148,39 +150,40 @@
 	</xsl:template>
 	
 	<xsl:template match="Events/*/Attribute|Branches/*/Attribute">
-		<li>
-			<span><xsl:value-of select="@name" /></span>:
-			<a name="{@type}" class="binding_tooltip" href="{@type}.html">
-				<xsl:value-of select="@type" />
-			</a>
-			<span class="description"><xsl:value-of select="@description" /></span>
-		</li>
+		<xsl:if test="not(@nodoc)">
+			<li>
+				<span><xsl:value-of select="@name" /></span>:
+				<a name="{@type}" class="binding_tooltip" href="{@type}.html">
+					<xsl:value-of select="@type" />
+				</a>
+				<span class="description"><xsl:value-of select="@description" /></span>
+			</li>
+		</xsl:if>
 	</xsl:template>
 	
 	<xsl:template match="Attribute">
-		<tr>
-			<td><xsl:value-of select="@name" /></td>
-			<td>
-				<xsl:choose>
-					<xsl:when test="@required = true">Yes</xsl:when>
-					<xsl:otherwise>No</xsl:otherwise>
-				</xsl:choose>
-			</td>
-			<td><xsl:value-of select="@defaultValue" /></td>
-			<td><xsl:value-of select="@description" /></td>
-		</tr>
+		<xsl:if test="not(@nodoc)">
+			<tr>
+				<td><xsl:value-of select="@name" /></td>
+				<td>
+					<xsl:choose>
+						<xsl:when test="@required = true">Yes</xsl:when>
+						<xsl:otherwise>No</xsl:otherwise>
+					</xsl:choose>
+				</td>
+				<td><xsl:value-of select="@defaultValue" /></td>
+				<td><xsl:value-of select="@description" /></td>
+			</tr>
+		</xsl:if>
 	</xsl:template>
 	
-	<xsl:template match="Description">
+	<xsl:template match="Description" xmlns:gaml="xalan://uk.co.dubit.gaml.doc.GamlExampleHandler">
 		<p>
-			<xsl:value-of select="text()" />
+			<xsl:value-of select="gaml:parse_textile(text())" disable-output-escaping="yes" />
 		</p>
 	</xsl:template>
 	
-	<xsl:template match="Example">
-		<a href="#example" class="togglable_control">Expand example</a>
-		<div id="example" class="togglable">
-			<pre><xsl:value-of select="text()" /></pre>
-		</div>
+	<xsl:template match="Example" xmlns:gaml="xalan://uk.co.dubit.gaml.doc.GamlExampleHandler">
+		<div class="example"><xsl:value-of select="gaml:escape_code(text())" disable-output-escaping="yes" /></div>
 	</xsl:template>
 </xsl:stylesheet>

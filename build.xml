@@ -13,9 +13,19 @@
 	<property name="bindings.input.file" value="./bindings.xml" />
 	<property name="bindings.menu.file" value="${output.dir}/menu.html" />
 	<property name="bindings.default.file" value="${output.dir}/default.html" />
+	
+	<path id="xslt.path">
+		<fileset dir="${libs.dir}">
+			<include name="xalan.jar" />
+			<include name="textile-j.jar" />
+		</fileset>
+		<fileset dir=".">
+			<include name="platform-ant-tasks.jar" />
+		</fileset>
+	</path>
 
 	<!-- GAMLdoc targets -->
-	<target name="create-gamldocs" depends="clean, init, define-ant-tasks">
+	<target name="create-gamldocs" depends="clean, init, fetch-libs, define-ant-tasks">
 		
 		<DecomposeBindings bindings="${bindings.input.file}" output="${tmp.dir}" />
 		
@@ -29,14 +39,14 @@
 		</copy>
 		
 		<!-- Create menu -->
-		<xslt in="${bindings.input.file}" out="${bindings.menu.file}" style="${styles.dir}/client-menu.xsl" />
+		<xslt in="${bindings.input.file}" out="${bindings.menu.file}" style="${styles.dir}/client-menu.xsl" classpathref="xslt.path" />
 		
 		<!-- Create default page -->
-		<xslt in="${bindings.input.file}" out="${bindings.default.file}" style="${styles.dir}/client-default.xsl" />
+		<xslt in="${bindings.input.file}" out="${bindings.default.file}" style="${styles.dir}/client-default.xsl" classpathref="xslt.path" />
 		
 		<!-- XSLT each binding -->
-		<xslt basedir="${tmp.dir}" destdir="${output.dir}/bindings" style="${styles.dir}/client-binding.xsl" />
-		<xslt basedir="${tmp.dir}" destdir="${output.dir}/summaries" style="${styles.dir}/client-binding-summary.xsl" />
+		<xslt basedir="${tmp.dir}" destdir="${output.dir}/bindings" style="${styles.dir}/client-binding.xsl" classpathref="xslt.path" />
+		<xslt basedir="${tmp.dir}" destdir="${output.dir}/summaries" style="${styles.dir}/client-binding-summary.xsl" classpathref="xslt.path" />
 	</target>
 	
 	<target name="define-ant-tasks">

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-		//Can't do this AJAX stuff if we're running from the local filesystem
+		
 	
 	// Hide all the descriptions that are on the page
 	$('.binding_tooltip + span.description').hide();
@@ -14,6 +14,7 @@ $(document).ready(function(){
 		}
 		
 		if(window.location.protocol == 'file:') {
+			//Can't do this AJAX stuff if we're running from the local filesystem
 			content = description;			
 		}
 		else {
@@ -56,12 +57,8 @@ $(document).ready(function(){
 	});
 	
 	// Do some shit to allow code examples to degrade gracefully
-	$('#example pre').each(function() {
-		$(this).replaceWith("<script type=\"syntaxhighlighter\" class=\"brush: xml\">"+$(this).text()+"</script>");
-	});
-	
-	$('#events .attributes dl di').bind('mouseout', function() {
-		$(this).removeClass('selected')		
+	$('div.example code').each(function() {
+		$(this).replaceWith("<script type=\"syntaxhighlighter\" class=\"brush: xml\"><![CDATA["+$(this).html()+"]]></script>");
 	});
 	
 	$('.togglable').hide();

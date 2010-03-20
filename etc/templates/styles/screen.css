@@ -6,11 +6,6 @@ body {
 	margin-top: 20px;
 }
 
-pre {
-	border: 1px dotted grey;
-	background-color: #F2F3D4;
-}
-
 h1, h2, h3, h4, h5, h6 {
 	color: #2E446D;
 }
@@ -118,6 +113,11 @@ a:hover {
 	list-style-type: none;
 	padding: 0;
 	margin: 3px 0 0 3px;
+}
+
+#binding pre.example {
+	border: 1px dotted grey;
+	background-color: #F2F3D4;
 }
 
 /*Styles for client-binding-summary.xsl*/
