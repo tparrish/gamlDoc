@@ -22,9 +22,9 @@
 			</head>
 			<body id="binding">
 				<h1>
-					<xsl:if test="@package">
+					<!--<xsl:if test="@package">
 						<xsl:value-of select="@package" /><span class="seperator"> Package -</span>
-					</xsl:if>
+					</xsl:if>-->
 					<xsl:value-of select="@name" />
 				</h1>
 				<div class="description">
