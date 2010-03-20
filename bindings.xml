@@ -1474,10 +1474,163 @@
 	</Package>
 	
 	<!-- SOUND -->
-	<Binding name="PlaySound" class="uk.co.dubit.platform.scriptEngine.behaviour.types.sound.PlaySound"/>
-	<Binding name="StopSound" class="uk.co.dubit.platform.scriptEngine.behaviour.types.sound.StopSound"/>
-	<Binding name="Sound" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.sound.SoundPoint"/>
-	<Binding name="Sounds" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.sound.SoundStageNode"/>
+	<Package name="Sound">	
+		<Binding name="Sounds" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.sound.SoundStageNode">
+			<Description>
+				<![CDATA[
+					Sounds can be preloaded as part of the room loading process or can be streamed in after the room has finished loading. Streaming sounds work well for large background music, while preloaded sounds are best for effects when the sound should begin playing immediately. 
+					
+					Sounds can be configured to get louder as the player's avatar approaches the source, for example, walking towards a stream should make the sound of running water grow louder. Proximity sound is achieved by setting the x and y properties to the source location.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The first example shows how to stream background music.
+					
+					<code>
+						<Sounds target="{Room.player}" >
+							<StreamingSound id="backgroundMusic" url="sounds/backgroundMusic.mp3" play="true" looping="true"/>
+						</Sounds>
+					</code>	
+					
+					The second example shows how to play a preloaded sound when the player clicks on the phone.
+					
+					<code>
+						<Sounds>
+							<PreloadedSound id="phone" play="false" looping="false" assetID="music2"/>
+						</Sounds>
+						
+						<Assets>
+							<Asset id="phone" url="sounds/phone.mp3"/>
+						</Assets>
+						
+						<Trigger gameObject="{Room.phone}" event="OnClick">
+							<PlaySound sound="{Sounds.phone}"/>
+						</Trigger>							
+					</code>	
+				]]>		
+			</Example>	
+			<Attribute nodoc="true" required="false" name="target" defaultValue="{Room.player}" desciption="XXXX" />
+			<Children>
+				<Child name="StreamingSound" required="false" description="Streaming sounds are loaded after the room has finished loading. They are perfect for background music, but should not be used for sound effects"/>
+				<Child name="PreloadedSound" required="false" description="Preloaded sounds are loaded along with the graphic for the room. Thay are perfect for sound effects that play when the user triggers an event. PreloadedSounds should use small sound files so as not to slow the loading of the room."/>
+			</Children>			
+		</Binding>
+		<Binding name="PreloadedSound" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.sound.SoundPoint" alias="Sound">
+			<Description>
+				<![CDATA[
+					Preloaded sounds are loaded when the room graphics loads, so for this reason preloaded sounds should not be used for large background music files.
+					
+					Sounds can be configured to get louder as the player's avatar approaches the source, for example, walking towards a stream should make the sound of running water grow louder. Proximity sound is achieved by setting the x and y properties to the source location.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The example shows how to play a preloaded sound when the player clicks on the phone.
+				
+					<code>
+						<Sounds>
+							<PreloadedSound id="phone" play="false" looping="false" assetID="music2"/>
+						</Sounds>
+					
+						<Assets>
+							<Asset id="phone" url="sounds/phone.mp3"/>
+						</Assets>
+					
+						<Trigger gameObject="{Room.phone}" event="OnClick">
+							<PlaySound sound="{Sounds.phone}"/>
+						</Trigger>							
+					</code>
+				]]>		
+			</Example>	
+			<Attribute required="true" name="assetID" type="String" desciption="The ID of the mp3 asset"/>
+			<Attribute required="false" name="volume" type="Number" desciption="Set the volume of the sound, ranges from 0 to 100, where 100 is full volume"/>
+			<Attribute required="false" name="looping" type="Boolean" defaultValue="false" desciption="If set to true the sound will loop"/>
+			<Attribute required="false" name="play" type="Boolean"  defaultValue="false" desciption="If set to true the sound will play straight away"/>
+			<Attribute required="false" name="x" type="Number" desciption="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
+			<Attribute required="false" name="y" type="Number" desciption="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
+		</Binding>	
+		<Binding name="StreamingSound" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.sound.SoundPoint">
+			<Description>
+				<![CDATA[
+					StreamingSound's load after the room has loaded. They are best suited to large background sounds. Because the sound streams there will be a delay before the music begins playing, for this reason StreamingSounds should not be used as sound effects that play in respond to user input.
+				
+					Sounds can be configured to get louder as the player's avatar approaches the source, for example, walking towards a stream should make the sound of running water grow louder. Proximity sound is achieved by setting the x and y properties to the source location.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The example shows how to stream background music.
+				
+					<code>
+						<Sounds target="{Room.player}" >
+							<StreamingSound id="backgroundMusic" url="sounds/backgroundMusic.mp3" play="true" looping="true"/>
+						</Sounds>
+					</code>
+				]]>		
+			</Example>	
+			<Attribute required="true" name="url" type="String" desciption="The url path to the sound file"/>
+			<Attribute required="false" name="volume" type="Number" desciption="Set the volume of the sound, ranges from 0 to 100, where 100 is full volume"/>
+			<Attribute required="false" name="looping" type="Boolean" defaultValue="false" desciption="If set to true the sound will loop"/>
+			<Attribute required="false" name="play" type="Boolean"  defaultValue="false" desciption="If set to true the sound will play straight away"/>
+			<Attribute required="false" name="bufferDuration" type="Number"  defaultValue="1000" desciption="The time in milliseconds to load before the sound starts to play"/>
+			<Attribute required="false" name="x" type="Number" desciption="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
+			<Attribute required="false" name="y" type="Number" desciption="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
+		</Binding>					
+		<Binding name="PlaySound" class="uk.co.dubit.platform.scriptEngine.behaviour.types.sound.PlaySound">
+			<Description>
+				<![CDATA[
+					Plays the specified sound.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The example shows how to play a preloaded sound when the player clicks on the phone.
+			
+					<code>
+						<Sounds>
+							<PreloadedSound id="phone" play="false" looping="false" assetID="music2"/>
+						</Sounds>
+				
+						<Assets>
+							<Asset id="phone" url="sounds/phone.mp3"/>
+						</Assets>
+				
+						<Trigger gameObject="{Room.phone}" event="OnClick">
+							<PlaySound sound="{Sounds.phone}"/>
+						</Trigger>							
+					</code>					
+				]]>		
+			</Example>	
+			<Attribute required="true" name="sound" type="Sound" desciption="The sound to begin playing"/>
+			<Attribute required="false" name="loops" type="Number" defaultValue="0" desciption="The number of times to loop the sound"/>
+			<Attribute required="false" name="loopDelay" type="Number" defaultValue="0" desciption="The time delay between loops in miliseconds"/>			
+		</Binding>	
+		<Binding name="StopSound" class="uk.co.dubit.platform.scriptEngine.behaviour.types.sound.StopSound">
+			<Description>
+				<![CDATA[
+					Stops the specified sound.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The example shows how to stop the streaming background music when the player clicks on the phone.
+			
+					<code>
+						<Sounds>
+							<StreamingSound id="backgroundMusic" url="sounds/backgroundMusic.mp3" play="true" looping="true"/>
+						</Sounds>
+	
+						<Trigger gameObject="{Room.phone}" event="OnClick">
+							<StopSound sound="{Sounds.backgroundMusic}"/>
+						</Trigger>							
+					</code>					
+				]]>		
+			</Example>	
+			<Attribute required="true" name="sound" type="Sound" desciption="The sound to begin playing"/>
+			<Attribute required="false" name="loops" type="Number" defaultValue="0" desciption="The number of times to loop the sound"/>			
+		</Binding>	
+	</Package>
 	
 	<!-- DISPLAY OBJECT BINDINGS -->
 	<Binding name="Scene" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.RenderGameObject"/>
