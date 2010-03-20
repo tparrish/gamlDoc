@@ -619,9 +619,23 @@
 			<Attribute name="targetX" description="The target x coordinate" type="Number" required="false" />
 			<Attribute name="targetY" description="The target y coordinate" type="Number" required="false" />						
 		</Binding>	
-		<Binding name="SendMovePlayerTo" nodoc="true" alias="SendMoveTo" class="uk.co.dubit.platform.world.movement.SendMoveTo"/>	
+		<Binding nodoc="true" name="SendMovePlayerTo" alias="SendMoveTo" class="uk.co.dubit.platform.world.movement.SendMoveTo"/>	
+		<Binding name="MovementController" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.ActorMouseMovementProxy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" alias="MouseMovementController">
+			<Description>
+				<![CDATA[
+					The MovementController is used in conjunction with the MoveTo behaviour. The MovementController is responsible for moving objects around the world, and determines what direction the player faces when he moves. 
+					
+					As a rule most avatars will be made to walk in 8 directions, North, North West, West, South West, South, South East, East, and North East. The MovementController expects to find only the North, North West, West, South West, South directions, South West, West, and North West are mirror images of the South East, East, and North East. The MovementController can support 2, 4, 8, and 12 directional movement. 
+					
+					For rooms with perspective we expect the player to walk more slowly into the distance, this is achieved by setting the yVelocityScale. The yVelocityScale can be used to reduce the speed the player walks up the screen, creating the effect of walking into the distance. The yVelocityScale can be anywhere between 0 and 1.
+				]]>
+			</Description>
+			<Attribute name="directions" defaultValue="8" description="The number of directions avatars can walk" type="Number" required="false" />
+			<Attribute name="yVelocityScale" defaultValue="0.5" description="For rooms with perspective, when walking up the screen the avatars should move more slowly. This value determines how much slower. A value of 0.5 moves at half the speed." type="Number" required="false" />
+			<Attribute nodoc="true" name="id" defaultValue="movementController" type="String" required="false" />
+		</Binding>
 	</Package>
-	
+
 	<!-- SHOP - NOT DOCUMENTED -->
 	<Package name="Shops" nodoc="true">
 		<Binding name="Shops" class="uk.co.dubit.platform.components.catalogue.Shops" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
@@ -1330,8 +1344,7 @@
 
 	
 	<!-- ACTOR -->
-	<Binding name="MouseMovementController" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.ActorMouseMovementProxy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory"/>
-	<Binding name="ActorDefinition" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.MovingGameObject"/>
+	<Binding nodoc="true" name="ActorDefinition" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.MovingGameObject"/>
 	<Binding name="CollisionController" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.collision.TargetedCollisionProxy"/>
 	
 	
