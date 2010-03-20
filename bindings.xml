@@ -32,7 +32,8 @@
 		<Binding name="RelayMovement" class="uk.co.dubit.platform.world.movement.RelayMovement"/>
 		<Binding name="TransmitMovement" class="uk.co.dubit.platform.world.movement.TransmitMovement"/>
 		<Binding name="StopLoader" class="uk.co.dubit.platform.scriptEngine.behaviour.types.assets.StopLoader"/>	
-		<Binding name="LoadAvatarPoints" class="uk.co.dubit.platform.components.shop.behaviours.LoadAvatarPoints"/>		
+		<Binding name="LoadAvatarPoints" class="uk.co.dubit.platform.components.shop.behaviours.LoadAvatarPoints"/>	
+		<Binding name="Call" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.Call"/>
 	</Package>
 	
 	<!-- Flash Movie Clip -->
@@ -394,16 +395,12 @@
 			<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Chat"/>
 			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>
 		</Binding>
-
-	
-		<!-- ROOM BINDINGS -->
 		<Binding name="ChatRoom" factory="uk.co.dubit.platform.scriptEngine.room.RoomFactory" class="uk.co.dubit.platform.components.rooms.ChatRoom">
 			<Attribute required="false" name="namespace" desciption="The namespace used by the room when communicating with the server" defaultValue="world" />
 			<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.ChatRoomView"/>
 			<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="ChatRoom"/>
 			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>
 		</Binding>
-	
 		<Binding name="SessionRoom" factory="uk.co.dubit.platform.scriptEngine.room.RoomFactory" class="uk.co.dubit.platform.scriptEngine.room.SessionRoom"/>
 	</Package>	
 	
@@ -514,10 +511,65 @@
 			</Example>
 			<Branch name="OnLeaveRoomComplete" description="Fired when the engine has finished leaving the room"/>			
 		</Binding>	
+		<Binding name="ShowChatBubble" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.ShowBubble" alias="ShowBubble">
+			<Description>
+				<![CDATA[
+					Shows a chat bubble. By default the chat bubble will appear above the players avatar. If the gameObject attribute is set, the chat bubble will appear above the gameObject.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					When the player looks at the can of coke a speech bubble will be shown above his avatar.
+					
+					<code>	
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<DisplayObject2D id="coke" index="1" mouseEnabled="true" assetURL="/coke.png"/>
+						</Scene>						
+
+						<!-- Triggered when the player looks at the coke DisplayObject -->
+						<Trigger gameObject="{Room.coke}" event="OnLookAt">		
+							<ShowChatBubble message="It's a can of fizzy water!"/>
+						</Trigger>	
+					</code>
+					
+					The second example illustrates how to show a bubble above a non-player character.
+					
+					<code>	
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<DisplayObject2D id="policeman" index="1" mouseEnabled="true" assetURL="/policeman.png"/>
+						</Scene>						
+
+						<!-- Triggered when the player talks to the police man DisplayObject -->
+						<Trigger gameObject="{Room.policeman}" event="OnTalkTo">		
+							<ShowChatBubble message="Evenin' all!" gameObject="{Room.policeman}"/>
+						</Trigger>	
+					</code>					
+				]]>		
+			</Example>			
+			<Attribute required="true" name="message" type="String" description="The message to show in the chat bubble"/>
+			<Attribute required="false" name="gameObject" type="GameObject" defaultValue="{Room.player}" description="The game object the speech bubble will appear above. By default the bubble will appear above the player"/>
+			<Attribute required="false" name="fitToScreen" type="Boolean" defaultValue="true" description="If true the bubble will not slide off the edge of visible area"/>
+			<Attribute required="false" name="moveTail" type="Boolean" defaultValue="true" description="If the bubble is fitted to screen this attribute will move the bubble tail to follow the player"/>
+			<Attribute required="false" name="screenBuffer" type="Number" defaultValue="10" description="How far the bubble should stop from the edge of the screen"/>
+			<Attribute required="false" name="maxWidth" type="Number" defaultValue="650" description="The max width for the text field. If the text is wider the bubble will span multile lines"/>
+			<Attribute required="false" nodoc="true" name="bubbleClass" type="String" defaultValue="com.dubitplatform.views.game.CartoonChatBubble"/>	
+			<Attribute required="false" nodoc="true" name="useServer" defaultValue="{Properties.[setting.useServer]}" description="Whether to broadcast this message to other users in the room" />
+		</Binding>
+		<Binding name="MovePlayerTo" alias="MoveTo" class="uk.co.dubit.platform.world.movement.MoveTo">
+			<Attribute name="gameObject" description="The game object to move" type="IGameObject" required="true" />
+			<Attribute name="x" description="The x location of the game object.  If none is specified the x attritubte of the game object will be used" type="Integer" required="false" />
+			<Attribute name="x" description="The y location of the game object.  If none is specified the y attritubte of the game object will be used" type="Integer" required="false" />
+			<Attribute name="end_x" description="The end x location of the game object" type="Integer" required="false" />
+			<Attribute name="end_y" description="The end y location of the game object" type="Integer" required="false" />
+			<Attribute name="useServer" description="Whether the game server should be notified of the move event" required="false" defaultValue="{Properties.[setting.useServer]}" />
+		</Binding>
+
+		<Binding name="JumpPlayerTo" alias="JumpTo" class="uk.co.dubit.platform.world.movement.JumpTo"/>
+		<Binding name="SendMovePlayerTo" nodoc="true" alias="SendMoveTo" class="uk.co.dubit.platform.world.movement.SendMoveTo"/>	
 	</Package>
 	
-	<!-- SHOP -->
-	<Package name="Shops">
+	<!-- SHOP - NOT DOCUMENTED -->
+	<Package name="Shops" nodoc="true">
 		<Binding name="Shops" class="uk.co.dubit.platform.components.catalogue.Shops" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
 			<Events>
 				<Event name="OnShopOpened">
@@ -661,7 +713,6 @@
 		<Binding name="DeactivateVerb" nodoc="true" class="uk.co.dubit.platform.components.verb.behaviours.DeactivateVerb"/>
 	</Package>
 
-	
 	<!-- QUEST BINDINGS -->	
 	<Package name="Quest">
 		<Binding name="Quest" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.quest.Quest">
@@ -736,7 +787,8 @@
 			</Events>
 			<Children>
 				<Child name="Objective" required="true" description="The objectives that must be completed"/>
-			</Children>				
+				<Child name="Triggers" required="true" description="Contains the events"/>
+			</Children>			
 		</Binding>
 		<Binding name="Objective" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.quest.Objective">
 			<Description>
@@ -918,81 +970,316 @@
 	</Package>
 		
 	<!-- BACKPACK BINDINGS -->	
-	<Binding name="Backpack" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Backpack">
-		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.BackpackView"/>
-		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Backpack"/>
-		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>
-	</Binding>
-	
-	<Binding name="Possession" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Collectable">
-		<Attribute required="true" name="id" type="string" description="The id of the collectable must be unique"/>
-		<Attribute required="true" name="name" type="string" description="The name of the collectable shown in the inventory"/>
-		<Attribute required="true" name="description" type="string" description="The description of the item shown in the inventory"/>
-		<Attribute required="true" name="previewURL" type="string" description="Path to the thumbnail shown in the inventory"/>
-		<Attribute required="true" name="quantity" type="number" description="The quantity in the backpack"/>
-	</Binding>
-	
-	<Binding name="Combinations" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Combinations"/>
-	
-	<Binding name="Combination" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Combination">
-		<Attribute required="true" name="possession1" type="gameobject" description="A possession"/>
-		<Attribute required="true" name="possession2" type="gameobject" description="A possession"/>
-		<Attribute required="false" name="condition" type="expression" description="A condition that must be passed for the combination to take place."/>
-	</Binding>	
-	
-	<Binding name="AddToBackpack" class="uk.co.dubit.platform.components.backpack.behaviours.AddToBackpack">
-		<Attribute required="true" name="possessionID" type="string" description="The possession ID"/>
-	</Binding>
-	
-	<Binding name="RemoveFromBackpack" class="uk.co.dubit.platform.components.backpack.behaviours.RemoveFromBackpack">
-		<Attribute required="true" name="possessionID" type="string" description="The possession ID"/>
-	</Binding>	
-
-	<Binding name="RemoveAllFromBackpack" class="uk.co.dubit.platform.components.backpack.behaviours.RemoveAllFromBackpack"/>
+	<Package name="Backpack">
+		<Binding name="Backpack" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Backpack">
+			<Description>
+				<![CDATA[
+					Many adventure games make use of an inventory management screen as a distinct gameplay mode. Players are only able to pick up some objects in the game. Thus, the player usually knows that only objects that can be picked up are important, and that objects that cannot be picked up are unimportant.	
+				
+					The items picked up around the world are added into the players backpack. The same item can be added multiple times, each time incrementing the quantity counter. 
+						
+					DisplayObjects in the rooms can be added to the backpack. However, those DisplayObjects must also have the same attributes as a Possession. The simplest way to use the backpack is to define all Possessions that might need to be found round the world. Then, when the player finds a possession, use the RemoveFromWorld behaviour on the DisplayObject but use the AddToBackpack on the Possession you have already defined in the Backpack. See the examples for more detail.
+				
+					Possessions can be combined. The player drags one possession onto another. The engine looks in the Backpack's Combination list for a rule allowing the combining of the two possessions. If the rule does not exist the OnCombinationUnknown event is fired, otherwise if the rule exists but the combination is not allowed the OnCombinationFail event is fired, otherwise the OnCombinationSuccess event is fired.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					Example shows how to structure a basic Backpack
+				
+					<code>
+						<Backpack>
+							<Possession id="straws" name="Straws" description="Curly straws" previewURL="images/backpack/curlyStraws.png" quantity="0"/>
+							<Possession id="coke" name="Coke" description="Fizzy pop" previewURL="images/backpack/coke.png" quantity="0"/>
+							<Possession id="shoes" name="Shoes" description="My smelly shoes" previewURL="images/backpack/shoes.png" quantity="1"/>
+							<Possession id="mints" name="Mints" description="Mouldy old extra strong mints" previewURL="images/backpack/mints.png" quantity="0"/>
+							<Combinations>
+							</Combinations>	
+							<Triggers>
+								<OnAdded>
+									<Trace message="Added possession {Event.possession.id}"/>
+								</OnAdded>
+								<OnRemoved>
+									<Trace message="Remove possession {Event.possession.id}"/>
+								</OnRemoved>
+								<OnSelected>
+									<Trace message="Selected possession {Event.possession.id}"/>
+								</OnSelected>			
+								<OnCombinationSuccess>
+									<Trace message="Successfully combined {Event.possession1.name} with {Event.possession2.name} message={Event.combination.success}"/>
+								</OnCombinationSuccess>
+								<OnCombinationFail>
+									<Trace message="Failed to combine {Event.possession1.name} with {Event.possession2.name} message={Event.combination.fail}"/>
+								</OnCombinationFail>
+								<OnCombinationUnknown>
+									<Trace message="I can't combine a {Event.possession1.name} with a {Event.possession2.name}!"/>
+								</OnCombinationUnknown>			
+							</Triggers>
+						</Backpack>	
+					</code>
+				]]>		
+			</Example>				
+			<Attribute required="true" nodoc="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.BackpackView"/>
+			<Attribute required="true" nodoc="true" name="targetContainer" type="string" description="The skin container" defaultValue="Backpack"/>
+			<Attribute required="true" nodoc="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>
+			<Events>
+				<Event name="OnAdded" description="Fired when a Possession is added to the Backpack">
+					<Atttribute name="possession" type="Possession" description="The possession that was added to the inventory" />
+				</Event>
+				<Event name="OnRemoved" description="Fired when a Possession is removed from the Backpack">
+					<Atttribute name="possession" type="Possession" description="The possession that was removed from the inventory" />
+				</Event>	
+				<Event name="OnSelected" description="Fired when a Possession is selected by the player">
+					<Atttribute name="possession" type="Possession" description="The possession that was selected by the player" />
+				</Event>	
+				<Event name="OnCombinationSuccess" description="Fired when the player successfully combines two possessions">
+					<Atttribute name="possession1" type="Possession" description="The posssesion the player dragged" />
+					<Atttribute name="possession2" type="Possession" description="The possession that recieved the dragged possession" />
+					<Atttribute name="combination" type="Combination" description="The combination rule that accepted the attempted combination" />
+				</Event>	
+				<Event name="OnCombinationFail" description="Fired when the player fails to combine two possessions">
+					<Atttribute name="possession1" type="Possession" description="The posssesion the player dragged" />
+					<Atttribute name="possession2" type="Possession" description="The possession that recieved the dragged possession" />
+					<Atttribute name="combination" type="Combination" description="The combination rule that rejected the attempted combination" />				
+				</Event>	
+				<Event name="OnCombinationUnknown" description="Fired when the player tries to combine two possessions and the engine can not find a Combination rule that explicitly accepts or rejects the move">
+					<Atttribute name="possession1" type="Possession" description="The posssesion the player dragged" />
+					<Atttribute name="possession2" type="Possession" description="The possession that recieved the dragged possession" />
+				</Event>	
+			</Events>
+			<Children>
+				<Child name="Possession" required="true" description="Possessions in the backpack"/>
+				<Child name="Combinations" required="true" description="Contains the Combination rules that decide if two posessions can be combined"/>
+				<Child name="Triggers" required="true" description="Contains the events"/>
+			</Children>		
+		</Binding>
+		<Binding name="Possession" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Collectable">
+			<Description>
+				<![CDATA[
+					The Backpack contains multiple possessions. Typically possessions are found around the world as part of a puzzle or adventure. The possessions should not be used for collections, instead see the Collections.
+					
+					Items picked up around the world can also be used as Possessions provided they have the attributes defined here.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					Example shows adding an item to the Backpack. We first define the Possession with a quantity of 0. Using the AddToBackpack behaviour the quantity is incremented to 1, and the Possession is shown in the players Backpack.
+			
+					<code>
+						<Backpack>
+							<!-- Define the Possession in the players Backpack. Notice the 0 quantity -->
+							<Possession id="straws" name="Straws" description="Curly straws" previewURL="images/backpack/curlyStraws.png" quantity="0"/>
+							<Combinations>
+							</Combinations>	
+							<Triggers>
+								<OnAdded>
+									<Trace message="Added possession {Event.possession.id}"/>
+								</OnAdded>		
+							</Triggers>
+						</Backpack>	
+						
+						<!-- Using the VerbController we pickup the straws -->
+ 						<Trigger gameObject="{Room.straws}" event="OnPickUp">
+							<!-- Remove the straws image from the world -->
+							<RemoveFromWorld gameObject="{Room.straws}"/>
+							<!-- Add the possession to the Backpack -->
+							<AddToBackpack possession="{Backpack.straws}"/>
+						</Trigger>	
+					</code>					
+				]]>		
+			</Example>			
+			<Attribute required="true" name="id" type="String" description="The id of the collectable must be unique"/>
+			<Attribute required="true" name="name" type="String" description="The name of the collectable shown in the inventory"/>
+			<Attribute required="true" name="description" type="String" description="The description of the item shown in the inventory"/>
+			<Attribute required="true" name="previewURL" type="String" description="Path to the thumbnail shown in the inventory"/>
+			<Attribute required="true" name="quantity" type="Number" description="The quantity in the backpack"/>
+		</Binding>	
+		<Binding name="Combinations" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Combinations">
+			<Description>
+				<![CDATA[
+					Possessions in a players backpack can be combined to make new Possessions. This type of functionality is often used as part of a puzzle that requires the player to find and use items.
+					
+					To combine two possessions the player drags one possession onto another. The engine looks in the Backpack's Combination list for a rule allowing the combining of the two possessions. If the rule does not exist the OnCombinationUnknown event is fired, otherwise if the rule exists but the combination is not allowed the OnCombinationFail event is fired, otherwise the OnCombinationSuccess event is fired.
+				]]>
+			</Description>			
+			<Children>
+				<Child name="Combination" description="A combintion rule that determines if two possessions can be combined"/>
+			</Children>	
+		</Binding>	
+		<Binding name="Combination" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Combination">
+			<Description>
+				<![CDATA[
+					Possessions in a players backpack can be combined to make new Possessions. This type of functionality is often used as part of a puzzle that requires the player to find and use items.
+					
+					Possessions can only be combined if a Combination rule exists. If the rule does exist, when two possessions are combined the engine attempts to evaluate the condition. Only if the condition evaluates to true will possessions be combined.
+					
+					When two possessions are combined the engine looks for a Possession in the Backpack whose name is a combination of the two possessions. For example, when combining 'straws' with 'coke' the engine will look for a new possession called 'straws_coke'. The two names are combined with an underscore character. By following this rule you can create a new possession that shows a graphic representing the two combined possessions.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					Example shows how to set up the Backpack to allows straws to be added into a can of coke.
+			
+					<code>
+						<Backpack>
+							<Possession id="straws" name="Straws" description="Curly straws" previewURL="images/backpack/curlyStraws.png" quantity="1"/>
+							<Possession id="coke" name="Coke" description="Fizzy pop" previewURL="images/backpack/coke.png" quantity="1"/>
+							
+							<!-- The possession made through combining the coke with straws -->
+							<Possession id="coke_straws" name="Coke with Straws" description="Coke and Straws" previewURL="images/backpack/cokeStraws.png" quantity="0"/>
+							
+							<Combinations>
+								<Combination possession1="{Backpack.coke}" possession2="{Backpack.straws}" success="These straws fit nicely onto the can..." fail=""/>
+							</Combinations>	
+							
+							<OnAdded>
+								<Trace message="Added possession {Event.possession.id}"/>
+							</OnAdded>		
+						</Backpack>	
+						
+						<!-- Using the VerbController we pickup the straws -->
+ 						<Trigger gameObject="{Room.straws}" event="OnPickUp">
+							<!-- Remove the straws image from the world -->
+							<RemoveFromWorld gameObject="{Room.straws}"/>
+							<!-- Add the possession to the Backpack -->
+							<AddToBackpack possession="{Backpack.straws}"/>
+						</Trigger>	
+					</code>					
+				]]>		
+			</Example>				
+			<Attribute required="true" name="fail" type="String" description="The messages shown to the player when a combination does not pass the condition"/>
+			<Attribute required="true" name="success" type="String" description="A message shown to the player when a combination passes the condition"/>
+			<Attribute required="true" name="possession1" type="Possession" description="A possession"/>
+			<Attribute required="true" name="possession2" type="Possession" description="A possession"/>
+			<Attribute required="false" name="condition" type="Expression" description="A condition that must be passed for the combination to take place. If the condition does not exist the combination is automatically allowed."/>
+		</Binding>	
+		<Binding name="AddToBackpack" class="uk.co.dubit.platform.components.backpack.behaviours.AddToBackpack">
+			<Description>
+				<![CDATA[
+					Adds a possession to the players backpack. The easiest way to use the behaviour is to define the possession in the backpack with a quantity of 0. Call the AddToBackpack behaviour to increment the quantity to 1
+					
+					Advanced use the of the AddToBackpack allows the GAML author to add any GameObject - such as DisplayObject's - to the players backpack. To do this set the 'gameObject' attribute to the target GameObject. For this to successfully work the GameObject must have all the attributes needed by a regular Possession
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					Example shows adding an item to the Backpack. We first define the Possession with a quantity of 0. Using the AddToBackpack behaviour the quantity is incremented to 1, and the Possession is shown in the players Backpack.
+		
+					<code>
+						<Backpack>
+							<!-- Define the Possession in the players Backpack. Notice the 0 quantity -->
+							<Possession id="straws" name="Straws" description="Curly straws" previewURL="images/backpack/curlyStraws.png" quantity="0"/>
+							<Combinations>
+							</Combinations>	
+							<Triggers>
+								<OnAdded>
+									<Trace message="Added possession {Event.possession.id}"/>
+								</OnAdded>		
+							</Triggers>
+						</Backpack>	
+					
+						<!-- Using the VerbController we pickup the straws -->
+						<Trigger gameObject="{Room.straws}" event="OnPickUp">
+							<!-- Remove the straws image from the world -->
+							<RemoveFromWorld gameObject="{Room.straws}"/>
+							<!-- Add the possession to the Backpack -->
+							<AddToBackpack possession="{Backpack.straws}"/>
+						</Trigger>	
+					</code>
+				]]>		
+			</Example>			
+			<Attribute required="true" name="possession" type="Possession" description="The possession to be added to the backpack. Possessions can be referenced using the '{Backpack.possessionID}' lookup"/>
+			<Attribute required="false" name="quantity" type="Number" defaultValue="1" description="The number to add to the backpack. By default the quantity is 1"/>
+		</Binding>
+		<Binding name="RemoveFromBackpack" class="uk.co.dubit.platform.components.backpack.behaviours.RemoveFromBackpack">
+			<Description>
+				<![CDATA[
+					Removes a Possession from the players backpack. If the target Possession has a quantity greater than 1, calling RemoveFromBackpack will decrease the quantity by 1. More can be removed by setting the quantity attribute.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					Example shows removing an item to the Backpack.
+		
+					<code>
+						<Backpack>
+							<!-- Define the Possession in the players Backpack. -->
+							<Possession id="coke" name="Coke" description="Fizzy pop" previewURL="images/backpack/coke.png" quantity="1"/>
+							<Combinations>
+							</Combinations>	
+							<Triggers>
+								<OnAdded>
+									<Trace message="Added possession {Event.possession.id}"/>
+								</OnAdded>		
+							</Triggers>
+						</Backpack>	
+					
+						<!-- Using the VerbController we use coke which removes them from our backpack -->
+						<Trigger gameObject="{Room.coke}" event="OnUse">
+							<!-- Remove the possession from the Backpack -->
+							<RemoveFromBackpack possession="{Backpack.coke}"/>
+						</Trigger>	
+					</code>
+				]]>		
+			</Example>			
+			<Attribute required="true" name="possession" type="Possession" description="The possession to be removed to the backpack. Possessions can be referenced using the '{Backpack.possessionID}' lookup"/>
+			<Attribute required="false" name="quantity" type="Number" defaultValue="1" description="The number to remove from the backpack. By default the quantity is 1. It is not possible to remove more than the number of items in the players backpack."/>
+		</Binding>	
+		<Binding name="RemoveAllFromBackpack" class="uk.co.dubit.platform.components.backpack.behaviours.RemoveAllFromBackpack">
+			<Description>
+				<![CDATA[
+					Removes all of one type of possession from the players Backpack. For example, if the player has more than one can of coke, calling RemoveAllFromBackpack will remove every can of coke.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					Example shows removing every can of coke from the players inventory.
+		
+					<code>
+						<Backpack>
+							<!-- Define the Possession in the players Backpack. Notice the quantity is set to 10 -->
+							<Possession id="coke" name="Coke" description="Fizzy pop" previewURL="images/backpack/coke.png" quantity="10"/>
+							<Combinations>
+							</Combinations>	
+							<Triggers>
+								<OnAdded>
+									<Trace message="Added possession {Event.possession.id}"/>
+								</OnAdded>		
+							</Triggers>
+						</Backpack>	
+					
+						<!-- Using the VerbController we use coke which removes them from our backpack -->
+						<Trigger gameObject="{Room.coke}" event="OnUse">
+							<!-- Removes all the coke -->
+							<RemoveAllFromBackpack possession="{Backpack.coke}"/>
+						</Trigger>	
+					</code>
+				]]>		
+			</Example>
+			<Attribute required="true" name="possession" type="Possession" description="The possession to be removed to the backpack. Possessions can be referenced using the '{Backpack.possessionID}' lookup"/>			
+		</Binding>	
+	</Package>
 
 	<!-- DIALOGUE BINDINGS -->
-	<Binding name="Dialogue" class="uk.co.dubit.platform.components.dialogue.Dialogue" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
-		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.BranchingConversationView"/>
-		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Dialogue"/>
-		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
-	</Binding>
-	<Binding name="Statement" class="uk.co.dubit.platform.components.dialogue.Statement" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory"/>
-	<Binding name="Response" class="uk.co.dubit.platform.components.dialogue.Response" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory"/>
-	<Binding name="BeginDialogue" class="uk.co.dubit.platform.components.dialogue.behaviours.BeginDialogue"/>
-	<Binding name="PlayStatement" class="uk.co.dubit.platform.components.dialogue.behaviours.PlayStatement"/>
-	<Binding name="PlayResponses" class="uk.co.dubit.platform.components.dialogue.behaviours.PlayResponses"/>
-	
-	<!-- BUBBLE BINDINGS -->
-	<Binding name="ShowBubble" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.ShowBubble" alias="ShowChatBubble">
-		<Attribute required="true" name="gameObject" type="gameobject" description="The game object the speech bubble will appear above"/>
-		<Attribute required="true" name="message" type="string" description="The message to show in the chat bubble"/>
-		<Attribute required="false" name="fitToScreen" type="boolean" defaultValue="true" description="If true the bubble will not slide off the edge of visible area"/>
-		<Attribute required="false" name="moveTail" type="boolean" defaultValue="true" description="If the bubble is fitted to screen this attribute will move the bubble tail to follow the player"/>
-		<Attribute required="false" name="screenBuffer" type="number" defaultValue="10" description="How far the bubble should stop from the edge of the screen"/>
-		<Attribute required="false" name="maxWidth" type="number" defaultValue="650" description="The max width for the text field. If the text is wider the bubble will span multile lines"/>
-		<Attribute required="false" name="bubbleClass" type="string" defaultValue="com.dubitplatform.views.game.CartoonChatBubble"/>	
-		<Attribute required="false" name="useServer" defaultValue="{Properties.[setting.useServer]}" description="Whether to broadcast this message to other users in the room" />
-	</Binding>
-	
-	<!-- FUNCTION CALL BINDINGS -->
-	<Binding name="Call" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.Call"/>
+	<Package name="Branching Conversation">
+		<Binding name="Dialogue" class="uk.co.dubit.platform.components.dialogue.Dialogue" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+			<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.BranchingConversationView"/>
+			<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Dialogue"/>
+			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+		</Binding>
+		<Binding name="Statement" class="uk.co.dubit.platform.components.dialogue.Statement" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory"/>
+		<Binding name="Response" class="uk.co.dubit.platform.components.dialogue.Response" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory"/>
+		<Binding name="BeginDialogue" class="uk.co.dubit.platform.components.dialogue.behaviours.BeginDialogue"/>
+		<Binding name="PlayStatement" class="uk.co.dubit.platform.components.dialogue.behaviours.PlayStatement"/>
+		<Binding name="PlayResponses" class="uk.co.dubit.platform.components.dialogue.behaviours.PlayResponses"/>
+	</Package>
+
 	
 	<!-- ACTOR -->
 	<Binding name="MouseMovementController" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.ActorMouseMovementProxy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory"/>
 	<Binding name="ActorDefinition" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.MovingGameObject"/>
 	<Binding name="CollisionController" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.collision.TargetedCollisionProxy"/>
 	
-	<Binding name="MovePlayerTo" alias="MoveTo" class="uk.co.dubit.platform.world.movement.MoveTo">
-		<Attribute name="gameObject" description="The game object to move" type="IGameObject" required="true" />
-		<Attribute name="x" description="The x location of the game object.  If none is specified the x attritubte of the game object will be used" type="Integer" required="false" />
-		<Attribute name="x" description="The y location of the game object.  If none is specified the y attritubte of the game object will be used" type="Integer" required="false" />
-		<Attribute name="end_x" description="The end x location of the game object" type="Integer" required="false" />
-		<Attribute name="end_y" description="The end y location of the game object" type="Integer" required="false" />
-		<Attribute name="useServer" description="Whether the game server should be notified of the move event" required="false" defaultValue="{Properties.[setting.useServer]}" />
-	</Binding>
-	
-	<Binding name="JumpPlayerTo" alias="JumpTo" class="uk.co.dubit.platform.world.movement.JumpTo"/>
-	<Binding name="SendMovePlayerTo" alias="SendMoveTo" class="uk.co.dubit.platform.world.movement.SendMoveTo"/>
 	
 	<!-- SOUND -->
 	<Binding name="PlaySound" class="uk.co.dubit.platform.scriptEngine.behaviour.types.sound.PlaySound"/>
