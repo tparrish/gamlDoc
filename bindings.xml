@@ -1653,31 +1653,33 @@
 		<Attribute required="true" name="url" type="string" description="The path to the asset"/>
 	</Binding>	
 	
-	
-	
 	<!-- TIMER -->
-	<Binding name="StartTimer" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.StartTimer"/>
+	<Package name="Timer" nodoc="true">
+		<Binding name="StartTimer" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.StartTimer"/>
+	</Package>
 	
 	<!-- PLAYER -->
-	<Binding name="Character" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.Character"/>	
-	<Binding name="Layer" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Layer"/>
-	<Binding name="Frame" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Frame"/>
-	<Binding name="Action" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Action"/>
+	<Package name="Avatar" nodoc="true">
+		<Binding name="Character" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.Character"/>	
+		<Binding name="Layer" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Layer"/>
+		<Binding name="Frame" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Frame"/>
+		<Binding name="Action" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Action"/>
 	
-	<Binding name="Stand" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Action">
-		<Attribute required="true" name="priority" type="number" defaultValue="1" description="test"/>
-		<Attribute required="true" name="playModeFactory" type="string" defaultValue="playOnce" description="test"/>
-		<Attribute required="true" name="className" type="string" defaultValue="uk.co.dubit.graphics.render2D.actions.Stand" description="test"/>
-	</Binding>	
+		<Binding name="Stand" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Action">
+			<Attribute required="true" name="priority" type="number" defaultValue="1" description="test"/>
+			<Attribute required="true" name="playModeFactory" type="string" defaultValue="playOnce" description="test"/>
+			<Attribute required="true" name="className" type="string" defaultValue="uk.co.dubit.graphics.render2D.actions.Stand" description="test"/>
+		</Binding>	
 
-	<Binding name="Walk" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Action">
-		<Attribute required="true" name="priority" type="number" defaultValue="2" description="test"/>
-		<Attribute required="true" name="playModeFactory" type="string" defaultValue="playOnce" description="test"/>
-		<Attribute required="true" name="className" type="string" defaultValue="uk.co.dubit.graphics.render2D.actions.Walk" description="test"/>
-	</Binding>	
+		<Binding name="Walk" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Action">
+			<Attribute required="true" name="priority" type="number" defaultValue="2" description="test"/>
+			<Attribute required="true" name="playModeFactory" type="string" defaultValue="playOnce" description="test"/>
+			<Attribute required="true" name="className" type="string" defaultValue="uk.co.dubit.graphics.render2D.actions.Walk" description="test"/>
+		</Binding>	
 	
-	<Binding name="Actions" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.ActionsNode"/>
-	<Binding name="DesireAction" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.behaviour.types.actions.DesireAction"/>
+		<Binding name="Actions" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.ActionsNode"/>
+		<Binding name="DesireAction" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.behaviour.types.actions.DesireAction"/>
+	</Package>
 	
 	<!-- MAP -->
 	<Binding name="Map" class="uk.co.dubit.platform.components.map.Map" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
