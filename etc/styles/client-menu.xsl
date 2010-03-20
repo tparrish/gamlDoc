@@ -17,9 +17,9 @@
 				<base target="content" />
 			</head>
 			<body id="menu">
-				<h1><a href="default.html">Gaml Nodes</a></h1>
+				<!--<h1><a href="default.html">Gaml Nodes</a></h1>-->
 				<ul>
-					<xsl:if test="count(Binding)">
+					<!--<xsl:if test="count(Binding)">
 						<li class="core">
 							<h2>Core</h2>
 							<ul>
@@ -28,7 +28,7 @@
 								</xsl:apply-templates>
 							</ul>
 						</li>
-					</xsl:if>
+					</xsl:if>-->
 					<xsl:apply-templates select="Package">
 						<xsl:sort select="@name" data-type="text" />
 					</xsl:apply-templates>

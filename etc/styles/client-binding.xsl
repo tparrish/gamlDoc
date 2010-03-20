@@ -4,7 +4,7 @@
 	<xsl:template match="/Binding">
 		<html>
 			<head>
-				<link rel="stylesheet" type="text/css" href="styles/reset.css" media="screen" />
+				<link rel="stylesheet" type="text/css" href="../styles/reset.css" media="screen" />
 				<link rel="stylesheet" type="text/css" href="../styles/screen.css" media="screen" />
 				<link href="../styles/shCore.css" rel="stylesheet" type="text/css" />
 				<link href="../styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
@@ -23,7 +23,7 @@
 			<body id="binding">
 				<h1>
 					<xsl:if test="@package">
-						<xsl:value-of select="@package" /><span class="seperator">/</span>
+						<xsl:value-of select="@package" /><span class="seperator"> Package -</span>
 					</xsl:if>
 					<xsl:value-of select="@name" />
 				</h1>
@@ -31,15 +31,15 @@
 					<xsl:apply-templates select="Description" />
 				</div>
 				
-				<xsl:if test="count(Attribute) > 0">
-						<h2>Attributes</h2>
+				<xsl:if test="count(Attribute/*) > 0">
+						<!-- <h2>Attributes</h2> -->
 						<table id="attributes">
 							<thead>
 								<tr>
-									<th>Name</th>
-									<th>Required?</th>
-									<th>Default value</th>
+									<th width="180px">Attribute</th>
+									<!--<th>Default value</th>-->
 									<th>Description</th>
+									<th width="180px">Required</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -49,13 +49,13 @@
 				</xsl:if>
 				
 				<xsl:if test="count(Events/*) > 0">
-					<h2>Events</h2>
+					<!--<h2>Events</h2>-->
 					<table id="events">
 						<thead>
 							<tr>
-								<th>Event</th>
+								<th width="180px">Event</th>
 								<th>Description</th>
-								<th>Attributes</th>
+								<th width="180px">Attributes</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -65,13 +65,13 @@
 				</xsl:if>
 				
 				<xsl:if test="count(Children/*) > 0">
-					<h2>Children</h2>
+					<!--<h2>Children</h2>-->
 					<table id="children">
 						<thead>
 							<tr>
-								<th>Name</th>
-								<th>Required?</th>
+								<th width="180px">Child</th>
 								<th>Description</th>
+								<th width="180px">Required</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -82,13 +82,13 @@
 				
 
 				<xsl:if test="count(Branches/*) > 0">
-					<h2>Branches</h2>
+					<!--<h2>Branches</h2>-->
 					<table id="children">
 						<thead>
 							<tr>
-								<th>Name</th>
+								<th width="180px">Branch</th>
 								<th>Description</th>
-								<th>Attributes</th>
+								<th width="180px">Attributes</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -98,6 +98,7 @@
 				</xsl:if>
 				
 				<xsl:apply-templates select="Example" />
+				
 			</body>
 		</html>
 	</xsl:template>
@@ -105,13 +106,13 @@
 	<xsl:template match="Children/*">
 		<tr>
 			<td><a href="{@name}.html" name="{@name}" class="binding_tooltip"><xsl:value-of select="@name" /></a></td>
+			<td><xsl:value-of select="@description" /></td>
 			<td>
 				<xsl:choose>
 					<xsl:when test="@required = 'true'">Yes</xsl:when>
 					<xsl:otherwise>No</xsl:otherwise>
 				</xsl:choose>
-			</td>
-			<td><xsl:value-of select="@description" /></td>
+			</td>			
 		</tr>
 	</xsl:template>
 	
@@ -133,10 +134,10 @@
 		<xsl:if test="not(@nodoc)">
 			<li>
 				<span><xsl:value-of select="@name" /></span>:
+				<span class="description"><xsl:value-of select="@description" /></span>
 				<a name="{@type}" class="binding_tooltip" href="{@type}.html">
 					<xsl:value-of select="@type" />
-				</a>
-				<span class="description"><xsl:value-of select="@description" /></span>
+				</a>				
 			</li>
 		</xsl:if>
 	</xsl:template>
@@ -145,14 +146,14 @@
 		<xsl:if test="not(@nodoc)">
 			<tr>
 				<td><xsl:value-of select="@name" /></td>
+				<!--<td><xsl:value-of select="@defaultValue" /></td>-->
+				<td><xsl:value-of select="@description" /></td>
 				<td>
 					<xsl:choose>
 						<xsl:when test="@required = 'true'">Yes</xsl:when>
 						<xsl:otherwise>No</xsl:otherwise>
 					</xsl:choose>
-				</td>
-				<td><xsl:value-of select="@defaultValue" /></td>
-				<td><xsl:value-of select="@description" /></td>
+				</td>				
 			</tr>
 		</xsl:if>
 	</xsl:template>
@@ -167,4 +168,5 @@
 		<h2>Example</h2>
 		<div class="example"><xsl:value-of select="gaml:escape_code(text())" disable-output-escaping="yes" /></div>
 	</xsl:template>
+	
 </xsl:stylesheet>
