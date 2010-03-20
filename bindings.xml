@@ -483,7 +483,7 @@
 			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>
 		</Binding>
 		<Binding name="ChatRoom" factory="uk.co.dubit.platform.scriptEngine.room.RoomFactory" class="uk.co.dubit.platform.components.rooms.ChatRoom">
-			<Attribute required="false" name="namespace" desciption="The namespace used by the room when communicating with the server" defaultValue="world" />
+			<Attribute required="false" name="namespace" description="The namespace used by the room when communicating with the server" defaultValue="world" />
 			<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.ChatRoomView"/>
 			<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="ChatRoom"/>
 			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>
@@ -1469,8 +1469,8 @@
 					</code>	
 				]]>		
 			</Example>	
-			<Attribute nodoc="true" required="true" name="target" type="GameObject" desciption="The gameobject that all collidable objects will be tested against" defaultValue="{Room.player}" />
-			<Attribute nodoc="true" required="true" name="id" type="String" desciption="A unique ID" defaultValue="collisionController" />
+			<Attribute nodoc="true" required="true" name="target" type="GameObject" description="The gameobject that all collidable objects will be tested against" defaultValue="{Room.player}" />
+			<Attribute nodoc="true" required="true" name="id" type="String" description="A unique ID" defaultValue="collisionController" />
 			<Events>
 				<Event name="OnEnterCollision" description="Fired when the player first collides with an object">
 					<Atttribute name="collisionObject" type="GameObject" description="The game object that collided with the player" />
@@ -1597,7 +1597,7 @@
 					</code>	
 				]]>		
 			</Example>	
-			<Attribute nodoc="true" required="false" name="target" defaultValue="{Room.player}" desciption="XXXX" />
+			<Attribute nodoc="true" required="false" name="target" defaultValue="{Room.player}" description="XXXX" />
 			<Children>
 				<Child name="StreamingSound" required="false" description="Streaming sounds are loaded after the room has finished loading. They are perfect for background music, but should not be used for sound effects"/>
 				<Child name="PreloadedSound" required="false" description="Preloaded sounds are loaded along with the graphic for the room. Thay are perfect for sound effects that play when the user triggers an event. PreloadedSounds should use small sound files so as not to slow the loading of the room."/>
@@ -1630,12 +1630,12 @@
 					</code>
 				]]>		
 			</Example>	
-			<Attribute required="true" name="assetID" type="String" desciption="The ID of the mp3 asset"/>
-			<Attribute required="false" name="volume" type="Number" desciption="Set the volume of the sound, ranges from 0 to 100, where 100 is full volume"/>
-			<Attribute required="false" name="looping" type="Boolean" defaultValue="false" desciption="If set to true the sound will loop"/>
-			<Attribute required="false" name="play" type="Boolean"  defaultValue="false" desciption="If set to true the sound will play straight away"/>
-			<Attribute required="false" name="x" type="Number" desciption="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
-			<Attribute required="false" name="y" type="Number" desciption="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
+			<Attribute required="true" name="assetID" type="String" description="The ID of the mp3 asset"/>
+			<Attribute required="false" name="volume" type="Number" description="Set the volume of the sound, ranges from 0 to 100, where 100 is full volume"/>
+			<Attribute required="false" name="looping" type="Boolean" defaultValue="false" description="If set to true the sound will loop"/>
+			<Attribute required="false" name="play" type="Boolean"  defaultValue="false" description="If set to true the sound will play straight away"/>
+			<Attribute required="false" name="x" type="Number" description="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
+			<Attribute required="false" name="y" type="Number" description="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
 		</Binding>	
 		<Binding name="StreamingSound" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.sound.SoundPoint">
 			<Description>
@@ -1656,13 +1656,13 @@
 					</code>
 				]]>		
 			</Example>	
-			<Attribute required="true" name="url" type="String" desciption="The url path to the sound file"/>
-			<Attribute required="false" name="volume" type="Number" desciption="Set the volume of the sound, ranges from 0 to 100, where 100 is full volume"/>
-			<Attribute required="false" name="looping" type="Boolean" defaultValue="false" desciption="If set to true the sound will loop"/>
-			<Attribute required="false" name="play" type="Boolean"  defaultValue="false" desciption="If set to true the sound will play straight away"/>
-			<Attribute required="false" name="bufferDuration" type="Number"  defaultValue="1000" desciption="The time in milliseconds to load before the sound starts to play"/>
-			<Attribute required="false" name="x" type="Number" desciption="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
-			<Attribute required="false" name="y" type="Number" desciption="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
+			<Attribute required="true" name="url" type="String" description="The url path to the sound file"/>
+			<Attribute required="false" name="volume" type="Number" description="Set the volume of the sound, ranges from 0 to 100, where 100 is full volume"/>
+			<Attribute required="false" name="looping" type="Boolean" defaultValue="false" description="If set to true the sound will loop"/>
+			<Attribute required="false" name="play" type="Boolean"  defaultValue="false" description="If set to true the sound will play straight away"/>
+			<Attribute required="false" name="bufferDuration" type="Number"  defaultValue="1000" description="The time in milliseconds to load before the sound starts to play"/>
+			<Attribute required="false" name="x" type="Number" description="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
+			<Attribute required="false" name="y" type="Number" description="Setting the x and y values will cause the sound to grow louder as the player approaches the coordinates"/>
 		</Binding>					
 		<Binding name="PlaySound" class="uk.co.dubit.platform.scriptEngine.behaviour.types.sound.PlaySound">
 			<Description>
@@ -1689,9 +1689,9 @@
 					</code>					
 				]]>		
 			</Example>	
-			<Attribute required="true" name="sound" type="Sound" desciption="The sound to begin playing"/>
-			<Attribute required="false" name="loops" type="Number" defaultValue="0" desciption="The number of times to loop the sound"/>
-			<Attribute required="false" name="loopDelay" type="Number" defaultValue="0" desciption="The time delay between loops in miliseconds"/>			
+			<Attribute required="true" name="sound" type="Sound" description="The sound to begin playing"/>
+			<Attribute required="false" name="loops" type="Number" defaultValue="0" description="The number of times to loop the sound"/>
+			<Attribute required="false" name="loopDelay" type="Number" defaultValue="0" description="The time delay between loops in miliseconds"/>			
 		</Binding>	
 		<Binding name="StopSound" class="uk.co.dubit.platform.scriptEngine.behaviour.types.sound.StopSound">
 			<Description>
@@ -1714,8 +1714,8 @@
 					</code>					
 				]]>		
 			</Example>	
-			<Attribute required="true" name="sound" type="Sound" desciption="The sound to begin playing"/>
-			<Attribute required="false" name="loops" type="Number" defaultValue="0" desciption="The number of times to loop the sound"/>			
+			<Attribute required="true" name="sound" type="Sound" description="The sound to begin playing"/>
+			<Attribute required="false" name="loops" type="Number" defaultValue="0" description="The number of times to loop the sound"/>			
 		</Binding>	
 	</Package>
 	

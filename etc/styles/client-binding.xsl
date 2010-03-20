@@ -31,7 +31,7 @@
 					<xsl:apply-templates select="Description" />
 				</div>
 				
-				<xsl:if test="count(Attribute/*) > 0">
+				<xsl:if test="count(Attribute) > 0">
 						<!-- <h2>Attributes</h2> -->
 						<table id="attributes">
 							<thead>
