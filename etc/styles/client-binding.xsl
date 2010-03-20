@@ -127,7 +127,7 @@
 			<td><a href="{@name}.html" name="{@name}" class="binding_tooltip"><xsl:value-of select="@name" /></a></td>
 			<td>
 				<xsl:choose>
-					<xsl:when test="@required = true">Yes</xsl:when>
+					<xsl:when test="@required = 'true'">Yes</xsl:when>
 					<xsl:otherwise>No</xsl:otherwise>
 				</xsl:choose>
 			</td>
@@ -167,7 +167,7 @@
 				<td><xsl:value-of select="@name" /></td>
 				<td>
 					<xsl:choose>
-						<xsl:when test="@required = true">Yes</xsl:when>
+						<xsl:when test="@required = 'true'">Yes</xsl:when>
 						<xsl:otherwise>No</xsl:otherwise>
 					</xsl:choose>
 				</td>
