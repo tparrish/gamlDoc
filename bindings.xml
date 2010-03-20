@@ -292,7 +292,7 @@
 	</Package>
 	
 	<Package name="Set Value">
-		<Binding nodoc="true" name="SetValue" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.SetValue" alias="Set">
+		<Binding name="SetValue" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.SetValue" alias="Set">
 			<Description>
 				<![CDATA[
 					Sets an attribute or updates a value on a GameObject.
@@ -1813,7 +1813,8 @@
 				</Event>	
 			</Events>
 			<Children>
-				<Child name="Location" required="true"/>
+				<Child name="Location" required="true" description="The Locations in the Map"/>
+				<Child name="Triggers" required="true" description="Contains the events"/>
 			</Children>			
 		</Binding>	
 		<Binding name="Location" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.map.Location">
@@ -1931,27 +1932,170 @@
 	<!-- ACHIEVEMENTS -->
 	<Package name="Achievements">
 		<Binding name="Achievements" class="uk.co.dubit.platform.components.achievements.Achievements" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
-			<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.AchievementsView"/>
-			<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Achievements"/>
-			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+			<Description>
+				<![CDATA[
+					Players can earn achievements for completing activities around the world. A world can have many achievements, with each Achievement having many Trophies. For example, a world might award the player a bronze, silver, or gold trophies if they make enough friends.
+					
+					An Achievement has a score that determines which trophy the player has earned. For example, for the player to earn a gold trophy he might have to visit 300 players homes, but only 10 homes to earn the bronze trophy. That number of visits is recorded as a score.
+					
+					Achievements and the Trophies are shown in the players interface.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The example shows two achievements, Visits to Friend and Coins Spent, both achievements have bronze, silver, and gold trophies.
+					
+					<code>
+						<Achievements>
+							<Achievement id="visitsToFriends" name="Visits To Friends" score="0" suffix="Visits" description="How many times you have visited your friends">
+								<Trophy name="Player About Towm" score="25" imageURL="images/trophies/visitsToFriends_1.png"/>
+								<Trophy name="Vizier of Visits" score="100" imageURL="images/trophies/visitsToFriends_2.png"/>
+								<Trophy name="Social Whirlwind" score="300" imageURL="images/trophies/visitsToFriends_3.png"/>
+							</Achievement>	
+							<Achievement id="coinsSpent" name="Coins Spent" score="0" suffix="Spent Coins" description="The number of coins you've spent in the world">
+								<Trophy name="Window Shopper" score="500" imageURL="images/trophies/coinsSpent_1.png"/>
+								<Trophy name="Mall Rat" score="3000" imageURL="images/trophies/coinsSpent_2.png"/>
+								<Trophy name="Big Spender" score="10000" imageURL="images/trophies/coinsSpent_3.png"/>
+							</Achievement>		
+							<Triggers>
+								<OnAwardedTrophy>
+									<Trace message="Awarded trophy {Event.trophy.name} : {Event.achievement.name}"/>
+								</OnAwardedTrophy>	
+							</Triggers>				
+						</Achievements>						
+					</code>
+				]]>		
+			</Example>			
+			<Attribute nodoc="true" required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.AchievementsView"/>
+			<Attribute nodoc="true" required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Achievements"/>
+			<Attribute nodoc="true" required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+			<Events>
+				<Event name="OnAwardedTrophy" description="Fired when the shop is opened">
+					<Atttribute name="achievement" type="Achievement" description="The achievement that awarded the trophy" />
+					<Atttribute name="trophy" type="Trophy" description="The trophy that was awarded" />
+				</Event>
+			</Events>
+			<Children>
+				<Child name="Achievement" required="true" description="There are many Achievements for each world"/>
+				<Child name="Triggers" required="true" description="Contains the events"/>
+			</Children>			
 		</Binding>	
-	
 		<Binding name="Achievement" class="uk.co.dubit.platform.components.achievements.Achievement" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
-			<Attribute required="true" name="score" type="number" description="The number of points the player has in this achievement"/>
-			<Attribute required="true" name="name" type="string" description="The name of the achievement"/>
-			<Attribute required="true" name="id" type="string" description="The unique ID of the achievement"/>
-			<Attribute required="true" name="description" type="string" description="A description of the achievement"/>
+			<Description>
+				<![CDATA[
+					Players can earn achievements for completing activities around the world. A world can have many achievements, with each Achievement having many Trophies. For example, a world might award the player a bronze, silver, or gold trophies if they make enough friends.
+				
+					An Achievement has a score that determines which trophy the player has earned. For example, for the player to earn a gold trophy he might have to visit 300 players homes, but only 10 homes to earn the bronze trophy. That number of visits is recorded as a score.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The example shows two achievements, Visits to Friend and Coins Spent, both achievements have bronze, silver, and gold trophies.
+				
+					<code>
+						<Achievements>
+							<Achievement id="visitsToFriends" name="Visits To Friends" score="0" suffix="Visits" description="How many times you have visited your friends">
+								<Trophy name="Player About Towm" score="25" imageURL="images/trophies/visitsToFriends_1.png"/>
+								<Trophy name="Vizier of Visits" score="100" imageURL="images/trophies/visitsToFriends_2.png"/>
+								<Trophy name="Social Whirlwind" score="300" imageURL="images/trophies/visitsToFriends_3.png"/>
+							</Achievement>	
+							<Achievement id="coinsSpent" name="Coins Spent" score="0" suffix="Spent Coins" description="The number of coins you've spent in the world">
+								<Trophy name="Window Shopper" score="500" imageURL="images/trophies/coinsSpent_1.png"/>
+								<Trophy name="Mall Rat" score="3000" imageURL="images/trophies/coinsSpent_2.png"/>
+								<Trophy name="Big Spender" score="10000" imageURL="images/trophies/coinsSpent_3.png"/>
+							</Achievement>		
+							<Triggers>
+								<OnAwardedTrophy>
+									<Trace message="Awarded trophy {Event.trophy.name} : {Event.achievement.name}"/>
+								</OnAwardedTrophy>	
+							</Triggers>				
+						</Achievements>						
+					</code>
+				]]>		
+			</Example>			
+			<Attribute required="true" name="score" type="Number" defaultValue="0" description="The number of points the player has earned in this achievement"/>
+			<Attribute required="true" name="name" type="String" description="The name of the achievement"/>
+			<Attribute required="true" name="id" type="String" description="The unique ID of the achievement"/>
+			<Attribute required="true" name="description" type="String" description="A description of the achievement"/>
+			<Attribute required="true" name="suffix" type="String" description="The suffix is used in the user interface to communicte the players score. For example, a suffix of 'Visits' would be used in the interface to show 'Visits 100'"/>
+			<Children>
+				<Child name="Trophy" required="true" description="An achievement can contain many Trophies"/>
+			</Children>			
 		</Binding>	
-
-		<Binding name="Trophy" class="uk.co.dubit.platform.components.achievements.Trophy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+		<Binding name="Trophy" class="uk.co.dubit.platform.components.achievements.Trophy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+			<Description>
+				<![CDATA[
+					Players can earn achievements for completing activities around the world. A world can have many achievements, with each Achievement having many Trophies. For example, a world might award the player a bronze, silver, or gold trophies if they make enough friends.
+				
+					An Achievement has a score that determines which trophy the player has earned. For example, for the player to earn a gold trophy he might have to visit 300 players homes, but only 10 homes to earn the bronze trophy. That number of visits is recorded as a score.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The example shows two achievements, Visits to Friend and Coins Spent, both achievements have bronze, silver, and gold trophies.
+				
+					<code>
+						<Achievements>
+							<Achievement id="visitsToFriends" name="Visits To Friends" score="0" suffix="Visits" description="How many times you have visited your friends">
+								<Trophy name="Player About Towm" score="25" imageURL="images/trophies/visitsToFriends_1.png"/>
+								<Trophy name="Vizier of Visits" score="100" imageURL="images/trophies/visitsToFriends_2.png"/>
+								<Trophy name="Social Whirlwind" score="300" imageURL="images/trophies/visitsToFriends_3.png"/>
+							</Achievement>	
+							<Achievement id="coinsSpent" name="Coins Spent" score="0" suffix="Spent Coins" description="The number of coins you've spent in the world">
+								<Trophy name="Window Shopper" score="500" imageURL="images/trophies/coinsSpent_1.png"/>
+								<Trophy name="Mall Rat" score="3000" imageURL="images/trophies/coinsSpent_2.png"/>
+								<Trophy name="Big Spender" score="10000" imageURL="images/trophies/coinsSpent_3.png"/>
+							</Achievement>		
+							<Triggers>
+								<OnAwardedTrophy>
+									<Trace message="Awarded trophy {Event.trophy.name} : {Event.achievement.name}"/>
+								</OnAwardedTrophy>	
+							</Triggers>				
+						</Achievements>						
+					</code>
+				]]>		
+			</Example>			
 			<Attribute required="true" name="score" type="number" description="The score the player must earn to get this trophy"/>
 			<Attribute required="true" name="name" type="string" description="The name of the trophy"/>
 			<Attribute required="true" name="imageURL" type="string" description="The image of the trophy to show in the achievements interface"/>
 		</Binding>
-	
 		<Binding name="UpdateAchievementScore" class="uk.co.dubit.platform.components.achievements.behaviours.UpdateAchievementScore">
-			<Attribute required="true" name="score" type="number" description="The number of achievement points to award"/>
-			<Attribute required="true" name="achievementID" type="string" description="The id of the achievement that will be updated"/>
+			<Description>
+				<![CDATA[
+					Updates the players achievement score. For example, when the player spends coins we might want to record how many coins they've spent and award them trophies.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The example shows how to award points when the player spends coins.
+				
+					<code>
+						<Achievements>
+							<Achievement id="coinsSpent" name="Coins Spent" score="0" suffix="Spent Coins" description="The number of coins you've spent in the world">
+								<Trophy name="Window Shopper" score="500" imageURL="images/trophies/coinsSpent_1.png"/>
+								<Trophy name="Mall Rat" score="3000" imageURL="images/trophies/coinsSpent_2.png"/>
+								<Trophy name="Big Spender" score="10000" imageURL="images/trophies/coinsSpent_3.png"/>
+							</Achievement>		
+							<Triggers>
+								<OnAwardedTrophy>
+									<Trace message="Awarded trophy {Event.trophy.name} : {Event.achievement.name}"/>
+								</OnAwardedTrophy>	
+							</Triggers>				
+						</Achievements>
+						
+						<Shops>
+							<Shop name="Clothes Shop" id="Clothes Shop"/>
+							<Triggers>
+								<OnPurchaseProduct>
+									<UpdateAchievementScore score="{Event.product.price}" achievement="{Achievements.coinsSpent}"/>
+								</OnPurchaseProduct>	
+							</Triggers>	
+						</Shops>							
+					</code>
+				]]>		
+			</Example>			
+			<Attribute required="true" name="score" type="Number" description="The number of achievement points to award"/>
+			<Attribute required="true" name="achievement" type="Achievement" description="The id of the achievement that will be updated"/>
 		</Binding>	
 	</Package>
 	
