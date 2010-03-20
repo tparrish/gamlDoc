@@ -1901,90 +1901,98 @@
 	</Package>
 	
 	<!-- EXPERIENCE -->
-	<Binding name="Experience" class="uk.co.dubit.platform.components.experience.Experience" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
-		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.ExperienceView"/>
-		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Experience"/>
-		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
-	</Binding>	
+	<Package name="Experience">
+		<Binding name="Experience" class="uk.co.dubit.platform.components.experience.Experience" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+			<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.ExperienceView"/>
+			<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Experience"/>
+			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+		</Binding>	
 	
-	<Binding name="Level" class="uk.co.dubit.platform.components.experience.Level" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
-		<Attribute required="true" name="points" type="number" description="The number of experience points the player must obtain to reach this level."/>
-		<Attribute required="true" name="name" type="string" description="The name of the level"/>
-		<Attribute required="true" name="message" type="string" description="A message shown when the player reaches that level"/>
-	</Binding>	
+		<Binding name="Level" class="uk.co.dubit.platform.components.experience.Level" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+			<Attribute required="true" name="points" type="number" description="The number of experience points the player must obtain to reach this level."/>
+			<Attribute required="true" name="name" type="string" description="The name of the level"/>
+			<Attribute required="true" name="message" type="string" description="A message shown when the player reaches that level"/>
+		</Binding>	
 	
-	<Binding name="AwardExperiencePoints" class="uk.co.dubit.platform.components.experience.behaviours.AwardExperiencePoints">
-		<Attribute required="true" name="points" type="number" description="The number of experience points to award"/>
-	</Binding>
+		<Binding name="AwardExperiencePoints" class="uk.co.dubit.platform.components.experience.behaviours.AwardExperiencePoints">
+			<Attribute required="true" name="points" type="number" description="The number of experience points to award"/>
+		</Binding>
+	</Package>	
 	
 	<!-- SKILLS -->	
-	<Binding name="Skills" class="uk.co.dubit.platform.components.skills.Skills" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
-		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.SkillsView"/>
-		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Skills"/>
-		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
-	</Binding>	
+	<Package name="Skills">
+		<Binding name="Skills" class="uk.co.dubit.platform.components.skills.Skills" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+			<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.SkillsView"/>
+			<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Skills"/>
+			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+		</Binding>	
 	
-	<Binding name="Skill" class="uk.co.dubit.platform.components.skills.Skill" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
-		<Attribute required="true" name="points" type="number" description="The number of skill points the player has in this skill"/>
-		<Attribute required="true" name="maximum" type="number" description="The maximum number of points that can be spent on this skill"/>
-		<Attribute required="true" name="name" type="string" description="The name of the skill"/>
-		<Attribute required="true" name="id" type="string" description="The unique ID of the skill"/>
-		<Attribute required="true" name="description" type="string" description="A description of the skill"/>
-	</Binding>
+		<Binding name="Skill" class="uk.co.dubit.platform.components.skills.Skill" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+			<Attribute required="true" name="points" type="number" description="The number of skill points the player has in this skill"/>
+			<Attribute required="true" name="maximum" type="number" description="The maximum number of points that can be spent on this skill"/>
+			<Attribute required="true" name="name" type="string" description="The name of the skill"/>
+			<Attribute required="true" name="id" type="string" description="The unique ID of the skill"/>
+			<Attribute required="true" name="description" type="string" description="A description of the skill"/>
+		</Binding>
 
-	<Binding name="AwardSkillPoints" class="uk.co.dubit.platform.components.skills.behaviours.AwardSkillPoints">
-		<Attribute required="true" name="points" type="number" description="The number of skill points to award"/>
-	</Binding>
-	
+		<Binding name="AwardSkillPoints" class="uk.co.dubit.platform.components.skills.behaviours.AwardSkillPoints">
+			<Attribute required="true" name="points" type="number" description="The number of skill points to award"/>
+		</Binding>
+	</Package>	
+		
 	<!-- ACHIEVEMENTS -->
-	<Binding name="Achievements" class="uk.co.dubit.platform.components.achievements.Achievements" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
-		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.AchievementsView"/>
-		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Achievements"/>
-		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
-	</Binding>	
+	<Package name="Achievements">
+		<Binding name="Achievements" class="uk.co.dubit.platform.components.achievements.Achievements" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+			<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.AchievementsView"/>
+			<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Achievements"/>
+			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+		</Binding>	
 	
-	<Binding name="Achievement" class="uk.co.dubit.platform.components.achievements.Achievement" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
-		<Attribute required="true" name="score" type="number" description="The number of points the player has in this achievement"/>
-		<Attribute required="true" name="name" type="string" description="The name of the achievement"/>
-		<Attribute required="true" name="id" type="string" description="The unique ID of the achievement"/>
-		<Attribute required="true" name="description" type="string" description="A description of the achievement"/>
-	</Binding>	
+		<Binding name="Achievement" class="uk.co.dubit.platform.components.achievements.Achievement" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+			<Attribute required="true" name="score" type="number" description="The number of points the player has in this achievement"/>
+			<Attribute required="true" name="name" type="string" description="The name of the achievement"/>
+			<Attribute required="true" name="id" type="string" description="The unique ID of the achievement"/>
+			<Attribute required="true" name="description" type="string" description="A description of the achievement"/>
+		</Binding>	
 
-	<Binding name="Trophy" class="uk.co.dubit.platform.components.achievements.Trophy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
-		<Attribute required="true" name="score" type="number" description="The score the player must earn to get this trophy"/>
-		<Attribute required="true" name="name" type="string" description="The name of the trophy"/>
-		<Attribute required="true" name="imageURL" type="string" description="The image of the trophy to show in the achievements interface"/>
-	</Binding>
+		<Binding name="Trophy" class="uk.co.dubit.platform.components.achievements.Trophy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+			<Attribute required="true" name="score" type="number" description="The score the player must earn to get this trophy"/>
+			<Attribute required="true" name="name" type="string" description="The name of the trophy"/>
+			<Attribute required="true" name="imageURL" type="string" description="The image of the trophy to show in the achievements interface"/>
+		</Binding>
 	
-	<Binding name="UpdateAchievementScore" class="uk.co.dubit.platform.components.achievements.behaviours.UpdateAchievementScore">
-		<Attribute required="true" name="score" type="number" description="The number of achievement points to award"/>
-		<Attribute required="true" name="achievementID" type="string" description="The id of the achievement that will be updated"/>
-	</Binding>	
+		<Binding name="UpdateAchievementScore" class="uk.co.dubit.platform.components.achievements.behaviours.UpdateAchievementScore">
+			<Attribute required="true" name="score" type="number" description="The number of achievement points to award"/>
+			<Attribute required="true" name="achievementID" type="string" description="The id of the achievement that will be updated"/>
+		</Binding>	
+	</Package>
 	
 	<!-- COLLECTIONS -->
-	<Binding name="Collections" class="uk.co.dubit.platform.components.collections.Collections" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
-		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.CollectionView"/>
-		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Collections"/>
-		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
-	</Binding>	
+	<Package name="Collections">
+		<Binding name="Collections" class="uk.co.dubit.platform.components.collections.Collections" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+			<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.CollectionView"/>
+			<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Collections"/>
+			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+		</Binding>	
 	
-	<Binding name="Collection" class="uk.co.dubit.platform.components.collections.Collection" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
-		<Attribute required="true" name="name" type="string" description="The name of the collection"/>
-		<Attribute required="true" name="id" type="string" description="The unique ID of the collection"/>
-		<Attribute required="true" name="description" type="string" description="A description of the collection"/>
-	</Binding>	
+		<Binding name="Collection" class="uk.co.dubit.platform.components.collections.Collection" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+			<Attribute required="true" name="name" type="string" description="The name of the collection"/>
+			<Attribute required="true" name="id" type="string" description="The unique ID of the collection"/>
+			<Attribute required="true" name="description" type="string" description="A description of the collection"/>
+		</Binding>	
 
-	<Binding name="Collectable" class="uk.co.dubit.platform.components.collections.Collectable" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
-		<Attribute required="true" name="id" type="string" description="The unique ID of the collectable"/>
-		<Attribute required="true" name="quantity" type="number" description="The quantity of the collectable the player has found"/>
-		<Attribute required="true" name="name" type="string" description="The name of the collectable"/>
-		<Attribute required="true" name="imageURL" type="string" description="The image of the collection to show in the collectable interface"/>
-	</Binding>
+		<Binding name="Collectable" class="uk.co.dubit.platform.components.collections.Collectable" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+			<Attribute required="true" name="id" type="string" description="The unique ID of the collectable"/>
+			<Attribute required="true" name="quantity" type="number" description="The quantity of the collectable the player has found"/>
+			<Attribute required="true" name="name" type="string" description="The name of the collectable"/>
+			<Attribute required="true" name="imageURL" type="string" description="The image of the collection to show in the collectable interface"/>
+		</Binding>
 	
-	<Binding name="AddToCollection" class="uk.co.dubit.platform.components.collections.behaviours.AddToCollection">
-		<Attribute required="true" name="collectionID" type="string" description="The collectionID"/>
-		<Attribute required="true" name="collectabeID" type="string" description="The id of the collectable to be added to the collection"/>
-	</Binding>
+		<Binding name="AddToCollection" class="uk.co.dubit.platform.components.collections.behaviours.AddToCollection">
+			<Attribute required="true" name="collectionID" type="string" description="The collectionID"/>
+			<Attribute required="true" name="collectabeID" type="string" description="The id of the collectable to be added to the collection"/>
+		</Binding>
+	</Package>
 	
 	<!-- MINIGAMES -->
 	<Package name="Games">
