@@ -34,6 +34,17 @@
 		<Binding name="StopLoader" class="uk.co.dubit.platform.scriptEngine.behaviour.types.assets.StopLoader"/>	
 		<Binding name="LoadAvatarPoints" class="uk.co.dubit.platform.components.shop.behaviours.LoadAvatarPoints"/>	
 		<Binding name="Call" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.Call"/>
+		<Binding name="AddToChatHistory" class="uk.co.dubit.platform.components.chat.history.AddMessageToChatHistory"/>
+		<Binding name="ClearChatBar" class="uk.co.dubit.platform.components.chat.chatpanel.ClearChatBar"/>
+		<Binding name="CreateContact" class="uk.co.dubit.platform.components.contacts.behaviors.CreateContact"/>
+		<Binding name="DestroyContact" class="uk.co.dubit.platform.components.contacts.behaviors.DestroyContact"/>
+		<Binding name="UpdateContact" class="uk.co.dubit.platform.components.contacts.behaviors.UpdateContact"/>
+		<Binding name="RetrieveNotificationByID" class="uk.co.dubit.platform.components.notification.queue.behaviours.RetrieveNotificationByID"/>
+		<Binding name="ShowContextMenu" class="uk.co.dubit.platform.components.contacts.ShowContextMenu"/>
+		<Binding name="CreatePrivateChatConversation" class="uk.co.dubit.platform.components.privateChat.CreatePrivateChatConversation"/>
+		<Binding name="ReceivePrivateChat" class="uk.co.dubit.platform.components.privateChat.ReceivePrivateChat"/>
+		<Binding name="AddPrivateMessageToConversation" class="uk.co.dubit.platform.components.privateChat.AddPrivateMessageToConversation"/>
+		<Binding name="SetGameKey" class="uk.co.dubit.platform.scriptEngine.behaviour.types.input.SetGameKey"/>		
 	</Package>
 	
 	<!-- Flash Movie Clip -->
@@ -386,17 +397,8 @@
 		<Binding name="SavePoints" nodoc="true" class="uk.co.dubit.platform.components.transaction.transactionHistory.behaviours.SavePoints"/>
 	</Package>
 		
-	<!-- Help -->
-	<!--Binding name="ShowHelp" class="uk.co.dubit.platform.components.help.behaviours.ShowHelp"/>
-	<Binding name="HideHelp" class="uk.co.dubit.platform.components.help.behaviours.HideHelp"/>
-	<Binding name="LoadHelpTopic" class="uk.co.dubit.platform.components.help.behaviours.LoadHelpTopic"/>
-	<Binding name="LoadHelp" class="uk.co.dubit.platform.components.help.behaviours.LoadHelpContents"/>
-	<Binding name="LoadQuickChat" class="uk.co.dubit.platform.components.quickChat.behaviours.LoadQuickChat"/>
-	<Binding name="LoadContactList" class="uk.co.dubit.platform.components.contacts.behaviors.LoadContactList"/>
-	<Binding name="LoadRequestQueue" class="uk.co.dubit.platform.components.notification.queue.behaviours.LoadRequestQueue"/-->
-		
 	<!-- Avatar -->
-	<Package name="TransactionHistory" nodoc="true">
+	<Package name="Avatar" nodoc="true">
 		<Binding name="CloneAvatar" nodoc="true" class="uk.co.dubit.platform.components.avatar.selection.behaviors.CloneAvatar"/>
 		<Binding name="LoadFirstAvatar" nodoc="true" class="uk.co.dubit.platform.components.avatar.selection.behaviors.LoadFirstAvatar"/>
 		<Binding name="SetAvatar" nodoc="true" class="uk.co.dubit.platform.components.avatar.selection.behaviors.SetAvatar"/>
@@ -435,7 +437,6 @@
 		</Binding>
 		<Binding name="Triggers" nodoc="true" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory"/>	
 	</Package>	
-	
 
 	<!-- Notification++ -->
 	<Package name="Notifications">
@@ -474,19 +475,6 @@
 		<Attribute name="skin" type="IGrowlSkin" description="Growl skin" required="true" />
 	</Binding>
 	
-	<Binding name="AddToChatHistory" class="uk.co.dubit.platform.components.chat.history.AddMessageToChatHistory"/>
-	<Binding name="ClearChatBar" class="uk.co.dubit.platform.components.chat.chatpanel.ClearChatBar"/>
-	
-	<Binding name="CreateContact" class="uk.co.dubit.platform.components.contacts.behaviors.CreateContact"/>
-	<Binding name="DestroyContact" class="uk.co.dubit.platform.components.contacts.behaviors.DestroyContact"/>
-	<Binding name="UpdateContact" class="uk.co.dubit.platform.components.contacts.behaviors.UpdateContact"/>
-	<Binding name="RetrieveNotificationByID" class="uk.co.dubit.platform.components.notification.queue.behaviours.RetrieveNotificationByID"/>
-	<Binding name="ShowContextMenu" class="uk.co.dubit.platform.components.contacts.ShowContextMenu"/>
-	<Binding name="CreatePrivateChatConversation" class="uk.co.dubit.platform.components.privateChat.CreatePrivateChatConversation"/>
-	<Binding name="ReceivePrivateChat" class="uk.co.dubit.platform.components.privateChat.ReceivePrivateChat"/>
-	<Binding name="AddPrivateMessageToConversation" class="uk.co.dubit.platform.components.privateChat.AddPrivateMessageToConversation"/>
-	<Binding name="SetGameKey" class="uk.co.dubit.platform.scriptEngine.behaviour.types.input.SetGameKey"/>
-
 	<!-- CHAT BINDINGS -->
 	<Package name="Room">
 		<Binding name="Chat" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.SkinnedGameObject">
