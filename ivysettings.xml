@@ -2,8 +2,8 @@
 	<settings defaultResolver="main"/>
 	<resolvers>
 		<chain name="main">
+			<ibiblio name="public" m2compatible="true"/>
 	    	<ibiblio name="java-net-maven2" root="http://download.java.net/maven/2/" m2compatible="true" />
-	    	<ibiblio name="public" m2compatible="true"/>
     	</chain>
     </resolvers>
     <caches useOrigin="true"/>

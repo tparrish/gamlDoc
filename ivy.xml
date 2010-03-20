@@ -1,7 +1,9 @@
 <ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
     <info organisation="dubit" module="platformAntTasks"/>
     <dependencies>
-    	<dependency org="org.apache.ant" name="ant" rev="1.7.1"/>
+    	<dependency org="org.apache.ant" name="ant" rev="1.7.1">
+			<artifact name="ant" type="jar" ext="jar" />
+		</dependency>
     	<dependency org="xerces" name="xercesImpl" rev="2.9.1"/>
     	<dependency org="xalan" name="xalan" rev="2.7.1"/>
     	<dependency org="net.java" name="textile-j" rev="2.2"/>
