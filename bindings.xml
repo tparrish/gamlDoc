@@ -439,7 +439,7 @@
 	</Package>	
 
 	<!-- Notification++ -->
-	<Package name="Notifications">
+	<Package name="Notifications" nodoc="true">
 		<Binding name="Notifications" class="uk.co.dubit.platform.components.notifications.Notifications" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
 		<Binding name="Notification" class="uk.co.dubit.platform.components.notifications.Notification" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
 			<Attribute name="request_id" type="Integer" description="Unique id" />
@@ -465,16 +465,16 @@
 		<Binding name="RejectNotification" class="uk.co.dubit.platform.components.notifications.behaviours.RejectNotification" />
 		<Binding name="CancelNotification" class="uk.co.dubit.platform.components.notifications.behaviours.CancelNotification" />
 		<Binding name="RemoveNotification" class="uk.co.dubit.platform.components.notifications.behaviours.RemoveNotification" />
+
+		<!-- Growl -->
+		<Binding name="ShowGrowl" class="uk.co.dubit.platform.components.growl.behaviours.ShowGrowl">
+			<Attribute name="targetContainer" type="ISkinContainer" description="Named MXML component used to display the growl" />
+			<Attribute name="notification" type="INotification" description="The notification to display" required="true" />
+			<Attribute name="duration" type="Integer" description="Number of milliseconds to display the growl for (-1 = forever)" required="false" defaultValue="-1" />
+			<Attribute name="skin" type="IGrowlSkin" description="Growl skin" required="true" />
+		</Binding>		
 	</Package>
-	
-	<!-- Growl -->
-	<Binding name="ShowGrowl" class="uk.co.dubit.platform.components.growl.behaviours.ShowGrowl">
-		<Attribute name="targetContainer" type="ISkinContainer" description="Named MXML component used to display the growl" />
-		<Attribute name="notification" type="INotification" description="The notification to display" required="true" />
-		<Attribute name="duration" type="Integer" description="Number of milliseconds to display the growl for (-1 = forever)" required="false" defaultValue="-1" />
-		<Attribute name="skin" type="IGrowlSkin" description="Growl skin" required="true" />
-	</Binding>
-	
+		
 	<!-- CHAT BINDINGS -->
 	<Package name="Room">
 		<Binding name="Chat" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.SkinnedGameObject">
