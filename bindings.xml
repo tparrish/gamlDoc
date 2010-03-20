@@ -1,0 +1,1261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Bindings>
+
+	<Package name="Interals" nodoc="true">
+		<Binding name="Attributes" type="ignore" nodoc="true"/>
+		<Binding name="Attribute" type="ignore" nodoc="true"/>
+		<Binding name="Behaviours" type="pass" nodoc="true"/>
+		<Binding name="Definitions" type="pass" nodoc="true"/>
+		<Binding name="BehaviourDefinitions" type="pass" nodoc="true"/>
+		<Binding name="Include" type="pass" nodoc="true"/>
+		<Binding name="Behaviour" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory" nodoc="true"/>
+		<Binding name="BehaviourDefinition" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourDefinitionFactory" nodoc="true"/>
+		<Binding name="GameObject" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" nodoc="true"/>
+		<Binding name="PlayerDefinition" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.Character" nodoc="true"/>
+		<Binding name="PlayerKeyboardMovementProxy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.PlayerKeyboardMovementProxy" nodoc="true"/>
+		<Binding name="PlayerMouseMovementProxy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.PlayerMouseMovementProxy" nodoc="true"/>
+		<Binding name="Channel" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.net.ConnectionProxy" nodoc="true"/>
+		<Binding name="NotificationHandler" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.net.NotificationHandler" nodoc="true"/>
+		<Binding name="Localizator" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.locale.Localizator" nodoc="true"/>
+		<Binding name="EventMediator" factory="uk.co.dubit.platform.scriptEngine.eventMediation.EventMediatorFactory" nodoc="true"/>
+		<Binding name="CreateFirstAvatar" class="uk.co.dubit.platform.components.avatar.editor.CreateFirstAvatar" nodoc="true"/>	
+		<Binding name="SetResolverInstance" class="uk.co.dubit.platform.scriptEngine.behaviour.types.misc.SetResolverInstance" nodoc="true"/>
+		<Binding name="LoadClothingLayers" class="uk.co.dubit.platform.components.avatar.editor.behaviours.LoadClothingLayers" nodoc="true"/>
+		<Binding name="EnterSession" class="uk.co.dubit.platform.scriptEngine.behaviour.types.net.EnterSession" />	
+		<Binding name="TransmitRequest" class="uk.co.dubit.platform.scriptEngine.behaviour.types.net.TransmitRequest"/>
+		<Binding name="TransmitMessage" class="uk.co.dubit.platform.scriptEngine.behaviour.types.net.TransmitMessage"/>
+		<Binding name="Inspect" class="uk.co.dubit.platform.scriptEngine.behaviour.types.debug.Inspect"/>
+		<Binding name="CreateGameObject" class="uk.co.dubit.platform.scriptEngine.behaviour.types.node.CreateGameObject"/>
+		<Binding name="CreateGameObjects" class="uk.co.dubit.platform.scriptEngine.behaviour.types.node.CreateGameObjects"/>
+		<Binding name="DestroyGameObject" class="uk.co.dubit.platform.scriptEngine.behaviour.types.node.DestroyGameObject"/>
+		<Binding name="ExecuteBehaviour" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.ExecuteBehaviour"/>
+		<Binding name="RelayMovement" class="uk.co.dubit.platform.world.movement.RelayMovement"/>
+		<Binding name="TransmitMovement" class="uk.co.dubit.platform.world.movement.TransmitMovement"/>
+		<Binding name="StopLoader" class="uk.co.dubit.platform.scriptEngine.behaviour.types.assets.StopLoader"/>	
+		<Binding name="LoadAvatarPoints" class="uk.co.dubit.platform.components.shop.behaviours.LoadAvatarPoints"/>		
+	</Package>
+	
+	<!-- Flash Movie Clip -->
+	<Package name="Animation">
+		<Binding type="Behaviour" name="GotoAndPlay" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.GotoAndPlay" >
+			<Description>
+				<![CDATA[
+					Instructs a <DisplayObject> to play an animation from a specific frame. Animations are loaded as .swf files, the behaviour instructs the loaded .swf file to go to the specified frame on the root timeline, and begin playing.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					In the following example clicking on the ballAnimation DisplayObject instructs the animation to begin playing.
+
+					<code>	
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<DisplayObject2D id="ballAnimation" index="1" mouseEnabled="true" assetURL="/ballAnimation.swf"/>
+						</Scene>						
+
+						<!-- Triggered when the player clicks on the ballAnimation DisplayObject -->
+						<Trigger gameObject="{Room.ballAnimation}" event="OnClick">
+							<!-- Instructs the DisplayObject to begin playing the 'ballAnimation.swf' from frame 10 -->
+							<GotoAndPlay gameObject="{Room.ballAnimation}" frame="10">
+								<Frame>
+									<!-- The Trace message is called for every frame of the animation -->
+									<Trace message="{Event.frame}"/>
+								</Frame>	
+							</GotoAndPlay>	
+						</Trigger>	
+					</code>
+				]]>		
+			</Example>	
+			<Attribute required="true" name="gameObject" type="IRenderObject" description="The DisplayObject with a .swf file animation"/>
+			<Attribute required="true" name="frame" type="number" description="The frame to begin playing from"/>
+			<Branches>
+				<Branch name="Frame" description="Called for every frame of the animation. Used to detect when the animation has reached a specific frame">
+					<Atttribute name="frame" type="Number" description="The animation frame number" />
+				</Branch>
+				<Branch name="Complete" description="Called when the animation has finished">
+					<Atttribute name="frame" type="Number" description="The animation frame number" />
+				</Branch>					
+			</Branches>
+		</Binding>
+		<Binding type="Behaviour" name="GotoAndStop" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.GotoAndStop" >
+			<Description>
+				<![CDATA[
+					Instructs a <DisplayObject> to go to an animation frame but will not begin playing the animation. Animations are loaded as .swf files, the behaviour instructs the loaded .swf file to go to the specified frame on the root timeline.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					In the following example clicking on the ballAnimation DisplayObject instructs the animation to jump to frame 10.
+
+					<code>	
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<DisplayObject2D id="ballAnimation" index="1" mouseEnabled="true" assetURL="/ballAnimation.swf"/>
+						</Scene>						
+
+						<!-- Triggered when the player clicks on the ballAnimation DisplayObject -->
+						<Trigger gameObject="{Room.ballAnimation}" event="OnClick">
+							<!-- Instructs the DisplayObject to jump to frame 10 of the 'ballAnimation.swf' -->
+							<GotoAndStop gameObject="{Room.ballAnimation}" frame="10"/>	
+						</Trigger>	
+					</code>
+				]]>		
+			</Example>	
+			<Attribute required="true" name="gameObject" type="IRenderObject" description="The DisplayObject with a .swf file animation"/>
+			<Attribute required="true" name="frame" type="number" description="The frame to begin playing from"/>
+		</Binding>
+		<Binding type="Behaviour" name="Play" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.Play" >
+			<Description>
+				<![CDATA[
+					Instructs a <DisplayObject> to play it's animation. Animations are loaded as .swf files, the behaviour instructs the loaded .swf file to begin playing, or resume playing, the animation. The <Play> behaviour begins playing from the where ever the animation last stopped. If the animation has not played before it will begin from the first frame, if the animation has been paused with the <Stop> behaviour calling <Play> will resume the animation from the current frame.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					In the following example clicking on the ballAnimation DisplayObject instructs the animation to begin playing.
+
+					<code>	
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<DisplayObject2D id="ballAnimation" index="1" mouseEnabled="true" assetURL="/ballAnimation.swf"/>
+						</Scene>						
+
+						<!-- Triggered when the player clicks on the ballAnimation DisplayObject -->
+						<Trigger gameObject="{Room.ballAnimation}" event="OnClick">
+							<!-- Instructs the DisplayObject to begin playing the 'ballAnimation.swf' -->
+							<Play gameObject="{Room.ballAnimation}"/>	
+						</Trigger>	
+					</code>
+				]]>		
+			</Example>	
+			<Attribute required="true" name="gameObject" type="IRenderObject" description="The DisplayObject with a .swf file animation"/>
+		</Binding>
+		<Binding type="Behaviour" name="Stop" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.Stop" >
+			<Description>
+				<![CDATA[
+					Instructs a <DisplayObject> to stop playing it's animation. Animations are loaded as .swf files, the behaviour instructs the loaded .swf file to stop playing, or resume playing.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					In the following example clicking on the ballAnimation DisplayObject instructs the animation to begin playing. DoubleClicking on the ballAnimation stops the animation.
+
+					<code>	
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<DisplayObject2D id="ballAnimation" index="1" mouseEnabled="true" assetURL="/ballAnimation.swf"/>
+						</Scene>						
+
+						<!-- Triggered when the player clicks on the ballAnimation DisplayObject -->
+						<Trigger gameObject="{Room.ballAnimation}" event="OnClick">
+							<!-- Instructs the DisplayObject to begin playing the 'ballAnimation.swf' -->
+							<Play gameObject="{Room.ballAnimation}"/>	
+						</Trigger>
+
+						<!-- Triggered when the player double clicks on the ballAnimation DisplayObject -->
+						<Trigger gameObject="{Room.ballAnimation}" event="OnDoubleClick">
+							<!-- Instructs the DisplayObject to stop the 'ballAnimation.swf' -->
+							<Stop gameObject="{Room.ballAnimation}"/>	
+						</Trigger>							
+					</code>
+				]]>		
+			</Example>	
+			<Attribute required="true" name="gameObject" type="IRenderObject" description="The DisplayObject with a .swf file animation"/>
+		</Binding>
+	</Package>	
+
+	<!-- GAML Conditionals -->
+	<Package name="Conditional">		
+		<Binding name="If" class="uk.co.dubit.platform.scriptEngine.behaviour.types.conditional.If">
+			<Description>
+				<![CDATA[
+					Evaluates a condition to determine the next statement to execute. If the condition is true, GAML runs the statements that follow the condition inside the <Then> branch. If the condition is false, GAML skips the statements inside the <Then> branch and runs the statements inside the <Else> branch. Use the if statement along with the else statement to create branching logic in your scripts.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[					
+				The if conditional statement allows you to test a condition and execute a block of code if that condition exists, or execute an alternative block of code if the condition does not exist. For example, the following code tests whether the value of x exceeds 20, generates a trace message if it does, or generates a different trace message if it does not:
+
+				<code>
+					<If expression="({x}>{20})">
+						<Then>
+							<Trace message="x is greater than 20"/>
+						</Then>
+						<Else>
+							<Trace message="x is less than 20"/>
+						</Else>		
+					</If>
+				</code>			
+
+				If you do not want to execute an alternative block of code, you can use the if statement without the else statement.					
+				
+				The second example starts an animation playing when the ballAnimation is clicked. Using the if statement we check when the animation has reached frame 100 and call the trace statement.
+				
+				<code>	
+					<Scene id="scene" target="{Room.player}" width="700" height="419">
+						<DisplayObject2D id="ballAnimation" index="1" mouseEnabled="true" assetURL="/ballAnimation.swf"/>
+					</Scene>						
+
+					<!-- Triggered when the player clicks on the ballAnimation DisplayObject -->
+					<Trigger gameObject="{Room.ballAnimation}" event="OnClick">
+						<!-- Instructs the DisplayObject to begin playing the 'ballAnimation.swf' from frame 10 -->
+						<GotoAndPlay gameObject="{Room.ballAnimation}" frame="10">
+							<!-- The Trace message is called for every frame of the animation -->
+							<Frame>
+								<!-- The If statement checks if the ballAnimation has reached frame 100 -->
+								<If expression="({Event.frame}=={100})">
+									<Then>
+										<Trace message="Ball animation has reached frame 100"/>
+									</Then>	
+								</If>	
+							</Frame>	
+						</GotoAndPlay>	
+					</Trigger>	
+				</code>					
+				]]>		
+			</Example>			
+			<Attribute required="true" name="expression" type="expression" description="An expression the evaluates to true or false. An expression usually takes the form expression='({Room.test}=={Room.test})'"/>
+			<Branches>
+				<Branch name="Then" description="Called when the expression evaluates to true"/>
+				<Branch name="Else" description="Called when the expression evaluates to false"/>		
+			</Branches>			
+		</Binding>
+		<Binding name="Switch" class="uk.co.dubit.platform.scriptEngine.behaviour.types.conditional.Switch">
+			<Description>
+				<![CDATA[
+					Causes control to transfer to one of several statements, depending on the value of an expression. All switch statements should include a default case that will execute if none of the case statements match the expression.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The switch statement is useful if you have several execution paths that depend on the same condition expression. It provides functionality similar to a long series of if..else if statements, but is somewhat easier to read. Instead of testing a condition for a Boolean value, the switch statement evaluates an expression and uses the result to determine which block of code to execute. The following switch statement prints the day of the week:
+					
+					<code>
+						<Switch value="{Date.now.day}">
+							<Monday>
+								<Trace message="It's Monday!"/>
+							</Monday>
+							<Tuesday>
+								<Trace message="It's Tuesday!"/>
+							</Tuesday>
+							<Wednesday>
+								<Trace message="It's Wednesday!"/>
+							</Wednesday>
+							<Thursday>
+								<Trace message="It's Thursday!"/>
+							</Thursday>
+							<Friday>
+								<Trace message="It's Friday!"/>
+							</Friday>					
+							<Default>
+								<Trace message="It must be the weekend"/>
+							</Default>	
+						</Switch>
+					</code>					
+				]]>		
+			</Example>			
+			<Attribute required="true" name="value" type="string" description="The value is usually a string, the switch attempts to find one of its children nodes with the same name as the input value, if no child nodes match the input value the switch will look for a childe node called 'default'."/>
+		</Binding>	
+	</Package>	
+	
+	<!-- GAML Loops -->
+	<Package name="Loop">				
+		<Binding name="ForEach" class="uk.co.dubit.platform.scriptEngine.behaviour.types.loop.ForEach">
+			<Description>
+				<![CDATA[
+					Iterates over the items of a collection and executes statement for each item.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example uses the <ForEach> statement to loop over the locations stored in the Map. 
+					
+					<code>
+						<!-- Map.locations is a list of locations in the world. Each location has a name and roomID attribute -->
+						<ForEach in="{Map.locations}">
+							<!-- The location is accessed through the Event.iteration property. The trace statement traces the name of the location -->
+							<Trace message="{Event.iteration.name}"/>
+						</ForEach>	
+					</code>	
+				]]>		
+			</Example>			
+			<Attribute name="in" type="List" required="true" description="The list to loop over"/>
+		</Binding>	
+	</Package>
+
+	<!-- Transaction History -->
+	<Package name="TransactionHistory" nodoc="true">
+		<Binding name="ShowTransactionHistory" nodoc="true" class="uk.co.dubit.platform.components.transaction.transactionHistory.behaviours.ShowTransactionHistory"/>
+		<Binding name="HideTransactionHistory" nodoc="true" class="uk.co.dubit.platform.components.transaction.transactionHistory.behaviours.HideTransactionHistory"/>
+		<Binding name="SavePoints" nodoc="true" class="uk.co.dubit.platform.components.transaction.transactionHistory.behaviours.SavePoints"/>
+	</Package>
+		
+	<!-- Help -->
+	<!--Binding name="ShowHelp" class="uk.co.dubit.platform.components.help.behaviours.ShowHelp"/>
+	<Binding name="HideHelp" class="uk.co.dubit.platform.components.help.behaviours.HideHelp"/>
+	<Binding name="LoadHelpTopic" class="uk.co.dubit.platform.components.help.behaviours.LoadHelpTopic"/>
+	<Binding name="LoadHelp" class="uk.co.dubit.platform.components.help.behaviours.LoadHelpContents"/>
+	<Binding name="LoadQuickChat" class="uk.co.dubit.platform.components.quickChat.behaviours.LoadQuickChat"/>
+	<Binding name="LoadContactList" class="uk.co.dubit.platform.components.contacts.behaviors.LoadContactList"/>
+	<Binding name="LoadRequestQueue" class="uk.co.dubit.platform.components.notification.queue.behaviours.LoadRequestQueue"/-->
+		
+	<!-- Avatar -->
+	<Package name="TransactionHistory" nodoc="true">
+		<Binding name="CloneAvatar" nodoc="true" class="uk.co.dubit.platform.components.avatar.selection.behaviors.CloneAvatar"/>
+		<Binding name="LoadFirstAvatar" nodoc="true" class="uk.co.dubit.platform.components.avatar.selection.behaviors.LoadFirstAvatar"/>
+		<Binding name="SetAvatar" nodoc="true" class="uk.co.dubit.platform.components.avatar.selection.behaviors.SetAvatar"/>
+		<Binding name="UpdateAvatarClothes" nodoc="true" class="uk.co.dubit.platform.components.avatar.editor.behaviours.UpdateAvatarClothes"/>
+		<Binding name="CreateAvatarClothes" nodoc="true" class="uk.co.dubit.platform.components.avatar.editor.behaviours.CreateAvatarClothes"/>
+	</Package>
+	
+	<!-- TRIGGER BINDINGS -->
+	<Package name="Events">
+		<Binding name="Trigger" class="uk.co.dubit.platform.scriptEngine.behaviour.types.trigger.Trigger" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory">
+			<Description>
+				<![CDATA[
+					The <Trigger> are an important part of the GAML engine. When an event such as a mouse click or a keypress occurs, the GAML engine dispatches an event. The <Trigger> waits for an event before running its code. Many triggers can wait for the same event from the same object.
+					
+					Many objects fire events. For example, <DisplayObject> will fire OnClick, OnMouseOver, OnMouseUp and many more event. Check the documentation for each features list of events.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example uses the <Trigger> to trace a message when the ball is clicked.
+					
+					<code>	
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<DisplayObject2D id="ball" index="1" mouseEnabled="true" assetURL="/ball.png"/>
+						</Scene>						
+
+						<!-- Triggered when the player clicks on the ballAnimation DisplayObject -->
+						<Trigger gameObject="{Room.ball}" event="OnClick">
+							<Trace message="Clicked on the ball"/>
+						</Trigger>	
+					</code>					
+				]]>		
+			</Example>			
+			<Attribute required="true" name="gameObject" type="GameObject" description="The game object that fires the event we want to act on"/>
+			<Attribute required="true" name="event" type="String" description="The event name. Look up the event name for each feature in the documentation"/>
+		</Binding>
+		<Binding name="Triggers" nodoc="true" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory"/>	
+	</Package>	
+	
+
+	<!-- Notification++ -->
+	<Package name="Notifications">
+		<Binding name="Notifications" class="uk.co.dubit.platform.components.notifications.Notifications" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
+		<Binding name="Notification" class="uk.co.dubit.platform.components.notifications.Notification" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+			<Attribute name="request_id" type="Integer" description="Unique id" />
+			<Attribute name="title" type="Integer" description="Title of the notification" required="true" />
+			<Attribute name="body" type="Integer" description="Body of the notification" required="true" />
+			<Attribute name="request_type" type="Integer" description="Type of notification" required="true" />
+			<Attribute name="read" type="Integer" description="Whether the message has been read" required="false" defaultValue="false" />
+			<Attribute name="sender_avatar_id" type="Integer" description="Avatar id of the sender" />
+			<Attribute name="sender_name" type="Integer" description="Avatar name of the sender" />
+			<Attribute name="recipient_id" type="Integer" description="Avatar id of the recipient" />
+			<Attribute name="recipient_name" type="Integer" description="Avatar name of the recipient" />
+			<Attribute name="can_accept" type="Boolean" description="Whether the notification can be accepted" required="false" defaultValue="false" />
+			<Attribute name="can_reject" type="Boolean" description="Whether the notification can be rejected" required="false" defaultValue="false" />
+			<Attribute name="can_cancel" type="Boolean" description="Whether the notification can be cancelled" required="false" defaultValue="false" />
+			<Attribute name="can_remove" type="Boolean" description="Whether the notification can be removed (Use for client created notifications only)" required="false" defaultValue="false" />
+		</Binding>
+	
+	 	<!-- This binding exists so CRUD operations from the game server work -->
+		<Binding name="Request" class="uk.co.dubit.platform.components.notifications.Notification" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
+		<Binding name="CreateNotification" class="uk.co.dubit.platform.components.notifications.behaviours.CreateNotification" />
+		<Binding name="GetNotifications" class="uk.co.dubit.platform.components.notifications.behaviours.GetNotifications" />
+		<Binding name="AcceptNotification" class="uk.co.dubit.platform.components.notifications.behaviours.AcceptNotification" />
+		<Binding name="RejectNotification" class="uk.co.dubit.platform.components.notifications.behaviours.RejectNotification" />
+		<Binding name="CancelNotification" class="uk.co.dubit.platform.components.notifications.behaviours.CancelNotification" />
+		<Binding name="RemoveNotification" class="uk.co.dubit.platform.components.notifications.behaviours.RemoveNotification" />
+	</Package>
+	
+	<!-- Growl -->
+	<Binding name="ShowGrowl" class="uk.co.dubit.platform.components.growl.behaviours.ShowGrowl">
+		<Attribute name="targetContainer" type="ISkinContainer" description="Named MXML component used to display the growl" />
+		<Attribute name="notification" type="INotification" description="The notification to display" required="true" />
+		<Attribute name="duration" type="Integer" description="Number of milliseconds to display the growl for (-1 = forever)" required="false" defaultValue="-1" />
+		<Attribute name="skin" type="IGrowlSkin" description="Growl skin" required="true" />
+	</Binding>
+	
+	<Binding name="AddToChatHistory" class="uk.co.dubit.platform.components.chat.history.AddMessageToChatHistory"/>
+	<Binding name="ClearChatBar" class="uk.co.dubit.platform.components.chat.chatpanel.ClearChatBar"/>
+	
+	<Binding name="CreateContact" class="uk.co.dubit.platform.components.contacts.behaviors.CreateContact"/>
+	<Binding name="DestroyContact" class="uk.co.dubit.platform.components.contacts.behaviors.DestroyContact"/>
+	<Binding name="UpdateContact" class="uk.co.dubit.platform.components.contacts.behaviors.UpdateContact"/>
+	<Binding name="RetrieveNotificationByID" class="uk.co.dubit.platform.components.notification.queue.behaviours.RetrieveNotificationByID"/>
+	<Binding name="ShowContextMenu" class="uk.co.dubit.platform.components.contacts.ShowContextMenu"/>
+	<Binding name="CreatePrivateChatConversation" class="uk.co.dubit.platform.components.privateChat.CreatePrivateChatConversation"/>
+	<Binding name="ReceivePrivateChat" class="uk.co.dubit.platform.components.privateChat.ReceivePrivateChat"/>
+	<Binding name="AddPrivateMessageToConversation" class="uk.co.dubit.platform.components.privateChat.AddPrivateMessageToConversation"/>
+	<Binding name="SetGameKey" class="uk.co.dubit.platform.scriptEngine.behaviour.types.input.SetGameKey"/>
+
+	<!-- CHAT BINDINGS -->
+	<Package name="Room">
+		<Binding name="Chat" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.SkinnedGameObject">
+			<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.ChatView"/>
+			<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Chat"/>
+			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>
+		</Binding>
+
+	
+		<!-- ROOM BINDINGS -->
+		<Binding name="ChatRoom" factory="uk.co.dubit.platform.scriptEngine.room.RoomFactory" class="uk.co.dubit.platform.components.rooms.ChatRoom">
+			<Attribute required="false" name="namespace" desciption="The namespace used by the room when communicating with the server" defaultValue="world" />
+			<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.ChatRoomView"/>
+			<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="ChatRoom"/>
+			<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>
+		</Binding>
+	
+		<Binding name="SessionRoom" factory="uk.co.dubit.platform.scriptEngine.room.RoomFactory" class="uk.co.dubit.platform.scriptEngine.room.SessionRoom"/>
+	</Package>	
+	
+	<!-- WORLD BINDINGS -->
+	<Package name="World">
+		<Binding name="AddToWorld" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.AddToWorld" nodoc="true">
+			<Description>
+				<![CDATA[
+					Adds a game object into the world. Often used to drop items that have been previously picked up in another room.
+					
+					
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+
+				]]>		
+			</Example>			
+			<Attribute required="true" name="gameObject" type="GameObject" description="The gameobject to add to the world, for example gameObject='{Backpack.ball}'"/>
+		</Binding>	
+		<Binding name="RemoveFromWorld" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.RemoveFromWorld">
+			<Description>
+				<![CDATA[
+					Removes a <DisplayObject> from the world. Often used in conjunction with <AddToBackpack>, first the item is added to the players backpack, and then removed from the world. 
+					
+					Removing a <DisplayObject> renders it inaccessible - it can no longer be looked up with the {Room.ObjectName} expression.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example removes the ball when the player clicks on it.
+					
+					<code>	
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<DisplayObject2D id="ball" index="1" mouseEnabled="true" assetURL="/ball.png"/>
+						</Scene>						
+
+						<!-- Triggered when the player clicks on the ball DisplayObject -->
+						<Trigger gameObject="{Room.ball}" event="OnClick">
+							<!-- Remove the ball from the world -->
+							<RemoveFromWorld gameObject="{Room.ball}"/>
+						</Trigger>	
+					</code>
+				]]>		
+			</Example>			
+			<Attribute required="true" name="gameObject" type="gameobject" description="The gameobject to remove from the world, for example gameObject='{Room.grog}'"/>
+		</Binding>
+		<Binding name="ChangeRoom" class="uk.co.dubit.platform.scriptEngine.behaviour.types.room.ChangeRoomPreloader">
+			<Description>
+				<![CDATA[
+					Changes to a new room. If the player is already in a room the behaviour will first leave the current room before joining the new room.
+					
+					Starting a room change starts a sequence of events that first hide the current room, then destroy the graphics, exit the server, load the new room GAML, load the assets, and finally connect to the new room.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example changes room when the player clicks on a ball
+					
+					<code>	
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<DisplayObject2D id="ball" index="1" mouseEnabled="true" assetURL="/ball.png"/>
+						</Scene>						
+
+						<!-- Triggered when the player clicks on the ball DisplayObject -->
+						<Trigger gameObject="{Room.ball}" event="OnClick">
+							<ChangeRoom roomName="HauntedHouse"/>
+							</ChangeRoom>	
+						</Trigger>	
+					</code>
+				]]>		
+			</Example>			
+			<Attribute required="true" name="roomName" type="String" description="The target room name. The room name is the name of the GAML file without the .xml suffix, for example, to travel to the huts.xml room use roomName='huts'."/>
+			<Attribute required="false" nodoc="true" name="useServer" defaultValue="{Properties.[setting.useServer]}" description="If set to false the client will change room without attempting to speak to the server"/>
+			<Attribute required="true" nodoc="true" name="skin" type="String" description="The skin class" defaultValue="uk.co.dubit.platform.components.rooms.ui.ChatRoomPreloaderView"/>
+			<Attribute required="true" nodoc="true" name="targetContainer" type="String" description="The skin container" defaultValue="RoomPreloader"/>		
+			<Attribute required="true" nodoc="true" name="attachSkin" type="Boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+			<Branches>
+				<Branch name="LoadAssetError" description="Fired when an asset could not be loaded"/>
+				<Branch name="LoadVitalAssetError" description="Fired when a vital asset could not be loaded. Failure to load vital assets will prevent the player entering the room. Vital assets include the walk area."/>
+				<Branch name="OnJoinRoomComplete" description="Fired when the room change process is complete"/>
+			</Branches>		
+		</Binding>
+		<Binding name="LeaveRoom" class="uk.co.dubit.platform.scriptEngine.behaviour.types.room.LeaveRoom">
+			<Description>
+				<![CDATA[
+					Leaves the current room. This does not need to be called before changing room. Leave room is usually only used when the player has started a mini game, or other content that needs all the CPU resource. By leaving the room the engine does not have to process server messages or render avatars, saving CPU time.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example leaves the room when the player clicks on the games arcade
+					
+					<code>	
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<DisplayObject2D id="gamesArcade" index="1" mouseEnabled="true" assetURL="/arcade.png"/>
+						</Scene>						
+
+						<!-- Triggered when the player clicks on the gamesArcade DisplayObject -->
+						<Trigger gameObject="{Room.gamesArcade}" event="OnClick">
+							<LeaveRoom>
+								<OnLeaveRoomComplete>
+									<Trace message="Left the room!"/>
+								</OnLeaveRoomComplete>	
+							</LeaveRoom>		
+						</Trigger>	
+					</code>
+				]]>		
+			</Example>
+			<Branch name="OnLeaveRoomComplete" description="Fired when the engine has finished leaving the room"/>			
+		</Binding>	
+	</Package>
+	
+	<!-- SHOP -->
+	<Package name="Shops">
+		<Binding name="Shops" class="uk.co.dubit.platform.components.catalogue.Shops" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+			<Events>
+				<Event name="OnShopOpened">
+					<Atttribute name="shop" type="IShop" description="The shop which was opened" />
+				</Event>
+				<Event name="OnShopClosed" />
+				<Event name="OnPurchaseProduct" />
+				<Event name="OnGiftProduct" />
+			</Events>
+		</Binding>
+		<Binding name="Shop" class="uk.co.dubit.platform.components.catalogue.Shop" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+			<Attribute name="skin" type="IShopSkin" description="Shop skin" required="true" />
+			<Attribute name="targetContainer" type="String" description="target container to open the shop into" required="false" defaultValue="shopContainer" />
+			<Event>
+				<Node name="OnShopOpened" />
+				<Node name="OnShopClosed" />
+				<Node name="OnPurchaseProduct" />
+				<Node name="OnGiftProduct" />
+			</Event>
+		</Binding>
+		<Binding name="ProductGroup" class="uk.co.dubit.platform.components.catalogue.ProductGroup" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
+		<Binding name="Product" class="uk.co.dubit.platform.components.catalogue.Product" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+			<Attribute name="product_group_id" />
+			<Attribute name="product_type" />
+			<Attribute name="name" required="true" />
+			<Attribute name="description" required="true" />
+			<Attribute name="preview_url" required="true" />
+			<Attribute name="colour" required="false" />
+			<Attribute name="quantity" required="false" defaultValue="1" />
+			<Attribute name="giftable" required="false" defaultValue="false" />
+			<Attribute name="subscription_only" required="false" defaultValue="false" />
+			<Attribute name="owned" required="false" defaultValue="false" />
+			<Attribute name="credits_price" required="false" defaultValue="0" />
+			<Attribute name="points_price" required="false" defaultValue="0" />
+		</Binding>
+		<Binding name="OpenShop" class="uk.co.dubit.platform.components.catalogue.behaviours.OpenShop">
+			<Attribute name="shop_id" type="String" description="The id of the shop to open" required="true" />
+		</Binding>
+		<Binding name="CloseShop" class="uk.co.dubit.platform.components.catalogue.behaviours.CloseShop">
+			<Attribute name="shop_id" type="String" description="The id of the shop to close" required="true" />
+		</Binding>
+		<Binding name="CloseAllShops" class="uk.co.dubit.platform.components.catalogue.behaviours.CloseAllShops" />
+		<Binding name="GetShopProductGroups" class="uk.co.dubit.platform.components.catalogue.behaviours.GetShopProductGroups" />
+		<Binding name="GetOwnedProductIDs" class="uk.co.dubit.platform.components.catalogue.behaviours.GetOwnedProductIDs" />
+		<Binding name="PurchaseProduct" class="uk.co.dubit.platform.components.catalogue.behaviours.PurchaseProduct">
+			<Attribute name="product" type="IProduct" description="The product to purchase" required="true" />
+			<Attribute name="quantity" type="Integer" description="The quantity of the product to purchase" required="false" default="1" />
+			<Attribute name="payment_type" type="[credits,points]" description="How to pay for the product" required="false" default="points" />
+		</Binding>
+		<Binding name="GiftProduct" class="uk.co.dubit.platform.components.catalogue.behaviours.GiftProduct">
+			<Attribute name="product" type="IProduct" description="The product to purchase" required="true" />
+			<Attritute name="avatar" type="IAvatar" description="Recipient of the gift" required="true" />
+			<Attribute name="quantity" type="Integer" description="The quantity of the product to gift" required="false" default="1" />
+			<Attribute name="payment_type" type="[credits,points]" description="How to pay for the gift" required="false" default="points" />
+		</Binding>
+		<Binding name="RedeemCoupon"
+			class="uk.co.dubit.platform.components.catalogue.behaviours.RedeemCoupon">
+			<Attribute name="coupon_code" description="The coupon code to redeem" type="String" />
+		</Binding>
+	</Package>
+	
+	<!-- VERB BINDINGS -->
+	<Package name="Verb">
+		<Binding name="VerbController" class="uk.co.dubit.platform.components.verb.TestVerbProxy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+			<Description>
+				<![CDATA[
+					A verb adds context to a DisplayObject, for example, clicking on a ball might open a menu with the option to 'look at', 'pick up', or 'talk to' the object. Selecting either option fires and event that can be handled with a trigger.
+					
+					The verb id attribute is also the event name. If the verb id is 'OnLookAt' then the event name will also be 'OnLookAt'.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example shows how to declare verbs, and how to handle a verb event.
+				
+					<code>	
+						<!-- Declare the Verb Controller -->
+						<VerbController>
+							<!-- Declare the verbs. The verb id is the same as the event name fire when the player selects the verb -->
+							<Verb id="OnLookAt" name="Look at"/>
+							<Verb id="OnPickUp" name="Pick up"/>
+							<Verb id="OnTalkTo" name="Talk to"/>
+						</VerbController>						
+						
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<!-- Notice the DisplayObject is mouseEnabled and verbEnabled. Only Verb enabled DisplayObjects will show the verb menu -->
+							<DisplayObject2D id="ball" index="1" mouseEnabled="true" verbEnabled="true" assetURL="/ball.png"/>
+						</Scene>						
+
+						<!-- Triggered when the player clicks on the ball DisplayObject, and then chooses the 'OnPickUp' verb. -->
+						<Trigger gameObject="{Room.ball}" event="OnPickUp">
+							<Trace message="Pick up the ball"/>
+						</Trigger>	
+					</code>					
+				]]>		
+			</Example>			
+			<Attribute required="true" nodoc="true" name="skin" type="String" description="The skin class" defaultValue="com.dubitplatform.views.VerbControllerView"/>
+			<Attribute required="true" nodoc="true" name="targetContainer" type="String" description="The skin container" defaultValue="Verb"/>
+			<Attribute required="true" nodoc="true" name="attachSkin" type="Boolean" description="True if the skin should be attached immediately" defaultValue="true"/>		
+			<Attribute required="true" name="resetDelay" type="Number" description="The delay before resetting the active target game object" defaultValue="4000"/>
+			<Attribute required="true" name="customCursorClass" type="String" description="The class used for the mouse cursor shown when rolling over a verbEnabled gameobject" defaultValue="uk.co.dubit.platform.components.verb.VerbCustomCursor"/>		
+			<Children>
+				<Child name="Verb" required="true" description="The verbs displayed when the player clicks on a verb enabled DisplayObject"/>
+			</Children>			
+		</Binding>	
+		<Binding name="Verb" class="uk.co.dubit.platform.components.verb.VerbNode" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+			<Description>
+				<![CDATA[
+					Verbs are added as children of the VerbController. A verb adds context to a DisplayObject, for example, clicking on a ball might open a menu with the option to 'look at', 'pick up', or 'talk to' the object. Selecting either option fires and event that can be handled with a trigger.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+				The following example shows how to declare verbs, and how to handle a verb event.
+			
+				<code>	
+					<!-- Declare the Verb Controller -->
+					<VerbController>
+						<!-- Declare the verbs. The verb id is the same as the event name fire when the player selects the verb -->
+						<Verb id="OnLookAt" name="Look at"/>
+						<Verb id="OnPickUp" name="Pick up"/>
+						<Verb id="OnTalkTo" name="Talk to"/>
+					</VerbController>						
+					
+					<Scene id="scene" target="{Room.player}" width="700" height="419">
+						<!-- Notice the DisplayObject is mouseEnabled and verbEnabled. Only Verb enabled DisplayObjects will show the verb menu -->
+						<DisplayObject2D id="ball" index="1" mouseEnabled="true" verbEnabled="true" assetURL="/ball.png"/>
+					</Scene>						
+
+					<!-- Triggered when the player clicks on the ball DisplayObject, and then chooses the 'OnPickUp' verb. -->
+					<Trigger gameObject="{Room.ball}" event="OnPickUp">
+						<Trace message="Pick up the ball"/>
+					</Trigger>	
+				</code>
+				]]>		
+			</Example>			
+			<Attribute required="true" name="id" type="string" description="The id of the verb, for example OnLookAt. This is the name used by the trigger to handle the event"/>
+			<Attribute required="true" name="name" type="string" description="The name of the verb, for example 'Look at'. This is the name used by the user interface"/>
+		</Binding>	
+		<Binding name="ActivateVerb" nodoc="true" class="uk.co.dubit.platform.components.verb.behaviours.ActivateVerb"/>
+		<Binding name="DeactivateVerb" nodoc="true" class="uk.co.dubit.platform.components.verb.behaviours.DeactivateVerb"/>
+	</Package>
+
+	
+	<!-- QUEST BINDINGS -->	
+	<Package name="Quest">
+		<Binding name="Quest" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.quest.Quest">
+			<Description>
+				<![CDATA[
+					A quest is a task that a player-controlled character or group of characters may complete in order to gain a reward. Rewards may include an increase in the character's experience in order to learn new skills and abilities, loot or treasure, in-game currency such as gold coins, access to new locations or areas, or any combination of the above.
+
+					A quest is made up of a series of objectives. When all the objectives are complete the quest will also be complete. 
+
+					Only active quests are shown in the players quest list. Only active objectives are shown in the quest interface. This structure allows designers to reveal new quests, or even new objectives within a quest. 
+
+					Quests can be chained together. A quest chain is a group of quests that are completed in sequence. Completion of each quest is a prerequisite to beginning the next quest in the chain. Quests usually increase in difficulty as a player progresses through the chain. The quests typically reveal a single plotline in stages that explain the reason for the quests. Quest chains can also start with opening or breadcrumb quests, in order to encourage characters to journey to a new area, where further elements of the quest chain are revealed. Through mechanisms like these, the setting of a particular location is explained to the player, with the plot or storyline being disclosed as the character progresses.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example shows a quest to escape from a treehouse. On successfully escaping the player is awarded experience.
+				
+					<code>
+						<Quest id="escapeTreehouseQuest" name="Escape from the Treehouse" active="true" complete="false" description="The Treehouse is a great place to hang out, but when you're trapped inside, it loses some of its appeal. Find an escape route if you ever want to see the sun again!">
+							<!-- Define the objectives  -->
+							<Objective name="1) Build Device" id="buildDevice" complete="false" active="true"/>
+							<Objective name="2) Escape!" id="escapeTreehouse" complete="false" active="true"/>
+							<Triggers>
+								<OnBeginQuest>
+									<!-- The quest is accessed from the event object by {Event.quest} -->
+									<Trace message="Quest Begun {Event.quest.name}"/>
+								</OnBeginQuest>
+								<OnCompleteQuest>
+									<!-- The quest is accessed from the event object by {Event.quest} -->
+									<Trace message="Quest Complete {Event.quest.name}"/>
+									<AwardExperiencePoints points="100"/>
+								</OnCompleteQuest>
+								<OnBeginObjective>
+									<!-- The objective is accessed from the event object by {Event.objective} -->
+									<Trace message="Objective Begun {Event.objective.name}"/>
+								</OnBeginObjective>
+								<OnCompleteObjective>
+									<!-- The objective is accessed from the event object by {Event.objective} -->
+									<Trace message="Objective Begun {Event.objective.name}"/>
+								</OnCompleteObjective> 
+							</Triggers>
+						</Quest>
+					</code>
+				]]>		
+			</Example>			
+			<Attribute required="true" name="id" type="String" description="All IDs must be unique"/>
+			<Attribute required="true" name="name" type="String" description="The name of the quest"/>
+			<Attribute required="true" name="active" defaultValue="false" type="Boolean" description="Only active quests are visible in the quest interface"/>
+			<Attribute required="true" name="complete" defaultValue="false" type="Boolean" description="Setting a quest to complete completes all objectives"/>
+			<Attribute required="true" name="description" type="String" description="The quest description"/>
+			<Attribute required="true" nodoc="true" name="skin" type="String" description="The skin class" defaultValue="com.dubitplatform.views.QuestsView"/>
+			<Attribute required="true" nodoc="true" name="targetContainer" type="String" description="The skin container" defaultValue="Quest"/>
+			<Attribute required="true" nodoc="true" name="attachSkin" type="Boolean" description="True if the skin should be attached immediately" defaultValue="true"/>		
+			<Events>
+				<Event name="OnBeginQuest" description="Fired when the quest is begin">
+					<Atttribute name="quest" type="Quest" description="The quest that was begun" />
+					<Atttribute name="objective" type="Objective" description="The objective that was activitated to start the quest" />
+				</Event>
+				<Event name="OnCompleteQuest" description="Fired when the quest is complete">
+					<Atttribute name="quest" type="Quest" description="The quest that was completed" />
+					<Atttribute name="objective" type="Objective" description="The objective that was completed to end the quest" />
+				</Event>					
+				<Event name="OnBeginObjective" description="Fired when the an objective is begin">
+					<Atttribute name="quest" type="Quest" description="The quest that contains the objective" />
+					<Atttribute name="objective" type="Objective" description="The objective that has started" />
+				</Event>
+				<Event name="OnCompleteObjective" description="Fired when the quest is complete">
+					<Atttribute name="quest" type="Quest" description="The quest that contains the objective" />
+					<Atttribute name="objective" type="Objective" description="The objective that has finished" />
+				</Event>					
+			</Events>
+			<Children>
+				<Child name="Objective" required="true" description="The objectives that must be completed"/>
+			</Children>				
+		</Binding>
+		<Binding name="Objective" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.quest.Objective">
+			<Description>
+				<![CDATA[
+					A quest can contain multiple objectives. All the objectives must be complete before the quest will be complete.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example shows a quest to escape from a treehouse. On successfully escaping the player is awarded experience.
+			
+					<code>
+						<Quest id="escapeTreehouseQuest" name="Escape from the Treehouse" active="true" complete="false" description="The Treehouse is a great place to hang out, but when you're trapped inside, it loses some of its appeal. Find an escape route if you ever want to see the sun again!">
+							<!-- Define the objectives  -->
+							<Objective name="1) Build Device" id="buildDevice" complete="false" active="true"/>
+							<Objective name="2) Escape!" id="escapeTreehouse" complete="false" active="true"/>
+							<Triggers>
+								<OnBeginQuest>
+									<!-- The quest is accessed from the event object by {Event.quest} -->
+									<Trace message="Quest Begun {Event.quest.name}"/>
+								</OnBeginQuest>
+								<OnCompleteQuest>
+									<!-- The quest is accessed from the event object by {Event.quest} -->
+									<Trace message="Quest Complete {Event.quest.name}"/>
+									<AwardExperiencePoints points="100"/>
+								</OnCompleteQuest>
+								<OnBeginObjective>
+									<!-- The objective is accessed from the event object by {Event.objective} -->
+									<Trace message="Objective Begun {Event.objective.name}"/>
+								</OnBeginObjective>
+								<OnCompleteObjective>
+									<!-- The objective is accessed from the event object by {Event.objective} -->
+									<Trace message="Objective Complete {Event.objective.name}"/>
+								</OnCompleteObjective> 
+							</Triggers>
+						</Quest>
+					</code>					
+				]]>		
+			</Example>			
+			<Attribute required="true" name="id" type="String" description="All IDs must be unique"/>
+			<Attribute required="true" name="name" type="String" description="The name of the objective"/>
+			<Attribute required="true" name="active" defaultValue="true" type="Boolean" description="Only active objectives are visible in the quest interface"/>
+			<Attribute required="true" name="complete" defaultValue="false" type="Boolean" description="Setting an objective to complete does not reveal the next objective, the GAML author is responsible for revealing the next objective"/>
+		</Binding>
+		<Binding name="CompleteQuest" class="uk.co.dubit.platform.components.quest.behaviours.CompleteQuest">
+			<Description>
+				<![CDATA[
+					Completes the quest and all its objectives
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example shows how to complete a quest
+			
+					<code>
+						<Quest id="escapeTreehouseQuest" name="Escape from the Treehouse" active="true" complete="false" description="The Treehouse is a great place to hang out, but when you're trapped inside, it loses some of its appeal. Find an escape route if you ever want to see the sun again!">
+							<!-- Define the objectives  -->
+							<Objective name="1) Build Device" id="buildDevice" complete="false" active="true"/>
+							<Objective name="2) Escape!" id="escapeTreehouse" complete="false" active="true"/>
+							<Triggers>
+								<OnCompleteQuest>
+									<!-- The quest is accessed from the event object by {Event.quest} -->
+									<Trace message="Quest Complete {Event.quest.name}"/>
+								</OnCompleteQuest>
+							</Triggers>
+						</Quest>
+						
+						<Trigger gameObject="{Room.ball}" event="OnClick">
+							<!-- Completes the quest. The quest can be accessed from the Quests.escapeTreehouseQuest construct. -->
+							<CompleteQuest quest="{Quests.escapeTreehouseQuest}"/>
+						</Trigger>	
+					</code>					
+				]]>		
+			</Example>			
+			<Attribute required="true" name="quest" type="Quest" description="The quest to complete"/>
+		</Binding>	
+		<Binding name="CompleteObjective" class="uk.co.dubit.platform.components.quest.behaviours.CompleteObjective">
+			<Description>
+				<![CDATA[
+					Completes an objective of a quest
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example shows how to complete an objective within a specific quest.
+					
+					To access an objective of a quest we use the {Quests.questID.objectiveID} syntax. For example, to access the buildDevice objective we use {Quests.escapeTreehouseQuest.buildDevice}
+			
+					<code>
+						<Quest id="escapeTreehouseQuest" name="Escape from the Treehouse" active="true" complete="false" description="The Treehouse is a great place to hang out, but when you're trapped inside, it loses some of its appeal. Find an escape route if you ever want to see the sun again!">
+							<!-- Define the objectives  -->
+							<Objective name="1) Build Device" id="buildDevice" complete="false" active="true"/>
+							<Objective name="2) Escape!" id="escapeTreehouse" complete="false" active="true"/>
+							<Triggers>
+								<OnCompleteObjective>
+									<!-- The objective is accessed from the event object by {Event.objective} -->
+									<Trace message="Objective Complete {Event.objective.name}"/>
+								</OnCompleteObjective>
+							</Triggers>
+						</Quest>
+						
+						<Trigger gameObject="{Room.ball}" event="OnClick">
+							<!-- Completes the buildDevice objective. The quest can be accessed from the Quests.escapeTreehouseQuest construct. -->
+							<CompleteObjective quest="{Quests.escapeTreehouseQuest.buildDevice}"/>
+						</Trigger>	
+					</code>					
+				]]>		
+			</Example>			
+			<Attribute required="true" name="objective" type="gameobject" description="The objective to complete"/>
+		</Binding>
+		<Binding name="BeginQuest" class="uk.co.dubit.platform.components.quest.behaviours.BeginQuest">
+			<Description>
+				<![CDATA[
+					Begins the quest and activates its first objective. Begging a quest sets the active attribute to true, and shows the quest in the players quest list.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example shows how to begin a quest
+			
+					<code>
+						<Quest id="escapeTreehouseQuest" name="Escape from the Treehouse" active="false" complete="false" description="The Treehouse is a great place to hang out, but when you're trapped inside, it loses some of its appeal. Find an escape route if you ever want to see the sun again!">
+							<!-- Define the objectives  -->
+							<Objective name="1) Build Device" id="buildDevice" complete="false" active="false"/>
+							<Objective name="2) Escape!" id="escapeTreehouse" complete="false" active="false"/>
+							<Triggers>
+								<OnBeginQuest>
+									<!-- The quest is accessed from the event object by {Event.quest} -->
+									<Trace message="Quest Begin {Event.quest.name}"/>
+								</OnBeginQuest>
+							</Triggers>
+						</Quest>
+						
+						<Trigger gameObject="{Room.ball}" event="OnClick">
+							<!-- Begins the quest. The quest can be accessed from the Quests.escapeTreehouseQuest construct. -->
+							<BeginQuest quest="{Quests.escapeTreehouseQuest}"/>
+						</Trigger>	
+					</code>					
+				]]>		
+			</Example>			
+			<Attribute required="true" name="quest" type="Quest" description="The quest to begin"/>
+		</Binding>		
+		<Binding name="BeginObjective" class="uk.co.dubit.platform.components.quest.behaviours.BeginObjective">
+			<Description>
+				<![CDATA[
+					Begins the objective. If the quest is not yet active the quest is activated and will appear in the players quest list.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The following example shows how to begin a quest
+			
+					<code>
+						<Quest id="escapeTreehouseQuest" name="Escape from the Treehouse" active="false" complete="false" description="The Treehouse is a great place to hang out, but when you're trapped inside, it loses some of its appeal. Find an escape route if you ever want to see the sun again!">
+							<!-- Define the objectives  -->
+							<Objective name="1) Build Device" id="buildDevice" complete="false" active="false"/>
+							<Objective name="2) Escape!" id="escapeTreehouse" complete="false" active="false"/>
+							<Triggers>
+								<OnBeginQuest>
+									<!-- The quest is accessed from the event object by {Event.quest} -->
+									<Trace message="Quest Begin {Event.quest.name}"/>
+								</OnBeginQuest>
+								<OnBeginObjective>
+									<!-- The objective is accessed from the event object by {Event.objective} -->
+									<Trace message="Objective Begun {Event.objective.name}"/>
+								</OnBeginObjective>								
+							</Triggers>
+						</Quest>
+						
+						<Trigger gameObject="{Room.ball}" event="OnClick">
+							<!-- Begins the quest. The quest can be accessed from the Quests.escapeTreehouseQuest construct. -->
+							<BeginObjective objective="{Quests.escapeTreehouseQuest.buildDevice}"/>
+						</Trigger>	
+					</code>					
+				]]>		
+			</Example>			
+			<Attribute required="true" name="objective" type="gameobject" description="The objective"/>
+		</Binding>	
+	</Package>
+		
+	<!-- BACKPACK BINDINGS -->	
+	<Binding name="Backpack" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Backpack">
+		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.BackpackView"/>
+		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Backpack"/>
+		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>
+	</Binding>
+	
+	<Binding name="Possession" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Collectable">
+		<Attribute required="true" name="id" type="string" description="The id of the collectable must be unique"/>
+		<Attribute required="true" name="name" type="string" description="The name of the collectable shown in the inventory"/>
+		<Attribute required="true" name="description" type="string" description="The description of the item shown in the inventory"/>
+		<Attribute required="true" name="previewURL" type="string" description="Path to the thumbnail shown in the inventory"/>
+		<Attribute required="true" name="quantity" type="number" description="The quantity in the backpack"/>
+	</Binding>
+	
+	<Binding name="Combinations" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Combinations"/>
+	
+	<Binding name="Combination" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.backpack.Combination">
+		<Attribute required="true" name="possession1" type="gameobject" description="A possession"/>
+		<Attribute required="true" name="possession2" type="gameobject" description="A possession"/>
+		<Attribute required="false" name="condition" type="expression" description="A condition that must be passed for the combination to take place."/>
+	</Binding>	
+	
+	<Binding name="AddToBackpack" class="uk.co.dubit.platform.components.backpack.behaviours.AddToBackpack">
+		<Attribute required="true" name="possessionID" type="string" description="The possession ID"/>
+	</Binding>
+	
+	<Binding name="RemoveFromBackpack" class="uk.co.dubit.platform.components.backpack.behaviours.RemoveFromBackpack">
+		<Attribute required="true" name="possessionID" type="string" description="The possession ID"/>
+	</Binding>	
+
+	<Binding name="RemoveAllFromBackpack" class="uk.co.dubit.platform.components.backpack.behaviours.RemoveAllFromBackpack"/>
+
+	<!-- DIALOGUE BINDINGS -->
+	<Binding name="Dialogue" class="uk.co.dubit.platform.components.dialogue.Dialogue" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.BranchingConversationView"/>
+		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Dialogue"/>
+		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+	</Binding>
+	<Binding name="Statement" class="uk.co.dubit.platform.components.dialogue.Statement" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory"/>
+	<Binding name="Response" class="uk.co.dubit.platform.components.dialogue.Response" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory"/>
+	<Binding name="BeginDialogue" class="uk.co.dubit.platform.components.dialogue.behaviours.BeginDialogue"/>
+	<Binding name="PlayStatement" class="uk.co.dubit.platform.components.dialogue.behaviours.PlayStatement"/>
+	<Binding name="PlayResponses" class="uk.co.dubit.platform.components.dialogue.behaviours.PlayResponses"/>
+	
+	<!-- BUBBLE BINDINGS -->
+	<Binding name="ShowBubble" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.ShowBubble" alias="ShowChatBubble">
+		<Attribute required="true" name="gameObject" type="gameobject" description="The game object the speech bubble will appear above"/>
+		<Attribute required="true" name="message" type="string" description="The message to show in the chat bubble"/>
+		<Attribute required="false" name="fitToScreen" type="boolean" defaultValue="true" description="If true the bubble will not slide off the edge of visible area"/>
+		<Attribute required="false" name="moveTail" type="boolean" defaultValue="true" description="If the bubble is fitted to screen this attribute will move the bubble tail to follow the player"/>
+		<Attribute required="false" name="screenBuffer" type="number" defaultValue="10" description="How far the bubble should stop from the edge of the screen"/>
+		<Attribute required="false" name="maxWidth" type="number" defaultValue="650" description="The max width for the text field. If the text is wider the bubble will span multile lines"/>
+		<Attribute required="false" name="bubbleClass" type="string" defaultValue="com.dubitplatform.views.game.CartoonChatBubble"/>	
+		<Attribute required="false" name="useServer" defaultValue="{Properties.[setting.useServer]}" description="Whether to broadcast this message to other users in the room" />
+	</Binding>
+	
+	<!-- FUNCTION CALL BINDINGS -->
+	<Binding name="Call" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.Call"/>
+	
+	<!-- ACTOR -->
+	<Binding name="MouseMovementController" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.ActorMouseMovementProxy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory"/>
+	<Binding name="ActorDefinition" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.MovingGameObject"/>
+	<Binding name="CollisionController" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.collision.TargetedCollisionProxy"/>
+	
+	<Binding name="MovePlayerTo" alias="MoveTo" class="uk.co.dubit.platform.world.movement.MoveTo">
+		<Attribute name="gameObject" description="The game object to move" type="IGameObject" required="true" />
+		<Attribute name="x" description="The x location of the game object.  If none is specified the x attritubte of the game object will be used" type="Integer" required="false" />
+		<Attribute name="x" description="The y location of the game object.  If none is specified the y attritubte of the game object will be used" type="Integer" required="false" />
+		<Attribute name="end_x" description="The end x location of the game object" type="Integer" required="false" />
+		<Attribute name="end_y" description="The end y location of the game object" type="Integer" required="false" />
+		<Attribute name="useServer" description="Whether the game server should be notified of the move event" required="false" defaultValue="{Properties.[setting.useServer]}" />
+	</Binding>
+	
+	<Binding name="JumpPlayerTo" alias="JumpTo" class="uk.co.dubit.platform.world.movement.JumpTo"/>
+	<Binding name="SendMovePlayerTo" alias="SendMoveTo" class="uk.co.dubit.platform.world.movement.SendMoveTo"/>
+	
+	<!-- SOUND -->
+	<Binding name="PlaySound" class="uk.co.dubit.platform.scriptEngine.behaviour.types.sound.PlaySound"/>
+	<Binding name="StopSound" class="uk.co.dubit.platform.scriptEngine.behaviour.types.sound.StopSound"/>
+	<Binding name="Sound" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.sound.SoundPoint"/>
+	<Binding name="Sounds" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.sound.SoundStageNode"/>
+	
+	<!-- DISPLAY OBJECT BINDINGS -->
+	<Binding name="Scene" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.RenderGameObject"/>
+	<Binding name="DisplayObject2D" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.MovingGameObject"/>
+	<Binding name="ParallaxLayer" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.RenderGameObject"/>
+	<Binding name="ZSortingDisplayObject" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.RenderGameObject"/>
+	<Binding name="DisplayObjectDefinition" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.MovingGameObject"/>
+	
+	<!-- FILTERS -->
+	<Binding name="Filters" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory"/>
+	<Binding name="DepthFilter" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.filters.DepthFilterNode"/>
+	<Binding name="MultiplyFilter" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.filters.MultiplyFilterNode"/>
+	
+	<!-- COLLISION -->	
+	<Binding name="Collision" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.collision.CollisionNode">
+		<Attribute required="true" name="id" type="string" description="The id value must be unique"/>
+		<Attribute required="true" name="width" type="number" description="The width of the collision area is usually the same as the walkable area."/>
+		<Attribute required="true" name="height" type="number" description="The height of the collision area is usually the same as the walkable area."/>
+		<Attribute required="false" name="solid" type="boolean" defaultValue="true" description="If the solid attribute is set to true the player will not be able to walk through the collision area."/>
+	</Binding>	
+	
+	<Binding name="Assets" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.asset.Assets">
+		<Attribute required="true" name="id" type="string" description="The id value must be unique"/>
+	</Binding>	
+	
+	<Binding name="Asset" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.asset.AssetNode">
+		<Attribute required="true" name="id" type="string" description="The id value must be unique"/>
+		<Attribute required="true" name="url" type="string" description="The path to the asset"/>
+	</Binding>	
+	
+	<!-- IMAGE -->
+	<Binding name="Image" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.asset.AssetNode">
+		<Attribute required="true" name="assetID" type="string" description="The id of an Asset node that defines the collision area"/>
+		<Attribute required="false" name="x" type="number" defaultValue="0" />
+		<Attribute required="false" name="y" type="number" defaultValue="0" />
+	</Binding>	
+	
+	<!-- TIMER -->
+	<Binding name="StartTimer" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.StartTimer"/>
+	
+	<!-- PLAYER -->
+	<Binding name="Character" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.Character"/>	
+	<Binding name="Layer" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Layer"/>
+	<Binding name="Frame" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Frame"/>
+	<Binding name="Action" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Action"/>
+	
+	<Binding name="Stand" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Action">
+		<Attribute required="true" name="priority" type="number" defaultValue="1" description="test"/>
+		<Attribute required="true" name="playModeFactory" type="string" defaultValue="playOnce" description="test"/>
+		<Attribute required="true" name="className" type="string" defaultValue="uk.co.dubit.graphics.render2D.actions.Stand" description="test"/>
+	</Binding>	
+
+	<Binding name="Walk" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.Action">
+		<Attribute required="true" name="priority" type="number" defaultValue="2" description="test"/>
+		<Attribute required="true" name="playModeFactory" type="string" defaultValue="playOnce" description="test"/>
+		<Attribute required="true" name="className" type="string" defaultValue="uk.co.dubit.graphics.render2D.actions.Walk" description="test"/>
+	</Binding>	
+	
+	<Binding name="Actions" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.actions.ActionsNode"/>
+	<Binding name="DesireAction" factory="uk.co.dubit.platform.scriptEngine.node.ScriptNodeFactory" class="uk.co.dubit.platform.scriptEngine.behaviour.types.actions.DesireAction"/>
+	
+	<!-- MAP -->
+	<Binding name="Map" class="uk.co.dubit.platform.components.map.Map" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.RoomListView"/>
+		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Map"/>
+		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+	</Binding>	
+	
+	<Binding name="Location" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.components.map.Location">
+		<Attribute required="true" name="name" type="string" description="The human readable name to be shown in the map interface"/>
+		<Attribute required="true" name="id" type="string" description="The id of the location must be unique"/>
+		<Attribute required="true" name="roomID" type="string" description="The roomID is the name of the target rooms GAML file without the .xml suffix, e.g. for the room described in Huts.xml the roomID attribute is 'huts'."/>
+	</Binding>
+	
+	<Binding name="UpdateLocationVisibility" class="uk.co.dubit.platform.components.map.behaviours.UpdateLocationVisibility">
+		<Attribute required="true" name="locationID" type="string" description="The location to update"/>
+		<Attribute required="true" name="visible" type="boolean" description="Set the location to visible so it shows in the interface"/>
+	</Binding>
+
+	<!-- USEFUL BEHAVIOURS -->
+
+	<Binding name="SetValue" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.SetValue" alias="Set">
+		<Attribute required="true" name="name" type="string" description="The name of the target attribute"/>
+		<Attribute required="true" name="value" type="object" description="The new value"/>
+		<Attribute required="true" name="target" type="gameobject" description="The target gameobject that the new value will be set on. This is not a direct path to the attribtue. For example, the target='{Room.npc}' and the name='x' and the value='100' would set the x attribute of the npc to 100."/>
+	</Binding>	
+	
+	<!-- Advanced version of set value -->
+	<Binding name="SetValues" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.SetValues">
+		<Attribute required="true" name="target" type="gameobject" description="The target gameobject that the new value will be set on. This is not a direct path to the attribtue. Any other attributes definited in the behaviour will be set upon the specified game object. "/>
+	</Binding>	
+	
+	<Binding name="SetValueAttribute" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.SetValue">
+		<Attribute required="true" name="name" type="string" description="The name of the target attribute"/>
+		<Attribute required="true" name="value" type="object" description="The new value"/>
+		<Attribute required="true" name="target" type="gameobject" description="The target gameobject that the new value will be set on. This is not a direct path to the attribute. For example, the target='{Room.npc}' and the name='x' and the value='100' would set the x attribute of the npc to 100."/>
+	</Binding>
+	
+	<Binding name="Trace" class="uk.co.dubit.platform.scriptEngine.behaviour.types.debug.Trace" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory"	>
+		<Attribute required="true" name="message" type="string" description="The text to write out to the debugger"/>
+	</Binding>
+	
+	<Binding name="Alert" class="uk.co.dubit.platform.scriptEngine.behaviour.types.ui.ShowAlert">
+		<Attribute required="true" name="message" type="string" description="The message to be shown in the alert"/>
+		<Attribute required="false" name="title" type="string" description="The title of the alert window"/>
+	</Binding>
+	
+	<!-- EXPERIENCE -->
+	<Binding name="Experience" class="uk.co.dubit.platform.components.experience.Experience" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.ExperienceView"/>
+		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Experience"/>
+		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+	</Binding>	
+	
+	<Binding name="Level" class="uk.co.dubit.platform.components.experience.Level" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+		<Attribute required="true" name="points" type="number" description="The number of experience points the player must obtain to reach this level."/>
+		<Attribute required="true" name="name" type="string" description="The name of the level"/>
+		<Attribute required="true" name="message" type="string" description="A message shown when the player reaches that level"/>
+	</Binding>	
+	
+	<Binding name="AwardExperiencePoints" class="uk.co.dubit.platform.components.experience.behaviours.AwardExperiencePoints">
+		<Attribute required="true" name="points" type="number" description="The number of experience points to award"/>
+	</Binding>
+	
+	<!-- SKILLS -->	
+	<Binding name="Skills" class="uk.co.dubit.platform.components.skills.Skills" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.SkillsView"/>
+		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Skills"/>
+		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+	</Binding>	
+	
+	<Binding name="Skill" class="uk.co.dubit.platform.components.skills.Skill" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+		<Attribute required="true" name="points" type="number" description="The number of skill points the player has in this skill"/>
+		<Attribute required="true" name="maximum" type="number" description="The maximum number of points that can be spent on this skill"/>
+		<Attribute required="true" name="name" type="string" description="The name of the skill"/>
+		<Attribute required="true" name="id" type="string" description="The unique ID of the skill"/>
+		<Attribute required="true" name="description" type="string" description="A description of the skill"/>
+	</Binding>
+
+	<Binding name="AwardSkillPoints" class="uk.co.dubit.platform.components.skills.behaviours.AwardSkillPoints">
+		<Attribute required="true" name="points" type="number" description="The number of skill points to award"/>
+	</Binding>
+	
+	<!-- ACHIEVEMENTS -->
+	<Binding name="Achievements" class="uk.co.dubit.platform.components.achievements.Achievements" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.AchievementsView"/>
+		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Achievements"/>
+		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+	</Binding>	
+	
+	<Binding name="Achievement" class="uk.co.dubit.platform.components.achievements.Achievement" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+		<Attribute required="true" name="score" type="number" description="The number of points the player has in this achievement"/>
+		<Attribute required="true" name="name" type="string" description="The name of the achievement"/>
+		<Attribute required="true" name="id" type="string" description="The unique ID of the achievement"/>
+		<Attribute required="true" name="description" type="string" description="A description of the achievement"/>
+	</Binding>	
+
+	<Binding name="Trophy" class="uk.co.dubit.platform.components.achievements.Trophy" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+		<Attribute required="true" name="score" type="number" description="The score the player must earn to get this trophy"/>
+		<Attribute required="true" name="name" type="string" description="The name of the trophy"/>
+		<Attribute required="true" name="imageURL" type="string" description="The image of the trophy to show in the achievements interface"/>
+	</Binding>
+	
+	<Binding name="UpdateAchievementScore" class="uk.co.dubit.platform.components.achievements.behaviours.UpdateAchievementScore">
+		<Attribute required="true" name="score" type="number" description="The number of achievement points to award"/>
+		<Attribute required="true" name="achievementID" type="string" description="The id of the achievement that will be updated"/>
+	</Binding>	
+	
+	<!-- COLLECTIONS -->
+	<Binding name="Collections" class="uk.co.dubit.platform.components.collections.Collections" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="com.dubitplatform.views.CollectionView"/>
+		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Collections"/>
+		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+	</Binding>	
+	
+	<Binding name="Collection" class="uk.co.dubit.platform.components.collections.Collection" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+		<Attribute required="true" name="name" type="string" description="The name of the collection"/>
+		<Attribute required="true" name="id" type="string" description="The unique ID of the collection"/>
+		<Attribute required="true" name="description" type="string" description="A description of the collection"/>
+	</Binding>	
+
+	<Binding name="Collectable" class="uk.co.dubit.platform.components.collections.Collectable" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" >
+		<Attribute required="true" name="id" type="string" description="The unique ID of the collectable"/>
+		<Attribute required="true" name="quantity" type="number" description="The quantity of the collectable the player has found"/>
+		<Attribute required="true" name="name" type="string" description="The name of the collectable"/>
+		<Attribute required="true" name="imageURL" type="string" description="The image of the collection to show in the collectable interface"/>
+	</Binding>
+	
+	<Binding name="AddToCollection" class="uk.co.dubit.platform.components.collections.behaviours.AddToCollection">
+		<Attribute required="true" name="collectionID" type="string" description="The collectionID"/>
+		<Attribute required="true" name="collectabeID" type="string" description="The id of the collectable to be added to the collection"/>
+	</Binding>
+	
+	<!-- Minigames++ -->
+	<Binding name="Minigames" class="uk.co.dubit.platform.components.minigame.Minigames" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
+	<Binding name="Minigame" class="uk.co.dubit.platform.components.minigame.Minigame" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+		<Attribute name="name" description="Name/Title of the minigame" required="false" />
+		<Attribute name="skin" description="The skin used to show the minigame" required="false" defaultValue="uk.co.dubit.application.view.minigame.MinigameSkin" />
+		<Attribute name="targetContainer" type="ISkinContainer" description="Named MXML component used to display the minigame skin" defaultValue="minigameContainer" />
+	</Binding>
+	<Binding name="OpenMinigame" class="uk.co.dubit.platform.components.minigame.behaviours.OpenMinigame" />
+	<Binding name="CloseMinigame" class="uk.co.dubit.platform.components.minigame.behaviours.CloseMinigame" />
+
+	<!-- EDITOR -->
+	<Binding name="Editor" class="uk.co.dubit.platform.components.editor.Editor" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+		<Attribute required="true" name="skin" type="string" description="The skin class" defaultValue="uk.co.dubit.platform.components.editor.EditorView"/>
+		<Attribute required="true" name="targetContainer" type="string" description="The skin container" defaultValue="Editor"/>
+		<Attribute required="true" name="attachSkin" type="boolean" description="True if the skin should be attached immediately" defaultValue="true"/>	
+	</Binding>
+	
+	<!-- MENU BINDINGS -->
+	<Binding name="Menus"
+		class="uk.co.dubit.platform.components.menu.Menus"
+		factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
+		
+	<Binding name="ContextMenu"
+		class="uk.co.dubit.platform.components.menu.PopupMenu"
+		factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory">
+		<Attribute required="false" name="skin"
+			defaultValue="uk.co.dubit.application.view.menu.ContextMenu"
+			type="class" description="Menu skin" />
+	</Binding>
+	
+	<Binding name="MenuItem" 
+		class="uk.co.dubit.platform.components.menu.MenuItem"
+		factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
+		
+	<Binding name="OpenMenu" class="uk.co.dubit.platform.components.menu.behaviours.OpenMenu" />
+	<Binding name="CloseMenu" class="uk.co.dubit.platform.components.menu.behaviours.CloseMenu" />
+	<Binding name="CloseAllMenus" class="uk.co.dubit.platform.components.menu.behaviours.CloseAllMenus" />
+	
+	<!-- Profile++ -->
+	<Binding name="Profiles" 
+		class="uk.co.dubit.platform.components.profile.Profiles"
+		factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
+		
+	<Binding name="Profile" 
+		class="uk.co.dubit.platform.components.profile.Profile"
+		factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
+	<Binding name="PlayerProfile" 
+		class="uk.co.dubit.platform.components.profile.Profile"
+		factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
+	<Binding name="OtherPlayerProfile" 
+		class="uk.co.dubit.platform.components.profile.Profile"
+		factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
+	<Binding name="NPCProfile" 
+		class="uk.co.dubit.platform.components.profile.Profile"
+		factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" />
+		
+	<Binding name="OpenProfile" class="uk.co.dubit.platform.components.profile.behaviours.OpenProfile">
+		<Attribute name="Profile" description="The profile object or the id of the profile you wish to open" required="true" />
+		<Attribute name="Avatar" description="The avatar which has this profile" required="false" />
+	</Binding>
+	
+	<Binding name="GetProfileFor" class="uk.co.dubit.platform.components.profile.behaviours.GetProfileFor">
+		<Attribute name="Profile" description="The profile to load the profile data into" required="true" />
+		<Attribute name="Avatar" description="The avatar which owns the profile data" required="true" />
+	</Binding>
+</Bindings>
