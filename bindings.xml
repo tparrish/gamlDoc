@@ -40,7 +40,7 @@
 		<Binding type="Behaviour" name="GotoAndPlay" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.GotoAndPlay" >
 			<Description>
 				<![CDATA[
-					Instructs a <DisplayObject> to play an animation from a specific frame. Animations are loaded as .swf files, the behaviour instructs the loaded .swf file to go to the specified frame on the root timeline, and begin playing.
+					Instructs a DisplayObject to play an animation from a specific frame. Animations are loaded as .swf files, the behaviour instructs the loaded .swf file to go to the specified frame on the root timeline, and begin playing.
 				]]>
 			</Description>
 			<Example>
@@ -79,7 +79,7 @@
 		<Binding type="Behaviour" name="GotoAndStop" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.GotoAndStop" >
 			<Description>
 				<![CDATA[
-					Instructs a <DisplayObject> to go to an animation frame but will not begin playing the animation. Animations are loaded as .swf files, the behaviour instructs the loaded .swf file to go to the specified frame on the root timeline.
+					Instructs a DisplayObject to go to an animation frame but will not begin playing the animation. Animations are loaded as .swf files, the behaviour instructs the loaded .swf file to go to the specified frame on the root timeline.
 				]]>
 			</Description>
 			<Example>
@@ -105,7 +105,7 @@
 		<Binding type="Behaviour" name="Play" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.Play" >
 			<Description>
 				<![CDATA[
-					Instructs a <DisplayObject> to play it's animation. Animations are loaded as .swf files, the behaviour instructs the loaded .swf file to begin playing, or resume playing, the animation. The <Play> behaviour begins playing from the where ever the animation last stopped. If the animation has not played before it will begin from the first frame, if the animation has been paused with the <Stop> behaviour calling <Play> will resume the animation from the current frame.
+					Instructs a <DisplayObject> to play it's animation. Animations are loaded as .swf files, the behaviour instructs the loaded .swf file to begin playing, or resume playing, the animation. The Play behaviour begins playing from the where ever the animation last stopped. If the animation has not played before it will begin from the first frame, if the animation has been paused with the Stop behaviour calling Play will resume the animation from the current frame.
 				]]>
 			</Description>
 			<Example>
@@ -165,7 +165,7 @@
 		<Binding name="If" class="uk.co.dubit.platform.scriptEngine.behaviour.types.conditional.If">
 			<Description>
 				<![CDATA[
-					Evaluates a condition to determine the next statement to execute. If the condition is true, GAML runs the statements that follow the condition inside the <Then> branch. If the condition is false, GAML skips the statements inside the <Then> branch and runs the statements inside the <Else> branch. Use the if statement along with the else statement to create branching logic in your scripts.
+					Evaluates a condition to determine the next statement to execute. If the condition is true, GAML runs the statements that follow the condition inside the Then branch. If the condition is false, GAML skips the statements inside the Then branch and runs the statements inside the Else branch. Use the if statement along with the else statement to create branching logic in your scripts.
 				]]>
 			</Description>
 			<Example>
@@ -264,7 +264,7 @@
 			</Description>
 			<Example>
 				<![CDATA[
-					The following example uses the <ForEach> statement to loop over the locations stored in the Map. 
+					The following example uses the <ForEach/> statement to loop over the locations stored in the Map. 
 					
 					<code>
 						<!-- Map.locations is a list of locations in the world. Each location has a name and roomID attribute -->
@@ -309,14 +309,14 @@
 		<Binding name="Trigger" class="uk.co.dubit.platform.scriptEngine.behaviour.types.trigger.Trigger" factory="uk.co.dubit.platform.scriptEngine.behaviour.BehaviourFactory">
 			<Description>
 				<![CDATA[
-					The <Trigger> are an important part of the GAML engine. When an event such as a mouse click or a keypress occurs, the GAML engine dispatches an event. The <Trigger> waits for an event before running its code. Many triggers can wait for the same event from the same object.
+					The Trigger are an important part of the GAML engine. When an event such as a mouse click or a keypress occurs, the GAML engine dispatches an event. The Trigger waits for an event before running its code. Many triggers can wait for the same event from the same object.
 					
-					Many objects fire events. For example, <DisplayObject> will fire OnClick, OnMouseOver, OnMouseUp and many more event. Check the documentation for each features list of events.
+					Many objects fire events. For example, DisplayObject will fire OnClick, OnMouseOver, OnMouseUp and many more event. Check the documentation for each features list of events.
 				]]>
 			</Description>
 			<Example>
 				<![CDATA[
-					The following example uses the <Trigger> to trace a message when the ball is clicked.
+					The following example uses the Trigger to trace a message when the ball is clicked.
 					
 					<code>	
 						<Scene id="scene" target="{Room.player}" width="700" height="419">
@@ -470,8 +470,7 @@
 
 						<!-- Triggered when the player clicks on the ball DisplayObject -->
 						<Trigger gameObject="{Room.ball}" event="OnClick">
-							<ChangeRoom roomName="HauntedHouse"/>
-							</ChangeRoom>	
+							<ChangeRoom roomName="HauntedHouse"/>	
 						</Trigger>	
 					</code>
 				]]>		
