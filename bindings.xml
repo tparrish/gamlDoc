@@ -555,7 +555,7 @@
 			<Attribute required="false" nodoc="true" name="bubbleClass" type="String" defaultValue="com.dubitplatform.views.game.CartoonChatBubble"/>	
 			<Attribute required="false" nodoc="true" name="useServer" defaultValue="{Properties.[setting.useServer]}" description="Whether to broadcast this message to other users in the room" />
 		</Binding>
-		<Binding name="MoveTo" alias="MovePlayerTo" class="uk.co.dubit.platform.world.movement.MoveTo">
+		<Binding name="MoveTo" type="Behaviour"  alias="MovePlayerTo" class="uk.co.dubit.platform.world.movement.MoveTo">
 			<Description>
 				<![CDATA[
 					Slides a graphic to a new position in the world. Any DisplayObject can be moved, Characters will animated while moving.
@@ -580,9 +580,9 @@
 					</code>	
 				]]>		
 			</Example>			
-			<Attribute name="gameObject" description="The game object to move. If not specified will move the player" type="GameObject" required="false" defaultValue="{Room.player}"/>
+			<Attribute name="gameObject" description="The gameobject to move. If not specified will move the player" type="GameObject" required="false" defaultValue="{Room.player}"/>
 			<Attribute name="targetX" description="The target x coordinate" type="Number" required="false" />
-			<Attribute name="targetY" description="The target y coordinate" type="Number" required="false" />			
+			<Attribute name="targetY" description="The target y coordinate" type="Number" required="false" />
 			<Attribute name="x" nodoc="true" description="The x location of the game object.  If none is specified the x attritubte of the game object will be used" type="Number" required="false" />
 			<Attribute name="x" nodoc="true" description="The y location of the game object.  If none is specified the y attritubte of the game object will be used" type="Number" required="false" />
 			<Attribute name="useServer" nodoc="true" description="Whether the game server should be notified of the move event" type="Boolean" required="false" defaultValue="{Properties.[setting.useServer]}" />
@@ -590,8 +590,35 @@
 				<Branch name="Complete" description="Fired when the gameobject has been moved to the target coordinates"/>
 			</Branches>			
 		</Binding>
-
-		<Binding name="JumpTo" alias="JumpPlayerTo" class="uk.co.dubit.platform.world.movement.JumpTo"/>
+		<Binding name="JumpTo" type="Behaviour" alias="JumpPlayerTo" class="uk.co.dubit.platform.world.movement.JumpTo">
+			<Description>
+				<![CDATA[
+					Similar to the MoveTo behaviour, only jumps the gameobject to the target coordinates. The gameobject does not animate to the new position, it jumps to the target.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					The example first moves a player to a teleporter, then makes the player appear elsewhere in the room.
+				
+					<code>
+						<!-- Fired when the player uses the teleporter -->
+						<Trigger event="OnUse" gameObject="{Room.teleport}">
+							<!-- Begins walking toward the teleport -->
+							<MoveTo gameObject="{Room.player}" targetX="745" targetY="468">
+								<!-- Called when the player has reached the target coordinates -->
+								<Complete>
+									<!-- Jump to new position in the room -->
+									<JumpTo targetX="130" targetY="216"/>
+								</Complete>
+							</MoveTo>
+						</Trigger>						
+					</code>
+				]]>		
+			</Example>
+			<Attribute name="gameObject" description="The gameobject to move. If not specified will move the player" type="GameObject" required="false" defaultValue="{Room.player}"/>
+			<Attribute name="targetX" description="The target x coordinate" type="Number" required="false" />
+			<Attribute name="targetY" description="The target y coordinate" type="Number" required="false" />						
+		</Binding>	
 		<Binding name="SendMovePlayerTo" nodoc="true" alias="SendMoveTo" class="uk.co.dubit.platform.world.movement.SendMoveTo"/>	
 	</Package>
 	
