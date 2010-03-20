@@ -31,12 +31,8 @@
 					<xsl:apply-templates select="Description" />
 				</div>
 				
-				<h2>Attributes</h2>
-				<xsl:choose>
-					<xsl:when test="count(Attribute) = 0">
-						<span class="message">No attributes defined</span>
-					</xsl:when>
-					<xsl:otherwise>
+				<xsl:if test="count(Attribute) > 0">
+						<h2>Attributes</h2>
 						<table id="attributes">
 							<thead>
 								<tr>
@@ -50,73 +46,57 @@
 								<xsl:apply-templates select="Attribute" />
 							</tbody>
 						</table>
-					</xsl:otherwise>
-				</xsl:choose>
+				</xsl:if>
 				
-				<h2>Events</h2>
-				<xsl:choose>
-					<xsl:when test="count(Events/*) = 0">
-						<span class="message">No events defined</span>
-					</xsl:when>
-					<xsl:otherwise>
-						<table id="events">
-							<thead>
-								<tr>
-									<th>Event</th>
-									<th>Description</th>
-									<th>Attributes</th>
-								</tr>
-							</thead>
-							<tbody>
-								<xsl:apply-templates select="Events/*" />
-							</tbody>
-						</table>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:if test="count(Events/*) > 0">
+					<h2>Events</h2>
+					<table id="events">
+						<thead>
+							<tr>
+								<th>Event</th>
+								<th>Description</th>
+								<th>Attributes</th>
+							</tr>
+						</thead>
+						<tbody>
+							<xsl:apply-templates select="Events/*" />
+						</tbody>
+					</table>
+				</xsl:if>
 				
-				<h2>Children</h2>
-				<xsl:choose>
-					<xsl:when test="count(Children/*) = 0">
-						<span class="message">No children defined</span>
-					</xsl:when>
-					<xsl:otherwise>
-						<table id="children">
-							<thead>
-								<tr>
-									<th>Name</th>
-									<th>Required?</th>
-									<th>Description</th>
-								</tr>
-							</thead>
-							<tbody>
-								<xsl:apply-templates select="Children/*" />
-							</tbody>
-						</table>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:if test="count(Children/*) > 0">
+					<h2>Children</h2>
+					<table id="children">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Required?</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<xsl:apply-templates select="Children/*" />
+						</tbody>
+					</table>
+				</xsl:if>
 				
-				<h2>Branches</h2>
-				<xsl:choose>
-					<xsl:when test="count(Branches/*) = 0">
-						<span class="message">No branches defined</span>
-					</xsl:when>
-					<xsl:otherwise>
-						<table id="children">
-							<thead>
-								<tr>
-									<th>Name</th>
-									<th>Description</th>
-									<th>Attributes</th>
-								</tr>
-							</thead>
-							<tbody>
-								<xsl:apply-templates select="Branches/*" />
-							</tbody>
-						</table>
-					</xsl:otherwise>
-				</xsl:choose>
+
+				<xsl:if test="count(Branches/*) > 0">
+					<h2>Branches</h2>
+					<table id="children">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Description</th>
+								<th>Attributes</th>
+							</tr>
+						</thead>
+						<tbody>
+							<xsl:apply-templates select="Branches/*" />
+						</tbody>
+					</table>
+				</xsl:if>
 				
-				<h2>Example</h2>
 				<xsl:apply-templates select="Example" />
 			</body>
 		</html>
@@ -184,6 +164,7 @@
 	</xsl:template>
 	
 	<xsl:template match="Example" xmlns:gaml="xalan://uk.co.dubit.gaml.doc.GamlExampleHandler">
+		<h2>Example</h2>
 		<div class="example"><xsl:value-of select="gaml:escape_code(text())" disable-output-escaping="yes" /></div>
 	</xsl:template>
 </xsl:stylesheet>
