@@ -406,7 +406,7 @@
 	
 	<!-- WORLD BINDINGS -->
 	<Package name="World">
-		<Binding name="AddToWorld" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.AddToWorld" nodoc="true">
+		<Binding nodoc="true" name="AddToWorld" class="uk.co.dubit.platform.scriptEngine.behaviour.types.world.AddToWorld">
 			<Description>
 				<![CDATA[
 					Adds a game object into the world. Often used to drop items that have been previously picked up in another room.
@@ -1342,11 +1342,136 @@
 		<Binding name="PlayResponses" class="uk.co.dubit.platform.components.dialogue.behaviours.PlayResponses"/>
 	</Package>
 
-	
 	<!-- ACTOR -->
 	<Binding nodoc="true" name="ActorDefinition" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.avatar.MovingGameObject"/>
-	<Binding name="CollisionController" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.collision.TargetedCollisionProxy"/>
 	
+	<!-- COLLISION -->	
+	<Package name="Collision">
+		<Binding name="ObjectCollision" alias="CollisionController" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectDefinitionFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.collision.TargetedCollisionProxy">
+			<Description>
+				<![CDATA[
+					The ObjectCollision checks for collisions between the player and other objects in the room. The player can only collide with objects that have the collidable="true" attribute set to true, and that are visible.
+					
+					When the player collides with an object the onEnterCollision event is fired. When the player moves out of the collision zone the onExitCollision event is fired. There is no collision reaction, players can walk through collidable objects. If you need to prevent the player walking through the object use the CollisionArea.
+					
+					The ObjectCollision works by drawing a circle around the player and around the objects marked with the collidable attribute. If the circles overlap a collision is fired. Advanced GAML authors can adjust the size of these circles with the distance attribute. See example below.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					Example shows how to set up a ball that the player can collide with, and a large ball with an overridden collision distance.
+					
+					<code>
+						<Scene id="scene" target="{Room.player}" width="700" height="419">
+							<!-- Node the collidable attribute must be set to true -->
+							<DisplayObject2D id="ball" index="1" mouseEnabled="true" assetURL="/ball.png" collidable="true"/>
+							<!-- Note the overridden distance attribute means the player will collide with the large ball first -->
+							<DisplayObject2D id="largeBall" index="1" mouseEnabled="true" assetURL="/largeBall.png" collidable="true" distance="100"/>
+						</Scene>						
+						
+						<ObjectCollision>
+							<Triggers>
+								<OnEnterCollision>
+									<Trace message="Enter collision with {Event.collisionObject.id}"/>
+								</OnEnterCollision>
+								<OnExitCollision>
+									<Trace message="Exit collision with {Event.collisionObject.id}"/>
+								</OnExitCollision>		
+							</Triggers>	
+						</ObjectCollision>	
+					</code>	
+				]]>		
+			</Example>	
+			<Attribute nodoc="true" required="true" name="target" type="GameObject" desciption="The gameobject that all collidable objects will be tested against" defaultValue="{Room.player}" />
+			<Attribute nodoc="true" required="true" name="id" type="String" desciption="A unique ID" defaultValue="collisionController" />
+			<Events>
+				<Event name="OnEnterCollision" description="Fired when the player first collides with an object">
+					<Atttribute name="collisionObject" type="GameObject" description="The game object that collided with the player" />
+				</Event>
+				<Event name="OnExitCollision" description="Fired when the player stops colliding with an object">
+					<Atttribute name="collisionObject" type="GameObject" description="The game object that collided with the player" />
+				</Event>
+			</Events>	
+			<Children>
+				<Child name="Triggers" required="true" description="Contains the events"/>
+			</Children>						
+		</Binding>	
+		<Binding name="AreaCollision" alias="Collision" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.collision.CollisionNode">
+			<Description>
+				<![CDATA[
+					The AreaCollision tests for the player colliding with a CollisionMap. A CollisionMap uses a PNG image to describe the collision area. When the player walks onto any part of the PNG that is not transparent a collision event is fired. The AreaCollision is used to describe where a player can walk in a room.
+					
+					When the player first collides with the CollisionMap and onEnterCollision event is fired. When the player moves out of the collision zone the onExitCollision event is fired. There is no collision reaction, however setting the solid="true" attribute will prevent the player from walking through the collision map.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					Example shows how to set the walkable area for a room.
+					
+					<code>
+						<AreaCollision width="1024" height="768" id="walkableArea" solid="true">
+							<CollisionMap assetID="walkableAreaAsset"/>
+							<Triggers>
+								<OnEnterCollision>
+									<Trace message="Enter collision with {Event.collisionObject.id}"/>
+								</OnEnterCollision>
+								<OnExitCollision>
+									<Trace message="Exit collision with {Event.collisionObject.id}"/>
+								</OnExitCollision>
+							</Triggers>
+						</AreaCollision>	
+					</code>	
+				]]>		
+			</Example>			
+			<Attribute required="true" name="id" type="String" description="The id value must be unique"/>
+			<Attribute required="true" name="width" type="Number" description="The width of the collision area is usually the same as the background image width"/>
+			<Attribute required="true" name="height" type="Number" description="The height of the collision area is usually the same as the background image height"/>
+			<Attribute required="false" name="solid" defaultValue="false" type="Boolean" description="If the solid attribute is set to true the player will not be able to walk through the collision area."/>
+			<Events>
+				<Event name="OnEnterCollision" description="Fired when the player first collides with a CollisionMap">
+					<Atttribute name="collisionObject" type="CollisionMap" description="The CollisionMap that the player walked into" />
+				</Event>
+				<Event name="OnExitCollision" description="Fired when the player stops colliding with a CollisionMap">
+					<Atttribute name="collisionObject" type="CollisionMap" description="The CollisionMap that the player stopped walking into" />
+				</Event>
+			</Events>	
+			<Children>
+				<Child name="CollisionMap" required="true" description="The CollisionMap describes the collidable area. Multiple CollisionMap's can be added as children. Using multiple collision maps allows us to get around Flash's 2800x2800 pixel stage limit"/>
+				<Child name="Triggers" required="true" description="Contains the events"/>
+			</Children>			
+		</Binding>	
+		<Binding name="CollisionMap" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.asset.AssetNode" alias="Image">
+			<Description>
+				<![CDATA[
+					The CollisionMap describes the collision area for an AreaCollision. The CollisionMap uses transparent PNG files, when the player moves over a solid colour a collision event is fired.
+					
+					Multiple CollisionMap's can be added as children. Using multiple collision maps allows us to get around Flash's 2800x2800 pixel stage limit.
+				]]>
+			</Description>
+			<Example>
+				<![CDATA[
+					Example shows how to set the walkable area for a room.
+				
+					<code>
+						<AreaCollision width="1024" height="768" id="walkableArea" solid="true">
+							<CollisionMap assetID="walkableAreaAsset"/>
+							<Triggers>
+								<OnEnterCollision>
+									<Trace message="Enter collision with {Event.collisionObject.id}"/>
+								</OnEnterCollision>
+								<OnExitCollision>
+									<Trace message="Exit collision with {Event.collisionObject.id}"/>
+								</OnExitCollision>
+							</Triggers>
+						</AreaCollision>	
+					</code>
+				]]>		
+			</Example>			
+			<Attribute required="true" name="assetID" type="String" description="The id of an Asset node that defines the collision area"/>
+			<Attribute required="false" name="x" type="Number" defaultValue="0" description="If multiple CollisionMap's are used, then the x and y attributes are used to position the maps relatively to each other."/>
+			<Attribute required="false" name="y" type="Number" defaultValue="0" description="If multiple CollisionMap's are used, then the x and y attributes are used to position the maps relatively to each other."/>
+		</Binding>	
+	</Package>
 	
 	<!-- SOUND -->
 	<Binding name="PlaySound" class="uk.co.dubit.platform.scriptEngine.behaviour.types.sound.PlaySound"/>
@@ -1365,15 +1490,7 @@
 	<Binding name="Filters" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory"/>
 	<Binding name="DepthFilter" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.filters.DepthFilterNode"/>
 	<Binding name="MultiplyFilter" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.filters.MultiplyFilterNode"/>
-	
-	<!-- COLLISION -->	
-	<Binding name="Collision" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.collision.CollisionNode">
-		<Attribute required="true" name="id" type="string" description="The id value must be unique"/>
-		<Attribute required="true" name="width" type="number" description="The width of the collision area is usually the same as the walkable area."/>
-		<Attribute required="true" name="height" type="number" description="The height of the collision area is usually the same as the walkable area."/>
-		<Attribute required="false" name="solid" type="boolean" defaultValue="true" description="If the solid attribute is set to true the player will not be able to walk through the collision area."/>
-	</Binding>	
-	
+		
 	<Binding name="Assets" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.asset.Assets">
 		<Attribute required="true" name="id" type="string" description="The id value must be unique"/>
 	</Binding>	
@@ -1383,12 +1500,7 @@
 		<Attribute required="true" name="url" type="string" description="The path to the asset"/>
 	</Binding>	
 	
-	<!-- IMAGE -->
-	<Binding name="Image" factory="uk.co.dubit.platform.scriptEngine.gameObject.GameObjectFactory" class="uk.co.dubit.platform.scriptEngine.gameObject.types.asset.AssetNode">
-		<Attribute required="true" name="assetID" type="string" description="The id of an Asset node that defines the collision area"/>
-		<Attribute required="false" name="x" type="number" defaultValue="0" />
-		<Attribute required="false" name="y" type="number" defaultValue="0" />
-	</Binding>	
+	
 	
 	<!-- TIMER -->
 	<Binding name="StartTimer" class="uk.co.dubit.platform.scriptEngine.behaviour.types.core.StartTimer"/>
